@@ -26,34 +26,30 @@ const controller = {
   signin: async (req, res, next) => {
 
     const { password } = req.body
-    const { dni } = req.body
-    // let { user } = req.body
+    let { user } = req
 
     try {
-      let user = await User.findOne({ dni: dni })
-      if (user) {
-        const verified = bcryptjs.compareSync(password, user.password)
-        if (verified) {
-          await User.findOneAndUpdate(
-            { dni: user.dni },
-            { is_online: true },
-            { new: true }
-          )
-          let token = jwt.sign(
-            { id: user._id },
-            process.env.KEY_JWT,
-            { expiresIn: 60 * 60 * 24 }
-          )
-          user = {
-            dni: user.dni,
-            email: user.email,
-            name: user.name
-          }
-          req.body.success = true
-          req.body.sc = 200
-          req.body.data = { user, token }
-          return defaultResponse(req, res)
+      const verified = bcryptjs.compareSync(password, user.password)
+      if (verified) {
+        await User.findOneAndUpdate(
+          { dni: user.dni },
+          { is_online: true },
+          { new: true }
+        )
+        let token = jwt.sign(
+          { id: user.id },
+          process.env.KEY_JWT,
+          { expiresIn: 60 * 60 * 24 }
+        )
+        user = {
+          dni: user.dni,
+          email: user.email,
+          name: user.name
         }
+        req.body.success = true
+        req.body.sc = 200
+        req.body.data = { user, token }
+        return defaultResponse(req, res)
       }
       req.body.success = false
       req.body.sc = 400
