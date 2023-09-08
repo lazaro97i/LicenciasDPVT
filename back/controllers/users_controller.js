@@ -1,6 +1,8 @@
 import { User } from "../models/users_model.js"
 import defaultResponse from '../config/response.js'
 import bcryptjs from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import 'dotenv/config.js'
 
 const controller = {
 
@@ -34,16 +36,22 @@ const controller = {
         if (verified) {
           await User.findOneAndUpdate(
             { dni: user.dni },
+            { is_online: true },
             { new: true }
+          )
+          let token = jwt.sign(
+            { id: user._id },
+            process.env.KEY_JWT,
+            { expiresIn: 60 * 60 * 24 }
           )
           user = {
             dni: user.dni,
             email: user.email,
-            id: user._id
+            name: user.name
           }
           req.body.success = true
           req.body.sc = 200
-          req.body.data = user
+          req.body.data = { user, token }
           return defaultResponse(req, res)
         }
       }

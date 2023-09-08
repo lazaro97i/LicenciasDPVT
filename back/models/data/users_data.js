@@ -10,7 +10,8 @@ const users = [
     dni: 12345678,
     password: bcryptjs.hashSync('admin1234', 10),
     phone: 3815222333,
-    email: 'admin@admin.com'
+    email: 'admin@admin.com',
+    is_online: false
   }
 ]
 
