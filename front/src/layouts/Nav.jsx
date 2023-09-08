@@ -1,0 +1,42 @@
+import React, { useState } from 'react'
+
+const Nav = () => {
+
+  const [nav, setNav] = useState(false)
+
+  const toggleNav = (e) => {
+    setNav(!nav)
+  }
+  const NavContent = () => {
+    return (
+      <div className='fixed w-full max-w-[425px] bg-black h-screen'>
+        <ul className='w-full flex flex-col mt-20 gap-8 ml-8'>
+          <li>Registrar inasistencia</li>
+          <li>Registro mensual</li>
+          <li>Registro semanal</li>
+        </ul>
+        <span onClick={toggleNav} className='absolute top-5 right-5 cursor-pointer'>
+          <svg fill="#f0f1ef" width={'45px'} viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cancel2</title> <path d="M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z"></path> </g></svg>
+        </span>
+      </div>
+    )
+  }
+
+  return (
+    <div className='absolute'>
+      <span onClick={toggleNav} className=' cursor-pointer absolute top-5 left-5'>
+        <svg className=' pointer-events-none' viewBox="0 0 24 24" fill="none" width={'45px'} xmlns="http://www.w3.org/2000/svg"><g className=' pointer-events-none' id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g className=' pointer-events-none' id="SVGRepo_iconCarrier"> <path className=' pointer-events-none' d="M4 6H20M4 12H20M4 18H20" stroke="#f0f1ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+      </span>
+      <div>
+        {
+          nav ?
+            <NavContent />
+            :
+            null
+        }
+      </div>
+    </div >
+  )
+}
+
+export default Nav
