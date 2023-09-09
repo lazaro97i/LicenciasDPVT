@@ -53,7 +53,7 @@ const controller = {
       }
       req.body.success = false
       req.body.sc = 400
-      req.body.data = "Invalid credentials"
+      req.body.data = "Invalid password"
       return defaultResponse(req, res)
 
     } catch (e) {
