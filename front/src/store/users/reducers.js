@@ -2,7 +2,8 @@ import userActions from "./actions"
 import { createReducer } from '@reduxjs/toolkit'
 
 const {
-  signIn
+  signIn,
+  signinToken
 } = userActions
 
 const initialState = {
@@ -23,6 +24,14 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(signIn.rejected, (state, action) => {
       let newState = {
         message: action.payload
+      }
+      return newState
+    })
+    .addCase(signinToken.fulfilled, (state, action) => {
+      let newState = {
+        user: action.payload.response,
+        message: action.payload.message,
+        success: action.payload.success
       }
       return newState
     })

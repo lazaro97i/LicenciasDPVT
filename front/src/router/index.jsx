@@ -5,18 +5,17 @@ import RegLicence from '../pages/RegLicence'
 
 const router = createBrowserRouter([
   {
-    path: '/',
     element: <Layout />,
     children: [
-      {
-        path: '/',
-        element: <SignIn />
-      },
       {
         path: '/reg_licence',
         element: <RegLicence />
       }
     ]
+  },
+  {
+    path: '/',
+    element: <SignIn />
   }
 
 ])

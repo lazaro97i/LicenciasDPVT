@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react"
 import FormSignIn from "../components/FormSignIn"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import userActions from "../store/users/actions"
 import { useNavigate } from "react-router-dom"
+
+const { signinToken } = userActions
 
 const SignIn = () => {
 
-  const [isToken, setToken] = useState(false)
+  const userStore = useSelector((store) => store.user)
+  const [isLogged, setIsLogged] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     let token = localStorage.getItem('token')
-    if (token) {
-      setToken(true)
+    if (localStorage.getItem('token')) {
+      setIsLogged(true)
       navigate("/reg_licence")
+    } else {
+      setIsLogged(false)
     }
   }, [])
 
   return (
     <div id="home" className="div-contain h-screen w-full flex flex-col justify-center items-center px-6">
       {
-        isToken ?
+        isLogged ?
           null
           :
           <FormSignIn />

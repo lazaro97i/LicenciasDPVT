@@ -1,24 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
 
 const Nav = () => {
 
-  const userStore = useSelector((store) => store?.user)
   const [nav, setNav] = useState(false)
-  const [isLogged, setIsLogged] = useState(false)
-
-
-  useEffect(() => {
-    if (userStore?.success) {
-      setIsLogged(true)
-    }
-  }, [userStore])
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setIsLogged(true)
-    }
-  }, [isLogged])
 
   const toggleNav = (e) => {
     setNav(!nav)
@@ -39,29 +23,22 @@ const Nav = () => {
   }
 
   return (
-    <>
-      {
-        isLogged ?
-          <div className='relative w-full flex justify-center'>
-            <div className='absolute flex top-5 justify-between w-full px-5 max-w-[1200px]'>
-              <span onClick={toggleNav} className=' cursor-pointer'>
-                <svg className=' pointer-events-none' viewBox="0 0 24 24" fill="none" width={'45px'} xmlns="http://www.w3.org/2000/svg"><g className=' pointer-events-none' id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g className=' pointer-events-none' id="SVGRepo_iconCarrier"> <path className=' pointer-events-none' d="M4 6H20M4 12H20M4 18H20" stroke="#f0f1ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
-              </span>
-              <input type="button" value="Cerrar sesión" className='rounded-md px-3 py-2 bg-[#a30d26] cursor-pointer' />
-            </div>
-            <div>
-              {
-                nav ?
-                  <NavContent />
-                  :
-                  null
-              }
-            </div>
-          </div >
-          :
-          null
-      }
-    </>
+    <div className='relative w-full flex justify-center'>
+      <div className='absolute flex top-5 justify-between w-full px-5 max-w-[1200px]'>
+        <span onClick={toggleNav} className=' cursor-pointer'>
+          <svg className=' pointer-events-none' viewBox="0 0 24 24" fill="none" width={'45px'} xmlns="http://www.w3.org/2000/svg"><g className=' pointer-events-none' id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g className=' pointer-events-none' id="SVGRepo_iconCarrier"> <path className=' pointer-events-none' d="M4 6H20M4 12H20M4 18H20" stroke="#f0f1ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+        </span>
+        <input type="button" value="Cerrar sesión" className='rounded-md px-3 py-2 bg-[#a30d26] cursor-pointer' />
+      </div>
+      <div>
+        {
+          nav ?
+            <NavContent />
+            :
+            null
+        }
+      </div>
+    </div >
   )
 }
 
