@@ -61,10 +61,25 @@ const controller = {
     }
   },
 
+  signout: async (req, res) => {
+    const { user } = req
+    try {
+      await User.findByIdAndUpdate(user.id,
+        { status: false },
+        { new: true }
+      )
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = 'Sesion cerrada correctamente'
+      defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
   signinToken: async (req, res) => {
     const { user } = req
     let { token } = req.body
-    console.log(token)
     try {
       token = jwt.verify(token, process.env.KEY_JWT)
       req.body.success = true
