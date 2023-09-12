@@ -59,7 +59,38 @@ const controller = {
     } catch (e) {
       console.log(e)
     }
+  },
+
+  signinToken: async (req, res) => {
+    const { user } = req
+    let { token } = req.body
+    console.log(token)
+    try {
+      token = jwt.verify(token, process.env.KEY_JWT)
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = { user, token }
+      defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  get_user: async (req, res) => {
+
+    const { user } = req
+
+    try {
+      const userData = await User.findById(user.id, '-password -__v -status -createdAt -updatedAt')
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = userData
+      return defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
   }
+
 }
 
 export default controller
