@@ -6,7 +6,7 @@ import 'dotenv/config.js'
 
 const controller = {
 
-  read: async (req, res, next) => {
+  read: async (req, res) => {
     try {
       const users = await User.find()
       if (users) {
@@ -19,11 +19,11 @@ const controller = {
       req.body.sc = 400
       req.body.data = "Users not found :("
     } catch (e) {
-      next(e)
+      console.log(e)
     }
   },
 
-  signin: async (req, res, next) => {
+  signin: async (req, res) => {
 
     const { password } = req.body
     let { user } = req
@@ -32,8 +32,8 @@ const controller = {
       const verified = bcryptjs.compareSync(password, user.password)
       if (verified) {
         await User.findOneAndUpdate(
-          { dni: user.dni },
-          { is_online: true },
+          { email: user.email },
+          { status: true },
           { new: true }
         )
         let token = jwt.sign(
@@ -42,9 +42,9 @@ const controller = {
           { expiresIn: 60 * 60 * 24 }
         )
         user = {
-          dni: user.dni,
           email: user.email,
-          name: user.name
+          photo: user.photo,
+          role: user.role
         }
         req.body.success = true
         req.body.sc = 200
@@ -58,7 +58,6 @@ const controller = {
 
     } catch (e) {
       console.log(e)
-      next(e)
     }
   }
 }

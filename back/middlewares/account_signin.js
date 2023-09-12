@@ -3,16 +3,16 @@ import defaultResponse from "../config/response.js"
 
 const accountExistsSignin = async (req, res, next) => {
 
-  const { dni } = req.body
-  const user = await User.findOne({ dni: dni })
+  const { email } = req.body
+  const user = await User.findOne({ email: email })
 
   if (user) {
     req.user = {
       id: user._id,
-      dni: user.dni,
       email: user.email,
-      name: user.name,
-      password: user.password
+      password: user.password,
+      photo: user.photo,
+      role: user.role
     }
     return next()
   }
