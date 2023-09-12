@@ -35,11 +35,11 @@ const signIn = createAsyncThunk('signin/user', async (dataUser) => {
   }
 })
 
-const signinToken = createAsyncThunk('users/signinToken', async (token) => {
+const signinToken = createAsyncThunk('users/signinToken', async ({ token: token }) => {
   try {
     const user = await axios.post(`
       ${API_URL}/user/token`,
-      token,
+      { token: token },
       getToken()
     )
     return {

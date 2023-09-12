@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Nav from './Nav'
-import { Outlet, useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector, useStore } from 'react-redux'
 import userActions from '../store/users/actions'
 
 const { signinToken } = userActions
@@ -12,14 +12,20 @@ const Layout = () => {
   const location = useLocation
   const [isLogged, setIsLogged] = useState(false)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    let token = localStorage.getItem("token")
-    dispatch(signinToken(token))
+    let token = localStorage.getItem("token").toString()
+    dispatch(signinToken({ token: token }))
     if (userStore?.success) {
       setIsLogged(true)
+    } else {
+      setIsLogged(false)
+      navigate("/")
     }
-  }, [location])
+  }, [location, userStore?.success])
+
+  console.log(isLogged)
 
   return (
     <div className='relative'>
