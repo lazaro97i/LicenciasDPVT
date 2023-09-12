@@ -1,8 +1,23 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import userActions from '../store/users/actions'
+import { useNavigate } from 'react-router-dom'
+
+const { signOut } = userActions
 
 const Nav = () => {
 
   const [nav, setNav] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const signot = async (e) => {
+    const response = await dispatch(signOut())
+    if (response?.payload?.success) {
+      await localStorage.removeItem('token')
+      navigate(0)
+    }
+  }
 
   const toggleNav = (e) => {
     setNav(!nav)
@@ -28,7 +43,7 @@ const Nav = () => {
         <span onClick={toggleNav} className=' cursor-pointer'>
           <svg className=' pointer-events-none' viewBox="0 0 24 24" fill="none" width={'45px'} xmlns="http://www.w3.org/2000/svg"><g className=' pointer-events-none' id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g className=' pointer-events-none' id="SVGRepo_iconCarrier"> <path className=' pointer-events-none' d="M4 6H20M4 12H20M4 18H20" stroke="#f0f1ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
         </span>
-        <input type="button" value="Cerrar sesión" className='rounded-md px-3 py-2 bg-[#a30d26] cursor-pointer' />
+        <input onClick={signot} type="button" value="Cerrar sesión" className='rounded-md px-3 py-2 bg-[#a30d26] cursor-pointer' />
       </div>
       <div>
         {

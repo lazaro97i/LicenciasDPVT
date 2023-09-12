@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 
 const API_URL = import.meta.env.VITE_APP_API_URL
 
-const getToken = () => {
+const sendAuth = () => {
 
   const BEARER_TOKEN = localStorage.getItem("token")
 
@@ -22,7 +22,7 @@ const signIn = createAsyncThunk('signin/user', async (dataUser) => {
     const user = await axios.post(`${API_URL}/user/signin`, dataUser)
     return {
       response: user.data.response,
-      message: "User authenticated :)",
+      message: "Usuario autenticado",
       success: user?.data?.success
     }
   } catch (e) {
@@ -40,11 +40,34 @@ const signinToken = createAsyncThunk('users/signinToken', async ({ token: token 
     const user = await axios.post(`
       ${API_URL}/user/token`,
       { token: token },
-      getToken()
+      sendAuth()
     )
     return {
       response: user.data.response,
-      message: 'User authenticated',
+      message: 'Usuario autenticado',
+      success: user.data.success
+    }
+  } catch (e) {
+    console.log(e)
+    return {
+      response: null,
+      message: e.response.data.response,
+      success: e.response.data.success
+    }
+  }
+})
+
+const signOut = createAsyncThunk('users/signOut', async () => {
+
+  try {
+    const user = await axios.put(
+      `${API_URL}/user/signout`,
+      {},
+      sendAuth()
+    )
+    return {
+      response: user.data.response,
+      message: 'Sesion cerrada correctamente',
       success: user.data.success
     }
   } catch (e) {
@@ -59,7 +82,8 @@ const signinToken = createAsyncThunk('users/signinToken', async ({ token: token 
 
 const userActions = {
   signIn,
-  signinToken
+  signinToken,
+  signOut
 }
 
 export default userActions

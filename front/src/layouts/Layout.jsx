@@ -15,7 +15,7 @@ const Layout = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    let token = localStorage.getItem("token").toString()
+    let token = localStorage.getItem("token")
     dispatch(signinToken({ token: token }))
     if (userStore?.success) {
       setIsLogged(true)
@@ -24,8 +24,6 @@ const Layout = () => {
       navigate("/")
     }
   }, [location, userStore?.success])
-
-  console.log(isLogged)
 
   return (
     <div className='relative'>
