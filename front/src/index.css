@@ -10,7 +10,7 @@
   color: #f0f1ef;
 }
 
-#home {
+.div-contain {
   background: url('./assets/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -25,4 +25,24 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+  background: transparent;
+}
+
+input {
+  background: transparent;
+}
+
+form {
+  background: transparent;
+}
+
+label {
+  background: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+select option {
+  background: #020418;
 }

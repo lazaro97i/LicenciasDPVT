@@ -9,7 +9,7 @@ const Nav = () => {
   }
   const NavContent = () => {
     return (
-      <div className='fixed w-full max-w-[425px] bg-black h-screen'>
+      <div className='fixed top-0 left-0 w-full max-w-[425px] bg-black h-screen'>
         <ul className='w-full flex flex-col mt-20 gap-8 ml-8'>
           <li>Registrar inasistencia</li>
           <li>Registro mensual</li>
@@ -23,10 +23,13 @@ const Nav = () => {
   }
 
   return (
-    <div className='absolute'>
-      <span onClick={toggleNav} className=' cursor-pointer absolute top-5 left-5'>
-        <svg className=' pointer-events-none' viewBox="0 0 24 24" fill="none" width={'45px'} xmlns="http://www.w3.org/2000/svg"><g className=' pointer-events-none' id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g className=' pointer-events-none' id="SVGRepo_iconCarrier"> <path className=' pointer-events-none' d="M4 6H20M4 12H20M4 18H20" stroke="#f0f1ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
-      </span>
+    <div className='relative w-full flex justify-center'>
+      <div className='absolute flex top-5 justify-between w-full px-5 max-w-[1200px]'>
+        <span onClick={toggleNav} className=' cursor-pointer'>
+          <svg className=' pointer-events-none' viewBox="0 0 24 24" fill="none" width={'45px'} xmlns="http://www.w3.org/2000/svg"><g className=' pointer-events-none' id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g className=' pointer-events-none' id="SVGRepo_iconCarrier"> <path className=' pointer-events-none' d="M4 6H20M4 12H20M4 18H20" stroke="#f0f1ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+        </span>
+        <input type="button" value="Cerrar sesión" className='rounded-md px-3 py-2 bg-[#a30d26] cursor-pointer' />
+      </div>
       <div>
         {
           nav ?

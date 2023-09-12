@@ -13,7 +13,7 @@ const Home = () => {
   }, [])
 
   return (
-    <div id="home" className="h-screen w-full flex flex-col justify-center items-center px-6">
+    <div id="home" className="div-contain h-screen w-full flex flex-col justify-center items-center px-6">
       <h1 className="text-3xl">Registro de Asistencias</h1>
       {
         isToken ?
