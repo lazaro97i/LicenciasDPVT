@@ -15,7 +15,8 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(signIn.fulfilled, (state, action) => {
       let newState = {
         user: action.payload.response,
-        message: action.payload.message
+        message: action.payload.message,
+        success: action.payload.success
       }
       return newState
     })

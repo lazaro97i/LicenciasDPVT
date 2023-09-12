@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const RegLicence = () => {
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    localStorage.getItem("token")
+    if (!localStorage.getItem("token") || localStorage.getItem("token") === undefined) {
+      navigate("/")
+    }
+  }, [])
+
   return (
     <div className='w-full h-screen div-contain flex flex-col items-center content-center justify-center px-6'>
       <p className='mb-10 text-3xl'>Registro de lincencia</p>

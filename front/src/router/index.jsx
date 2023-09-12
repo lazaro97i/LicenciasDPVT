@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import Layout from '../layouts/Layout'
-import Home from '../pages/Home'
+import SignIn from '../pages/SignIn'
 import RegLicence from '../pages/RegLicence'
 
 const router = createBrowserRouter([
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <SignIn />
       },
       {
         path: '/reg_licence',

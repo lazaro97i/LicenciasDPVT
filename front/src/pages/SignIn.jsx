@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react"
 import FormSignIn from "../components/FormSignIn"
+import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
-const Home = () => {
+const SignIn = () => {
 
-  let token = localStorage.getItem('token')
   const [isToken, setToken] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
+    let token = localStorage.getItem('token')
     if (token) {
       setToken(true)
+      navigate("/reg_licence")
     }
   }, [])
 
   return (
     <div id="home" className="div-contain h-screen w-full flex flex-col justify-center items-center px-6">
-      <h1 className="text-3xl">Registro de Asistencias</h1>
       {
         isToken ?
           null
-          : <FormSignIn />
+          :
+          <FormSignIn />
       }
     </div>
   )
 }
 
-export default Home
+export default SignIn
