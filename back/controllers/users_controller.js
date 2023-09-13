@@ -98,8 +98,8 @@ const controller = {
   signup: async (req, res) => {
 
     const data = {
-      email: req.body.email,
-      password: req.body.password,
+      fileNumber: req.body.fileNumber,
+      password: bcryptjs.hashSync(req.body.password, 10),
       photo: req.body.photo,
       role: req.body.role,
       status: false
