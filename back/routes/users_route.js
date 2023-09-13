@@ -6,7 +6,7 @@ import passport from '../config/passport.js'
 
 const router = express.Router()
 
-const { signin, read, get_user, signinToken, signout } = controller
+const { signin, get_user, signinToken, signout, signup } = controller
 
 // router.get('/', read)
 router.post('/signin',
@@ -18,6 +18,9 @@ router.post('/token',
   mustSignin,
   signinToken
 )
+router.post('/signup',
+  passport.authenticate('jwt', { session: false }),
+  signup)
 router.get('/profile',
   passport.authenticate('jwt', { session: false }),
   get_user

@@ -91,6 +91,27 @@ const controller = {
     }
   },
 
+  signup: async (req, res) => {
+
+    const data = {
+      email: req.body.email,
+      password: req.body.password,
+      photo: req.body.photo,
+      role: req.body.role,
+      status: false
+    }
+
+    try {
+      await User.create(data)
+      req.body.success = true
+      req.body.sc = 201
+      req.body.data = "Usuario creado con éxito!"
+      return defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
   get_user: async (req, res) => {
 
     const { user } = req
