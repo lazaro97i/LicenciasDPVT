@@ -9,15 +9,15 @@ const controller = {
     const { user } = req
 
     const dataLicense = {
-      file: req.body.file,
+      fileNumber: req.body.fileNumber,
       typeLicense: req.body.typeLicense,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       observation: req.body.observation,
       userId: user.id
     }
-
     const dataEmployee = {
+      fileNumber: req.body.fileNumber,
       name: req.body.name,
       apartDiv: req.body.apartDiv,
       position: req.body.position,
@@ -33,12 +33,21 @@ const controller = {
     }
 
     try {
-      const license = await License.create(dataLicense)
-      const employee = await Employee.create(dataEmployee)
-      req.body.success = true
-      req.body.sc = 201
-      req.body.data = { license, employee }
-      defaultResponse(req, res)
+      const findEmployee = await Employee.findOne({ fileNumber: req.body.fileNumber })
+      if (!findEmployee) {
+        const employee = await Employee.create(dataEmployee)
+        const license = await License.create(dataLicense)
+        req.body.success = true
+        req.body.sc = 201
+        req.body.data = { license, employee }
+        defaultResponse(req, res)
+      } else {
+        const license = await License.create(dataLicense)
+        req.body.success = true
+        req.body.sc = 201
+        req.body.data = license
+        defaultResponse(req, res)
+      }
     } catch (e) {
       console.log(e)
     }

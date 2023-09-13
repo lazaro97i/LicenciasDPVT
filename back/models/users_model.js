@@ -1,9 +1,9 @@
 import mongoose from "mongoose"
 
 const schema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: [true, 'Email requerido'],
+  fileNumber: {
+    type: Number,
+    required: [true, 'Legajo requerido'],
     unique: true
   },
   password: {

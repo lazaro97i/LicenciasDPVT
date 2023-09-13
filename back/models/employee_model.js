@@ -1,6 +1,10 @@
 import mongoose from "mongoose"
 
 const schema = new mongoose.Schema({
+  fileNumber: {
+    type: Number,
+    required: true,
+  },
   name: {
     type: String,
     required: true
