@@ -36,7 +36,6 @@ const Layout = () => {
         setIsLogged(true)
       } else {
         setIsLogged(false)
-        navigate('/')
       }
     }
   }, [location, userStore?.success])

@@ -82,7 +82,6 @@ const signOut = createAsyncThunk('users/signOut', async () => {
 
 const signUp = createAsyncThunk('users/signup', async (data) => {
 
-  console.log(data)
   try {
     const new_user = await axios.post(
       `${API_URL}/user/signup`,
