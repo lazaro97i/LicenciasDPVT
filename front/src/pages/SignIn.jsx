@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import FormSignIn from "../components/FormSignIn"
 import { useDispatch, useSelector } from "react-redux"
 import userActions from "../store/users/actions"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 
 const { signinToken } = userActions
 
@@ -10,22 +10,35 @@ const SignIn = () => {
 
   const userStore = useSelector((store) => store.user)
   const [isLogged, setIsLogged] = useState(false)
+  const [tokenLogin, setTokenLogin] = useState('')
   const navigate = useNavigate()
+  const location = useLocation()
   const dispatch = useDispatch()
 
   useEffect(() => {
-    let token = localStorage.getItem("token")
+    let token = localStorage.getItem('token')
     if (token) {
-      dispatch(signinToken({ token: token }))
-      if (!userStore?.success) {
-        setIsLogged(false)
-      }
-    }
-    if (userStore?.success) {
-      setIsLogged(true)
-      navigate("/reg_licence")
+      setTokenLogin(token)
     } else {
       setIsLogged(false)
+      navigate('/')
+    }
+  }, [])
+
+  useEffect(() => {
+    let token = localStorage.getItem('token')
+    if (token !== tokenLogin) {
+      dispatch(signinToken(token))
+      if (!userStore?.success) {
+        setIsLogged(false)
+        navigate('/')
+      } else {
+        setIsLogged(true)
+        navigate('/reg_licence')
+      }
+    } else {
+      setIsLogged(true)
+      navigate('/reg_licence')
     }
   }, [userStore?.success])
 

@@ -11,16 +11,33 @@ const Layout = () => {
   const userStore = useSelector((store) => store.user)
   const location = useLocation()
   const [isLogged, setIsLogged] = useState(false)
+  const [tokenLogin, setTokenLogin] = useState(null)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   useEffect(() => {
     let token = localStorage.getItem("token")
-    dispatch(signinToken({ token: token }))
     if (userStore?.success) {
       setIsLogged(true)
+      setTokenLogin(token)
     } else {
       setIsLogged(false)
+      navigate(1)
+    }
+  }, [])
+
+  useEffect(() => {
+    let token = localStorage.getItem('token')
+    if (token === tokenLogin) {
+      console.log(true)
+    } else {
+      dispatch(signinToken({ token: token }))
+      if (userStore?.success) {
+        setIsLogged(true)
+      } else {
+        setIsLogged(false)
+        navigate('/')
+      }
     }
   }, [location, userStore?.success])
 

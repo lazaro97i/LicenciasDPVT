@@ -27,16 +27,16 @@ const NewUser = () => {
     <div className='w-full h-full div-contain flex flex-col items-center px-6 pt-28 pb-10'>
       <p className='text-3xl mb-10'>Agregar usuario</p>
       <form className='w-full max-w-[600px] grid grid-cols-1 gap-10 border rounded-lg py-10' >
-        <label htmlFor="">
+        <label>
           <input ref={inpEmail} className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' type="text" name="email" id="email" placeholder='Email' />
         </label>
-        <label htmlFor="">
+        <label>
           <input ref={inpPass} className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' type="password" name="pass" id="pass" placeholder='Contraseña' />
         </label>
-        <label htmlFor="">
+        <label>
           <input ref={inpPhoto} className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' type="url" name="photo" id="photo" placeholder='Url foto' />
         </label>
-        <label htmlFor="" className='flex flex-col gap-5 justify-center'>
+        <label className='flex flex-col gap-5 justify-center'>
           <span className='flex w-4/5 max-w-[270px] md:max-w-[350px]'>Rol de usuario:</span>
           <div className='flex gap-10 justify-center'>
             <label>

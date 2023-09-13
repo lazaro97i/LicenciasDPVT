@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import userActions from '../store/users/actions'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -8,6 +8,8 @@ const { signOut } = userActions
 const Nav = () => {
 
   const [nav, setNav] = useState(false)
+  const [tokenLogin, setTokenLogin] = useState(false)
+  const userStore = useSelector((store) => store.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -22,13 +24,18 @@ const Nav = () => {
     }
   ]
 
-  const signot = async (e) => {
+  const signout = async (e) => {
     const response = await dispatch(signOut())
-    if (response?.payload?.success) {
-      await localStorage.removeItem('token')
-      navigate(0)
+    if (response.payload.success) {
+      localStorage.removeItem('token')
+      setTokenLogin(true)
     }
   }
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      location.reload()
+    }
+  }, [tokenLogin])
 
   const toggleNav = (e) => {
     setNav(!nav)
@@ -58,7 +65,7 @@ const Nav = () => {
         <span onClick={toggleNav} className=' cursor-pointer'>
           <svg className=' pointer-events-none' viewBox="0 0 24 24" fill="none" width={'45px'} xmlns="http://www.w3.org/2000/svg"><g className=' pointer-events-none' id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g className=' pointer-events-none' id="SVGRepo_iconCarrier"> <path className=' pointer-events-none' d="M4 6H20M4 12H20M4 18H20" stroke="#f0f1ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
         </span>
-        <input onClick={signot} type="button" value="Cerrar sesión" className='rounded-md px-3 py-2 bg-[#a30d26] cursor-pointer' />
+        <input onClick={signout} type="button" value="Cerrar sesión" className='rounded-md px-3 py-2 bg-[#a30d26] cursor-pointer' />
       </div>
       <div>
         {
