@@ -32,7 +32,7 @@ const controller = {
       const verified = bcryptjs.compareSync(password, user.password)
       if (verified) {
         await User.findOneAndUpdate(
-          { email: user.email },
+          { fileNumber: user.fileNumber },
           { status: true },
           { new: true }
         )
@@ -42,7 +42,7 @@ const controller = {
           { expiresIn: 60 * 60 * 24 }
         )
         user = {
-          email: user.email,
+          fileNumber: user.fileNumber,
           photo: user.photo,
           role: user.role
         }
@@ -53,7 +53,7 @@ const controller = {
       }
       req.body.success = false
       req.body.sc = 400
-      req.body.data = "Invalid password"
+      req.body.data = "Contraseña incorrecta"
       return defaultResponse(req, res)
 
     } catch (e) {
@@ -85,7 +85,7 @@ const controller = {
       req.body.success = true
       req.body.sc = 200
       req.body.data = {
-        email: user.email,
+        fileNumber: user.fileNumber,
         photo: user.photo,
         role: user.role
       }

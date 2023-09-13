@@ -17,7 +17,7 @@ passport.use(
         if (user) {
           user = {
             id: user._id,
-            email: user.email,
+            fileNumber: user.fileNumber,
             photo: user.photo,
             role: user.role,
             status: user.status
