@@ -84,7 +84,11 @@ const controller = {
       token = jwt.verify(token, process.env.KEY_JWT)
       req.body.success = true
       req.body.sc = 200
-      req.body.data = { user, token }
+      req.body.data = {
+        email: user.email,
+        photo: user.photo,
+        role: user.role
+      }
       defaultResponse(req, res)
     } catch (e) {
       console.log(e)

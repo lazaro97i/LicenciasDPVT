@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: '/reg_licence',
+        path: '/reg_license',
         element: <RegLicense />
       },
       {
