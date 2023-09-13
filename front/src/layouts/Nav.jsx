@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import userActions from '../store/users/actions'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const { signOut } = userActions
 
@@ -10,6 +10,17 @@ const Nav = () => {
   const [nav, setNav] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const routes = [
+    {
+      path: '/new_user',
+      name: 'Agregar usuario'
+    },
+    {
+      path: '/reg_licence',
+      name: 'Registrar licencia'
+    }
+  ]
 
   const signot = async (e) => {
     const response = await dispatch(signOut())
@@ -26,9 +37,13 @@ const Nav = () => {
     return (
       <div className='fixed top-0 left-0 w-full max-w-[425px] bg-black h-screen'>
         <ul className='w-full flex flex-col mt-20 gap-8 ml-8'>
-          <li>Opcion 1</li>
-          <li>Opcion 2</li>
-          <li>Opcion 3</li>
+          {
+            routes.map((route) => {
+              return (
+                <Link onClick={toggleNav} key={route.name} to={route.path}>{route.name}</Link>
+              )
+            })
+          }
         </ul>
         <span onClick={toggleNav} className='absolute top-5 right-5 cursor-pointer'>
           <svg fill="#f0f1ef" width={'45px'} viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cancel2</title> <path d="M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z"></path> </g></svg>

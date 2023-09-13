@@ -9,7 +9,7 @@ const { signinToken } = userActions
 const Layout = () => {
 
   const userStore = useSelector((store) => store.user)
-  const location = useLocation
+  const location = useLocation()
   const [isLogged, setIsLogged] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -21,7 +21,6 @@ const Layout = () => {
       setIsLogged(true)
     } else {
       setIsLogged(false)
-      navigate("/")
     }
   }, [location, userStore?.success])
 

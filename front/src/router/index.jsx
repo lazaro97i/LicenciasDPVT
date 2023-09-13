@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import Layout from '../layouts/Layout'
 import SignIn from '../pages/SignIn'
 import RegLicence from '../pages/RegLicence'
+import NewUser from '../pages/NewUser'
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
       {
         path: '/reg_licence',
         element: <RegLicence />
+      },
+      {
+        path: '/new_user',
+        element: <NewUser />
       }
     ]
   },

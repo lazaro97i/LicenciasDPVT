@@ -10,10 +10,12 @@
   color: #f0f1ef;
 }
 
-.div-contain {
+#root {
   background: url('./assets/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100vh;
+  overflow: auto;
 }
 
 #user,

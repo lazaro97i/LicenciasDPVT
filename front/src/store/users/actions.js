@@ -80,10 +80,36 @@ const signOut = createAsyncThunk('users/signOut', async () => {
   }
 })
 
+const signUp = createAsyncThunk('users/signup', async (data) => {
+
+  console.log(data)
+  try {
+    const new_user = await axios.post(
+      `${API_URL}/user/signup`,
+      data,
+      sendAuth()
+    )
+    return {
+      response: new_user.data.response,
+      message: 'Usuario creado con exito!',
+      success: new_user.data.success
+    }
+  } catch (e) {
+    console.log(e)
+    return {
+      response: null,
+      message: e.response.data.response,
+      success: e.response.data.success
+    }
+  }
+
+})
+
 const userActions = {
   signIn,
   signinToken,
-  signOut
+  signOut,
+  signUp
 }
 
 export default userActions

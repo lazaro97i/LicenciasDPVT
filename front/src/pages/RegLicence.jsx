@@ -13,7 +13,7 @@ const RegLicence = () => {
   }, [])
 
   return (
-    <div className='w-full h-screen div-contain flex flex-col items-center content-center justify-center px-6'>
+    <div className='w-full h-full div-contain flex flex-col items-center px-6 pt-28 pb-10'>
       <p className='mb-10 text-3xl'>Registro de lincencia</p>
       <form action="post" className='w-full max-w-[600px] grid grid-cols-1 gap-10 border rounded-lg py-10'>
         <label htmlFor="">
