@@ -14,7 +14,7 @@ const controller = {
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       observation: req.body.observation,
-      userData: user.id
+      userId: user.id
     }
 
     const dataEmployee = {
@@ -29,7 +29,7 @@ const controller = {
       added: req.body.added,
       uprooting: req.body.uprooting,
       dedicationOp: req.body.dedicationOp,
-      userData: user.id
+      userId: user.id
     }
 
     try {

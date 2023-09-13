@@ -20,7 +20,7 @@ const schema = new mongoose.Schema({
   observation: {
     type: String
   },
-  userData: {
+  userId: {
     type: mongoose.ObjectId,
     required: true
   }

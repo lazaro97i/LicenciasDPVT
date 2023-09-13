@@ -45,7 +45,7 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  userData: {
+  userId: {
     type: mongoose.ObjectId,
     required: true
   }
