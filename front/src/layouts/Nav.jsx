@@ -19,7 +19,7 @@ const Nav = () => {
       name: 'Agregar usuario'
     },
     {
-      path: '/reg_licence',
+      path: '/reg_license',
       name: 'Registrar licencia'
     }
   ]

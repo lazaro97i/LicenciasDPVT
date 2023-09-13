@@ -34,11 +34,11 @@ const SignIn = () => {
         navigate('/')
       } else {
         setIsLogged(true)
-        navigate('/reg_licence')
+        navigate('/reg_license')
       }
     } else {
       setIsLogged(true)
-      navigate('/reg_licence')
+      navigate('/reg_license')
     }
   }, [userStore?.success])
 

@@ -28,7 +28,7 @@ const FormSignIn = () => {
       if (response.payload.success) {
         let token = await localStorage.setItem('token', response.payload.response.token)
         dispatch(signinToken({ token: token }))
-        navigate('/reg_licence')
+        navigate('/reg_license')
       }
     }
   }
