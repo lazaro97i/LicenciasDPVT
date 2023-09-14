@@ -48,3 +48,7 @@ label {
 select option {
   background: #020418;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
