@@ -1,2 +1,2 @@
-# asistencias
-Sistema de registro de asistencias
+# Licencias
+Sistema de registro de licencias

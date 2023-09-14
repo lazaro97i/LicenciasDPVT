@@ -35,7 +35,7 @@ const FormSignIn = () => {
 
   return (
     <>
-      <h1 className='text-3xl'>Registro de licencias</h1>
+      <h1 className='text-3xl'>Licencias DPVT</h1>
       <form className="border rounded-lg w-full max-w-[600px] flex flex-col items-center mt-20 py-10 gap-10 bg-transparent" action="post">
         <p className="text-2xl">Iniciar Sesion</p>
         <label className="flex flex-col bg-transparent w-[250px]">
