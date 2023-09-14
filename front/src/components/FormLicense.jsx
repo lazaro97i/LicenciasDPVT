@@ -60,6 +60,7 @@ const FormLicense = (licenses) => {
 
   useEffect(() => {
     let formInputs = document.getElementsByTagName('input')
+    let file = document.getElementById('file')
     const arrayInputs = [...formInputs]
     if (employeeStore?.success) {
       arrayInputs.map((c, i) => {
@@ -70,6 +71,7 @@ const FormLicense = (licenses) => {
           c.classList.add('bg-[#a7a7a731]', 'rounded-t-sm')
         }
       })
+      file.readOnly = true
     } else {
       arrayInputs.map((c, i) => {
         if (c.type === 'text') {
@@ -78,6 +80,7 @@ const FormLicense = (licenses) => {
           c.classList.remove('bg-[#a7a7a731]')
         }
       })
+      file.readOnly = false
     }
   }, [employeeStore])
 
@@ -86,7 +89,7 @@ const FormLicense = (licenses) => {
       <p className='mb-10 text-3xl text-center'>Lincencias</p>
       <form id='formLicense' className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border rounded-lg py-10'>
         <label className='md:col-span-2 lg:col-span-4'>
-          <input ref={inpFile} onInput={(e) => setFile(e.target.value)} type="number" name="file" id="file" placeholder='Legajo' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpFile} onClick={(e) => e.target.readOnly ? e.target.readOnly = false : null} onInput={(e) => setFile(e.target.value)} type="number" name="file" id="file" placeholder='Legajo' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label className='md:col-span-2 lg:col-span-4'>
           <input ref={inpName} type="text" name="name" id="name" placeholder='Apellido y nombre' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
