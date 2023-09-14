@@ -50,7 +50,7 @@ const FormLicense = (licenses) => {
 
   return (
     <div className='w-full flex flex-col justify-center items-center'>
-      <p className='mb-10 text-3xl text-center'>Lincencias</p>
+      <p className='mb-10 text-3xl text-center'>Agregar lincencia</p>
       <form action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border rounded-lg py-10'>
         <label className='md:col-span-2 lg:col-span-4'>
           <input ref={inpFile} type="number" name="file" id="file" placeholder='Legajo' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
@@ -113,7 +113,7 @@ const FormLicense = (licenses) => {
           <textarea ref={inpObserv} name="textarea" id="textarea" placeholder='Observaciones' className='bg-white bg-opacity-20 resize-none w-4/5 max-w-[270px] md:max-w-[350px] h-[150px] pl-1 rounded-sm'></textarea>
         </label>
       </form>
-      <input onClick={handleData} className="mt-10 text-xl cursor-pointer border border-[#79b0ff] px-6 py-2 rounded-md text-[#79b0ff] hover:bg-[#101a50] hover:text-[#f0f1ef] transition-all duration-300" type="button" value="Aceptar" />
+      <input onClick={handleData} className="mt-10 text-xl cursor-pointer border border-[#79b0ff] px-6 py-2 rounded-md text-[#79b0ff] hover:bg-[z] hover:text-[#f0f1ef] transition-all duration-300" type="button" value="Aceptar" />
     </div>
   )
 }

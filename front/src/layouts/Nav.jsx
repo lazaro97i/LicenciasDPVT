@@ -65,7 +65,7 @@ const Nav = () => {
                   ? <Link className='pl-10' onClick={toggleNav} key={i} to={route.path}>{route.name}</Link>
                   :
                   <div className='relative pl-10' key={i}>
-                    <div key={i} onClick={() => setNavLicenses(!navLicenses)} className='flex gap-5 items-center'>
+                    <div key={i} onClick={() => setNavLicenses(!navLicenses)} className='flex gap-5 items-center cursor-pointer'>
                       <li>{route.name}</li>
                       <span>
                         <svg width={'30px'} viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#f0f1ef" strokeWidth="3.5"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.384"></g><g id="SVGRepo_iconCarrier"><polyline points="48 32 32 48 16 32"></polyline><polyline points="48 16 32 32 16 16"></polyline></g></svg>
@@ -73,11 +73,11 @@ const Nav = () => {
                     </div>
                     {
                       navLicenses
-                        ? <div className='flex flex-col items-center pt-5 pb-5 gap-3 absolute bg-white w-[200px] rounded-b-md'>
+                        ? <div className='flex flex-col items-center pt-2 pb-2 gap1 absolute bg-[#f0f1ef] w-[200px] rounded-b-md'>
                           {
                             route.children.map((route, i) => {
                               return (
-                                <Link className='text-[#0d1223] font-medium' key={i} onClick={toggleNav} to={route.path}>{route.name}</Link>
+                                <Link className='text-[#0d1223] w-full text-center py-2 font-medium hover:bg-[#0d1223] hover:text-[#f0f1ef] transition-all duration-300' key={i} onClick={toggleNav} to={route.path}>{route.name}</Link>
                               )
                             })
                           }
