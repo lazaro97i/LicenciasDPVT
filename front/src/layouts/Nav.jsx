@@ -9,9 +9,8 @@ const Nav = () => {
 
   const [nav, setNav] = useState(false)
   const [tokenLogin, setTokenLogin] = useState(false)
-  const userStore = useSelector((store) => store.user)
+  const [navLicenses, setNavLicenses] = useState(false)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const routes = [
     {
@@ -19,8 +18,22 @@ const Nav = () => {
       name: 'Agregar usuario'
     },
     {
-      path: '/reg_license',
-      name: 'Registrar licencia'
+      path: null,
+      name: 'Licencias',
+      children: [
+        {
+          path: '/reg_license',
+          name: 'Agregar licencia'
+        },
+        {
+          path: '',
+          name: 'Ver licencia'
+        }
+      ]
+    },
+    {
+      path: '',
+      name: 'Perfil'
     }
   ]
 
@@ -42,12 +55,36 @@ const Nav = () => {
   }
   const NavContent = () => {
     return (
-      <div className='fixed top-0 left-0 w-full max-w-[425px] bg-black h-screen'>
-        <ul className='w-full flex flex-col mt-20 gap-8 ml-8'>
+      <div className='fixed top-0 left-0 w-full max-w-[350px] bg-[#0f1738] border-r h-screen'>
+        <div onClick={toggleNav} className='absolute w-screen h-screen bg-[#050712c6] top-0 left-[350px] [backdrop-filter:_blur(2px)]'></div>
+        <ul className='w-full flex flex-col mt-20 gap-8 items-start'>
           {
-            routes.map((route) => {
+            routes.map((route, i) => {
               return (
-                <Link onClick={toggleNav} key={route.name} to={route.path}>{route.name}</Link>
+                route.path !== null
+                  ? <Link className='pl-10' onClick={toggleNav} key={i} to={route.path}>{route.name}</Link>
+                  :
+                  <div className='relative pl-10' key={i}>
+                    <div key={i} onClick={() => setNavLicenses(!navLicenses)} className='flex gap-5 items-center'>
+                      <li>{route.name}</li>
+                      <span>
+                        <svg width={'30px'} viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#f0f1ef" strokeWidth="3.5"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.384"></g><g id="SVGRepo_iconCarrier"><polyline points="48 32 32 48 16 32"></polyline><polyline points="48 16 32 32 16 16"></polyline></g></svg>
+                      </span>
+                    </div>
+                    {
+                      navLicenses
+                        ? <div className='flex flex-col items-center pt-5 pb-5 gap-3 absolute bg-white w-[200px] rounded-b-md'>
+                          {
+                            route.children.map((route, i) => {
+                              return (
+                                <Link className='text-[#0d1223] font-medium' key={i} onClick={toggleNav} to={route.path}>{route.name}</Link>
+                              )
+                            })
+                          }
+                        </div>
+                        : null
+                    }
+                  </div>
               )
             })
           }
@@ -55,7 +92,7 @@ const Nav = () => {
         <span onClick={toggleNav} className='absolute top-5 right-5 cursor-pointer'>
           <svg fill="#f0f1ef" width={'45px'} viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cancel2</title> <path d="M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z"></path> </g></svg>
         </span>
-      </div>
+      </div >
     )
   }
 
