@@ -1,13 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import licenseActions from '../store/licenses/actions'
+import employeeActions from '../store/employees/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 const { createLicense } = licenseActions
+const { getEmployee } = employeeActions
 
 const FormLicense = (licenses) => {
 
   const dispatch = useDispatch()
-  const licenseStore = useSelector((store) => store.license)
+  const employeeStore = useSelector((store) => store.employee)
 
   let inpFile = useRef('')
   let inpName = useRef('')
@@ -48,12 +50,43 @@ const FormLicense = (licenses) => {
     dispatch(createLicense(data))
   }
 
+  const [file, setFile] = useState(null)
+
+  useEffect(() => {
+    if (file?.length === 4) {
+      dispatch(getEmployee(file))
+    }
+  }, [file])
+
+  useEffect(() => {
+    let formInputs = document.getElementsByTagName('input')
+    const arrayInputs = [...formInputs]
+    if (employeeStore?.success) {
+      arrayInputs.map((c, i) => {
+        if (c.type === 'text') {
+          let employee = Object.entries(employeeStore.employee)
+          c.value = employee[i][1]
+          c.readOnly = true
+          c.classList.add('bg-[#a7a7a731]', 'rounded-t-sm')
+        }
+      })
+    } else {
+      arrayInputs.map((c, i) => {
+        if (c.type === 'text') {
+          c.value = ""
+          c.readOnly = false
+          c.classList.remove('bg-[#a7a7a731]')
+        }
+      })
+    }
+  }, [employeeStore])
+
   return (
     <div className='w-full flex flex-col justify-center items-center'>
       <p className='mb-10 text-3xl text-center'>Lincencias</p>
-      <form action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border rounded-lg py-10'>
+      <form id='formLicense' className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border rounded-lg py-10'>
         <label className='md:col-span-2 lg:col-span-4'>
-          <input ref={inpFile} type="number" name="file" id="file" placeholder='Legajo' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpFile} onInput={(e) => setFile(e.target.value)} type="number" name="file" id="file" placeholder='Legajo' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label className='md:col-span-2 lg:col-span-4'>
           <input ref={inpName} type="text" name="name" id="name" placeholder='Apellido y nombre' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
@@ -92,8 +125,8 @@ const FormLicense = (licenses) => {
           <label className='grid grid-rows-2 grid-cols-2 w-4/5 max-w-[270px] md:max-w-[450px] gap-x-3 md:gap-x-10'>
             <span className=''>Inicio de licencia:</span>
             <span>Fin de licencia:</span>
-            <input ref={inpStartDate} type="date" name="startDate" id="startDate" className='outline-none border-b bg-[#a7cbff] rounded-sm text-[#06101d] text-center max-w-[270px] md:max-w-[350px]' />
-            <input ref={inpEndDate} type="date" name="endDate" id="endDate" className='outline-none border-b bg-[#a7cbff] rounded-sm text-[#06101d] text-center max-w-[270px] md:max-w-[350px]' />
+            <input ref={inpStartDate} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
+            <input ref={inpEndDate} type="date" name="endDate" id="endDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
           </label>
         </label>
         <label className='flex flex-col gap-4 md:col-span-2 lg:col-span-4'>
@@ -110,7 +143,7 @@ const FormLicense = (licenses) => {
           </select>
         </label>
         <label className='md:col-span-2 lg:col-span-4'>
-          <textarea ref={inpObserv} name="textarea" id="textarea" placeholder='Observaciones' className='bg-white bg-opacity-20 resize-none w-4/5 max-w-[270px] md:max-w-[350px] h-[150px] pl-1 rounded-sm'></textarea>
+          <textarea ref={inpObserv} name="textarea" id="observationsArea" placeholder='Observaciones ...' className='bg-[#101b436e] resize-none w-4/5 max-w-[270px] md:max-w-[350px] h-[150px] pl-1 rounded-sm border border-[#f0f1ef35]  outline-none'></textarea>
         </label>
       </form>
       <input onClick={handleData} className="mt-10 text-xl cursor-pointer border border-[#79b0ff] px-6 py-2 rounded-md text-[#79b0ff] hover:bg-[#101a50] hover:text-[#f0f1ef] transition-all duration-300" type="button" value="Aceptar" />
