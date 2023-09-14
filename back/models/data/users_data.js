@@ -6,12 +6,11 @@ import { User } from "../users_model.js"
 
 const users = [
   {
-    name: 'Admin',
-    dni: 12345678,
-    password: bcryptjs.hashSync('admin1234', 10),
-    phone: 3815222333,
     email: 'admin@admin.com',
-    is_online: false
+    password: bcryptjs.hashSync('admin1234', 10),
+    photo: 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png',
+    role: 'ADMIN_ROLE',
+    status: false
   }
 ]
 

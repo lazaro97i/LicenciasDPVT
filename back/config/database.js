@@ -6,6 +6,6 @@ const options = {
   useNewUrlParser: true
 }
 
-mongoose.connect(process.env.MONGO_URI, options)
+mongoose.connect(process.env.DBHOST, options)
   .then(() => console.log('Database conected'))
   .catch(err => console.log(err))

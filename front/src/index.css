@@ -10,10 +10,12 @@
   color: #f0f1ef;
 }
 
-#home {
+#root {
   background: url('./assets/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100vh;
+  overflow: auto;
 }
 
 #user,
@@ -25,4 +27,24 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+  background: transparent;
+}
+
+input {
+  background: transparent;
+}
+
+form {
+  background: transparent;
+}
+
+label {
+  background: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+select option {
+  background: #020418;
 }

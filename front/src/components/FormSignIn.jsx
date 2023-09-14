@@ -1,13 +1,12 @@
 import React, { useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import userActions from '../store/users/actions'
 
-const { signIn } = userActions
+const { signIn, signinToken } = userActions
 
 const FormSignIn = () => {
 
-  const userStore = useSelector((store) => store.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -18,7 +17,7 @@ const FormSignIn = () => {
     e.preventDefault()
 
     const dataUser = {
-      dni: inpUser.current.value,
+      email: inpUser.current.value,
       password: inpPass.current.value
     }
 
@@ -26,19 +25,23 @@ const FormSignIn = () => {
       alert("Debe completar los datos")
     } else {
       let response = await dispatch(signIn(dataUser))
-      localStorage.setItem('token', response.payload.response.token)
-      location.reload()
+      if (response.payload.success) {
+        let token = await localStorage.setItem('token', response.payload.response.token)
+        dispatch(signinToken({ token: token }))
+        navigate('/reg_license')
+      }
     }
   }
 
   return (
     <>
+      <h1 className='text-3xl'>Licencias DPVT</h1>
       <form className="border rounded-lg w-full max-w-[600px] flex flex-col items-center mt-20 py-10 gap-10 bg-transparent" action="post">
         <p className="text-2xl">Iniciar Sesion</p>
-        <label htmlFor="user" className="flex flex-col bg-transparent w-[250px]">
-          <input ref={inpUser} className="border-b outline-none py-1 pl-2" type="number" name="user" id="user" placeholder='Usuario' />
+        <label className="flex flex-col bg-transparent w-[250px]">
+          <input ref={inpUser} className="border-b outline-none py-1 pl-2" type="text" name="user" id="user" placeholder='Usuario' />
         </label>
-        <label htmlFor="password" className="flex flex-col bg-transparent w-[250px]">
+        <label className="flex flex-col bg-transparent w-[250px]">
           <input ref={inpPass} className="border-b outline-none py-1 pl-2" type="password" name="password" id="password" placeholder='Contraseña' />
         </label>
       </form>

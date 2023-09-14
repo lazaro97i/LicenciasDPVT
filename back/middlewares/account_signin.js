@@ -3,22 +3,22 @@ import defaultResponse from "../config/response.js"
 
 const accountExistsSignin = async (req, res, next) => {
 
-  const { dni } = req.body
-  const user = await User.findOne({ dni: dni })
+  const { fileNumber } = req.body
+  const user = await User.findOne({ fileNumber: fileNumber })
 
   if (user) {
     req.user = {
       id: user._id,
-      dni: user.dni,
-      email: user.email,
-      name: user.name,
-      password: user.password
+      fileNumber: user.fileNumber,
+      password: user.password,
+      photo: user.photo,
+      role: user.role
     }
     return next()
   }
   req.body.success = false
   req.body.sc = 400
-  req.body.data = 'User not found :('
+  req.body.data = 'Usuario incorrecto'
   return defaultResponse(req, res)
 }
 
