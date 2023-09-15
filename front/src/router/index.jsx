@@ -4,6 +4,7 @@ import SignIn from '../pages/SignIn'
 import RegLicense from '../pages/RegLicense'
 import NewUser from '../pages/NewUser'
 import ViewLicense from '../pages/ViewLicense'
+import LicensesDetail from '../pages/LicenseDetails'
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: '/view_license',
         element: <ViewLicense />
+      },
+      {
+        path: '/view_license/details',
+        element: <LicensesDetail />
       }
     ]
   },

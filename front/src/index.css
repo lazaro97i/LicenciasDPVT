@@ -16,6 +16,7 @@
   background-size: cover;
   height: 100vh;
   overflow: auto;
+  scrollbar-gutter: auto;
 }
 
 #user,

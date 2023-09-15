@@ -72,7 +72,7 @@ const Nav = () => {
                           {
                             route.children.map((route, i) => {
                               return (
-                                <Link className='text-[#0d1223] w-full text-center py-2 font-medium hover:bg-[#0d1223] hover:text-[#f0f1ef] transition-all duration-300' key={i} onClick={toggleNav} to={route.path}>{route.name}</Link>
+                                <Link className='text-[#0d1223] w-full text-center py-2 font-medium hover:bg-[#0d1223] hover:text-[#f0f1ef] transition-all duration-300' key={i} onClick={() => { toggleNav(), setNavLicenses(!navLicenses) }} to={route.path}>{route.name}</Link>
                               )
                             })
                           }
