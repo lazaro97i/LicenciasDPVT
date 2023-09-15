@@ -59,16 +59,19 @@ const controller = {
 
     const { file } = req.params
     let { user } = req
+    let { employee } = req
+
     try {
       const licenses = await License.find({ fileNumber: file })
-
       user = {
         user: user.id
       }
-
+      employee = {
+        name: employee.name
+      }
       req.body.success = true
       req.body.sc = 200
-      req.body.data = { licenses, user }
+      req.body.data = { licenses, user, employee }
       defaultResponse(req, res)
     } catch (e) {
       console.log(e)
