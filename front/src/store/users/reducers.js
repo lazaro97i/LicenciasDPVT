@@ -9,6 +9,7 @@ const {
 
 const initialState = {
   user: [],
+  userAuth: [],
   new_user: [],
   message: []
 }
@@ -31,7 +32,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(signinToken.fulfilled, (state, action) => {
       let newState = {
-        user: action.payload.response,
+        userAuth: action.payload.response,
         message: action.payload.message,
         success: action.payload.success
       }

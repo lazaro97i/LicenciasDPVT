@@ -16,29 +16,23 @@ const Layout = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    let token = localStorage.getItem("token")
+    let token = localStorage?.getItem('token')
     if (userStore?.success) {
       setIsLogged(true)
       setTokenLogin(token)
     } else {
       setIsLogged(false)
-      navigate(1)
     }
-  }, [])
-
-  useEffect(() => {
-    let token = localStorage.getItem('token')
-    if (token === tokenLogin) {
-      console.log(true)
-    } else {
+    if (token && token !== tokenLogin) {
       dispatch(signinToken({ token: token }))
-      if (userStore?.success) {
-        setIsLogged(true)
-      } else {
+    } else {
+      if (!token) {
         setIsLogged(false)
+        navigate('/')
       }
     }
   }, [location, userStore?.success])
+
 
   return (
     <div className='relative'>
