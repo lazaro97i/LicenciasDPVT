@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout'
 import SignIn from '../pages/SignIn'
 import RegLicense from '../pages/RegLicense'
 import NewUser from '../pages/NewUser'
+import ViewLicense from '../pages/ViewLicense'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: '/new_user',
         element: <NewUser />
+      },
+      {
+        path: '/view_license',
+        element: <ViewLicense />
       }
     ]
   },

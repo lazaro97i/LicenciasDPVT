@@ -15,30 +15,45 @@ const Layout = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  // useEffect(() => {
+  //   let token = localStorage.getItem("token")
+  //   if (token) {
+  //     setIsLogged(true)
+  //     setTokenLogin(token)
+  //     console.log("token");
+  //   }
+  // }, [])
+
   useEffect(() => {
-    let token = localStorage.getItem("token")
+    let token = localStorage?.getItem('token')
     if (userStore?.success) {
       setIsLogged(true)
       setTokenLogin(token)
     } else {
       setIsLogged(false)
-      navigate(1)
     }
-  }, [])
-
-  useEffect(() => {
-    let token = localStorage.getItem('token')
-    if (token === tokenLogin) {
-      console.log(true)
+    if (token && token !== tokenLogin) {
+      comparetoken()
     } else {
-      dispatch(signinToken({ token: token }))
-      if (userStore?.success) {
-        setIsLogged(true)
-      } else {
+      if (!token) {
         setIsLogged(false)
+        navigate('/')
       }
     }
   }, [location, userStore?.success])
+
+  const comparetoken = async () => {
+    let token = await localStorage.getItem('token')
+    let response = await dispatch(signinToken({ token: token }))
+    if (response.payload.success) {
+      console.log('holis')
+      setIsLogged(true)
+    } else {
+      setIsLogged(false)
+      navigate('/')
+    }
+  }
+
 
   return (
     <div className='relative'>

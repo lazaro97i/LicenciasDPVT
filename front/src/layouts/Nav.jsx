@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import userActions from '../store/users/actions'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -8,9 +8,9 @@ const { signOut } = userActions
 const Nav = () => {
 
   const [nav, setNav] = useState(false)
-  const [tokenLogin, setTokenLogin] = useState(false)
   const [navLicenses, setNavLicenses] = useState(false)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const routes = [
     {
@@ -26,7 +26,7 @@ const Nav = () => {
           name: 'Agregar licencia'
         },
         {
-          path: '',
+          path: '/view_license',
           name: 'Ver licencia'
         }
       ]
@@ -41,14 +41,9 @@ const Nav = () => {
     const response = await dispatch(signOut())
     if (response.payload.success) {
       localStorage.removeItem('token')
-      setTokenLogin(true)
-    }
-  }
-  useEffect(() => {
-    if (!localStorage.getItem('token')) {
       location.reload()
     }
-  }, [tokenLogin])
+  }
 
   const toggleNav = (e) => {
     setNav(!nav)
