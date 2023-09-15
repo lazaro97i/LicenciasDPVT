@@ -15,15 +15,6 @@ const Layout = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   let token = localStorage.getItem("token")
-  //   if (token) {
-  //     setIsLogged(true)
-  //     setTokenLogin(token)
-  //     console.log("token");
-  //   }
-  // }, [])
-
   useEffect(() => {
     let token = localStorage?.getItem('token')
     if (userStore?.success) {
@@ -33,7 +24,7 @@ const Layout = () => {
       setIsLogged(false)
     }
     if (token && token !== tokenLogin) {
-      comparetoken()
+      dispatch(signinToken({ token: token }))
     } else {
       if (!token) {
         setIsLogged(false)
@@ -41,18 +32,6 @@ const Layout = () => {
       }
     }
   }, [location, userStore?.success])
-
-  const comparetoken = async () => {
-    let token = await localStorage.getItem('token')
-    let response = await dispatch(signinToken({ token: token }))
-    if (response.payload.success) {
-      console.log('holis')
-      setIsLogged(true)
-    } else {
-      setIsLogged(false)
-      navigate('/')
-    }
-  }
 
 
   return (

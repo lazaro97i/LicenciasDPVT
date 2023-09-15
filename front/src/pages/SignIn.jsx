@@ -23,7 +23,6 @@ const SignIn = () => {
     }
     if (token && token !== tokenLogin) {
       dispatch(signinToken({ token: token }))
-      console.log('holis');
     }
   }, [userStore?.success])
 
