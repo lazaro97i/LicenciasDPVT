@@ -8,32 +8,34 @@ const controller = {
 
     const { user } = req
 
+    const { fileNumber, typeLicense, startDate, endDate, observation, name, apartDiv, position, keyDate, zone, camp, viaticB, added, uprooting, dedicationOp } = req.body
+
     const dataLicense = {
-      fileNumber: req.body.fileNumber,
-      typeLicense: req.body.typeLicense,
-      startDate: req.body.startDate,
-      endDate: req.body.endDate,
-      observation: req.body.observation,
+      fileNumber: fileNumber,
+      typeLicense: typeLicense,
+      startDate: startDate,
+      endDate: endDate,
+      observation: observation,
       userId: user.id
     }
     const dataEmployee = {
-      fileNumber: req.body.fileNumber,
-      name: req.body.name,
-      apartDiv: req.body.apartDiv,
-      position: req.body.position,
+      fileNumber: fileNumber,
+      name: name,
+      apartDiv: apartDiv,
+      position: position,
       function: req.body.function,
-      keyDate: req.body.keyDate,
-      zone: req.body.zone,
-      camp: req.body.camp,
-      viaticB: req.body.viaticB,
-      added: req.body.added,
-      uprooting: req.body.uprooting,
-      dedicationOp: req.body.dedicationOp,
+      keyDate: keyDate,
+      zone: zone,
+      camp: camp,
+      viaticB: viaticB,
+      added: added,
+      uprooting: uprooting,
+      dedicationOp: dedicationOp,
       userId: user.id
     }
 
     try {
-      const findEmployee = await Employee.findOne({ fileNumber: req.body.fileNumber })
+      const findEmployee = await Employee.findOne({ fileNumber: fileNumber })
       if (!findEmployee) {
         const employee = await Employee.create(dataEmployee)
         const license = await License.create(dataLicense)
@@ -48,6 +50,26 @@ const controller = {
         req.body.data = license
         defaultResponse(req, res)
       }
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  read: async (req, res) => {
+
+    const { file } = req.params
+    let { user } = req
+    try {
+      const licenses = await License.find({ fileNumber: file })
+
+      user = {
+        user: user.id
+      }
+
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = { licenses, user }
+      defaultResponse(req, res)
     } catch (e) {
       console.log(e)
     }
