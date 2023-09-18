@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FormViewLicense from '../components/FormViewLicense'
-import LicensesModal from '../components/LicensesModal'
+import LicensesModal from '../components/ModalLicense'
 
 const ViewLicense = () => {
 

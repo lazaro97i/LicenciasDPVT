@@ -1,17 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const LicensesModal = ({ handleModal }) => {
 
   const licenseStore = useSelector((store) => store.license)
+
   console.log(licenseStore)
+
+  const calcularRangoFechas = () => {
+
+    if (licenseStore?.success) {
+      const initialDate = licenseStore?.licenses?.licenses[0]?.startDate.split('-')
+      const endDate = licenseStore?.licenses?.licenses[0]?.endDate.split('-')
+
+      let initialDateFormat = new Date(initialDate[0], initialDate[1] - 1, initialDate[2])
+      let endDateFormat = new Date(endDate[0], endDate[1] - 1, endDate[2])
+      let days = Math.floor((initialDateFormat - endDateFormat) / (1000 * 60 * 60 * 24))
+      let daysWithoutWeekend = 0
+      for (let i = 0; i < Math.abs(days); i++) {
+        if (initialDateFormat.getDay() === 0 || initialDateFormat.getDay() === 6) {
+          console.log('red')
+          daysWithoutWeekend++
+        } else {
+          console.log('white')
+        }
+        initialDateFormat.setDate(initialDateFormat.getDate() + 1)
+        // console.log(initialDateFormat);
+      }
+      console.log(daysWithoutWeekend)
+    }
+
+  }
+
+  calcularRangoFechas()
+
   return (
     <div className='w-full max-w-[600px] h-auto flex flex-col justify-center items-center rounded-sm py-5 bg-[#121541] px-3 mt-10'>
       {
         licenseStore?.licenses
           ? <>
             <p className='text-2xl font-medium mb-5'>{licenseStore.licenses.employee.name}</p>
-            <p className='self-start mb-5 md:ml-[3.8rem] text-lime-400 text-2xl font-[300] flex items-center gap-3'>Cantidad de licencias: <span className='text-lime-400'>{licenseStore?.licenses?.licenses?.length}</span></p>
             <div className='w-full max-h-[380px] flex flex-col items-center'>
               <table className='w-full max-w-[450px]'>
                 <thead className='bg-[#2a48a159]'>
@@ -27,7 +55,7 @@ const LicensesModal = ({ handleModal }) => {
                     licenseStore.licenses.licenses.map((li, i) => {
                       return (
                         <tr key={i} className='py-2 border-collapse'>
-                          <td className='text-start py-2 border-y pl-2'>{li?.typeLicense}</td>
+                          <td onClick={() => setIdLicense(li._id)} className='text-start py-2 border-y pl-2 cursor-pointer'>{li?.typeLicense}</td>
                           <td className='text-center p-2 border-y text-[.8rem]'>{li?.startDate.split('-').reverse().join('/')}</td>
                           <td className='text-center p-2 border-y text-[.8rem]'>{li?.endDate.split('-').reverse().join('/')}</td>
                           <td className='text-center p-2 text-[.8rem] hidden md:[display:block] bg-[#2a48a159] border'>
