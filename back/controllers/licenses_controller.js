@@ -17,7 +17,7 @@ const controller = {
       let finalDate = endDate.split('-')
       let initialDateFormat = new Date(initialDate[0], initialDate[1] - 1, initialDate[2])
       let finalDateFormat = new Date(finalDate[0], finalDate[1] - 1, finalDate[2])
-      let days = Math.floor((finalDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24))
+      let days = Math.floor((finalDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24)) + 1
       console.log(days);
       for (let i = 0; i < days; i++) {
         let year = ''
