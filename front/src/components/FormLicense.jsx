@@ -89,31 +89,24 @@ const FormLicense = (licenses) => {
     if (inpStartDate.current.value && inpEndDate.current.value) {
       const initialDateFormat = new Date(inpStartDate.current.value)
       const endDateFormat = new Date(inpEndDate.current.value)
+      endDateFormat.setDate(endDateFormat.getDate() + 1)
       let calcDays = Math.floor((endDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24)) + 1
       if (initialDateFormat > endDateFormat) {
         toast.error('El fin de la licencia debe ser una fecha mayor a la fecha de inicio', { duration: 6000 })
         inpEndDate.current.value = null
       }
       let daysOfLicense = 0
-      if (calcDays > 0) {
-        for (let i = 0; i < calcDays; i++) {
-          if (initialDateFormat > endDateFormat) {
-            break
-          }
-          if (initialDateFormat.getDay() !== 0 && initialDateFormat.getDay() !== 6) {
-            daysOfLicense++
-          }
-          initialDateFormat.setDate(initialDateFormat.getDate() + 1)
+      for (let i = 0; i < calcDays + 1; i++) {
+        if (initialDateFormat > endDateFormat) {
+          break
         }
+        if (initialDateFormat.getDay() !== 0 && initialDateFormat.getDay() !== 6) {
+          daysOfLicense++
+        }
+        initialDateFormat.setDate(initialDateFormat.getDate() + 1)
       }
       document.getElementById('daysOfLicenseSpan').textContent = `${daysOfLicense} dias de licencia`
-    } else {
-      if (inpStartDate.current.value === '') {
-        document.getElementById('daysOfLicenseSpan').textContent = `DEBE INGRESAR UNA FECHA DE INICIO`
-        document.getElementById('daysOfLicenseSpan').value = ''
-      }
     }
-    console.log(inpEndDate.current.value)
   }
 
   return (
@@ -160,7 +153,7 @@ const FormLicense = (licenses) => {
           <label className='grid grid-rows-2 grid-cols-2 w-4/5 max-w-[270px] md:max-w-[450px] gap-x-3 md:gap-x-10'>
             <span className=''>Inicio de licencia:</span>
             <span>Fin de licencia:</span>
-            <input ref={inpStartDate} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
+            <input ref={inpStartDate} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
             <input ref={inpEndDate} onChange={daysOfLicense} type="date" name="endDate" id="endDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
             <span id='daysOfLicenseSpan' className='col-span-2 text-center mt-3'></span>
           </label>
