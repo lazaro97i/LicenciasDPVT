@@ -48,7 +48,12 @@ const FormLicense = (licenses) => {
       endDate: inpEndDate.current.value,
       observation: (inpObserv.current.value).toLowerCase()
     }
-    dispatch(createLicense(data))
+    let response = await dispatch(createLicense(data))
+    if (response?.payload?.success) {
+      toast.success('Licencia creada exitosamente')
+    } else {
+      toast.error(response?.payload?.message)
+    }
   }
 
   const [file, setFile] = useState(null)
