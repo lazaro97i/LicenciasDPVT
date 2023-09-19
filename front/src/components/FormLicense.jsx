@@ -86,26 +86,42 @@ const FormLicense = (licenses) => {
   }, [employeeStore])
 
   const daysOfLicense = (e) => {
-    if (inpStartDate.current.value && inpEndDate.current.value) {
-      const initialDateFormat = new Date(inpStartDate.current.value)
-      const endDateFormat = new Date(inpEndDate.current.value)
-      endDateFormat.setDate(endDateFormat.getDate() + 1)
-      let calcDays = Math.floor((endDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24)) + 1
-      if (initialDateFormat > endDateFormat) {
-        toast.error('El fin de la licencia debe ser una fecha mayor a la fecha de inicio', { duration: 6000 })
-        inpEndDate.current.value = null
+    let initialDate = inpStartDate.current.value.split('-')
+    let finalDate = inpEndDate.current.value.split('-')
+    let initialDateFormat = new Date(initialDate[0], initialDate[1] - 1, initialDate[2])
+    let finalDateFormat = new Date(finalDate[0], finalDate[1] - 1, finalDate[2])
+    let days = Math.floor((finalDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24)) + 1
+    let daysOfLicense = 0
+
+    if (initialDateFormat > finalDateFormat) {
+      toast.error('El fin de licencia debe ser una fecha mayor a la fecha de inicio', { duration: 6000 })
+      inpEndDate.current.value = null
+    }
+    if (initialDateFormat.getDay() === 0 ||
+      finalDateFormat.getDay() === 0 ||
+      initialDateFormat.getDay() === 6 ||
+      finalDateFormat.getDay() === 6) {
+      toast.error('Las licencias no pueden iniciar ni finalizar un dia no laboral')
+      inpStartDate.current.value = null
+      inpEndDate.current.value = null
+      document.getElementById('daysOfLicenseSpan').classList.add('hidden')
+    }
+
+    for (let i = 0; i < days; i++) {
+      if (initialDateFormat > finalDateFormat) {
+        break
       }
-      let daysOfLicense = 0
-      for (let i = 0; i < calcDays + 1; i++) {
-        if (initialDateFormat > endDateFormat) {
-          break
-        }
-        if (initialDateFormat.getDay() !== 0 && initialDateFormat.getDay() !== 6) {
-          daysOfLicense++
-        }
-        initialDateFormat.setDate(initialDateFormat.getDate() + 1)
+      if (initialDateFormat.getDay() !== 0 && initialDateFormat.getDay() !== 6) {
+        daysOfLicense++
+      } else {
+        days = days + 1
       }
-      document.getElementById('daysOfLicenseSpan').textContent = `${daysOfLicense} dias de licencia`
+      initialDateFormat.setDate(initialDateFormat.getDate() + 1)
+    }
+    document.getElementById('daysOfLicenseSpan').textContent = `${daysOfLicense} dias de 
+    licencia`
+    if (daysOfLicense > 0) {
+      document.getElementById('daysOfLicenseSpan').classList.remove('hidden')
     }
   }
 
