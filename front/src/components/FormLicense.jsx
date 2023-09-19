@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import licenseActions from '../store/licenses/actions'
 import employeeActions from '../store/employees/actions'
 import { useDispatch, useSelector } from 'react-redux'
+import toast from 'react-hot-toast'
 
 const { createLicense } = licenseActions
 const { getEmployee } = employeeActions
@@ -84,6 +85,37 @@ const FormLicense = (licenses) => {
     }
   }, [employeeStore])
 
+  const daysOfLicense = (e) => {
+    if (inpStartDate.current.value && inpEndDate.current.value) {
+      const initialDateFormat = new Date(inpStartDate.current.value)
+      const endDateFormat = new Date(inpEndDate.current.value)
+      let calcDays = Math.floor((endDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24)) + 1
+      if (initialDateFormat > endDateFormat) {
+        toast.error('El fin de la licencia debe ser una fecha mayor a la fecha de inicio', { duration: 6000 })
+        inpEndDate.current.value = null
+      }
+      let daysOfLicense = 0
+      if (calcDays > 0) {
+        for (let i = 0; i < calcDays; i++) {
+          if (initialDateFormat > endDateFormat) {
+            break
+          }
+          if (initialDateFormat.getDay() !== 0 && initialDateFormat.getDay() !== 6) {
+            daysOfLicense++
+          }
+          initialDateFormat.setDate(initialDateFormat.getDate() + 1)
+        }
+      }
+      document.getElementById('daysOfLicenseSpan').textContent = `${daysOfLicense} dias de licencia`
+    } else {
+      if (inpStartDate.current.value === '') {
+        document.getElementById('daysOfLicenseSpan').textContent = `DEBE INGRESAR UNA FECHA DE INICIO`
+        document.getElementById('daysOfLicenseSpan').value = ''
+      }
+    }
+    console.log(inpEndDate.current.value)
+  }
+
   return (
     <div className='w-full flex flex-col justify-center items-center'>
       <p className='mb-10 text-3xl text-center'>Agregar lincencia</p>
@@ -129,7 +161,8 @@ const FormLicense = (licenses) => {
             <span className=''>Inicio de licencia:</span>
             <span>Fin de licencia:</span>
             <input ref={inpStartDate} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
-            <input ref={inpEndDate} type="date" name="endDate" id="endDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
+            <input ref={inpEndDate} onChange={daysOfLicense} type="date" name="endDate" id="endDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
+            <span id='daysOfLicenseSpan' className='col-span-2 text-center mt-3'></span>
           </label>
         </label>
         <label className='flex flex-col gap-4 md:col-span-2 lg:col-span-4'>
