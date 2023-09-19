@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import licenseActions from '../store/licenses/actions'
 import employeeActions from '../store/employees/actions'
 import { useDispatch, useSelector } from 'react-redux'
+import toast from 'react-hot-toast'
 
 const { createLicense } = licenseActions
 const { getEmployee } = employeeActions
@@ -47,7 +48,12 @@ const FormLicense = (licenses) => {
       endDate: inpEndDate.current.value,
       observation: (inpObserv.current.value).toLowerCase()
     }
-    dispatch(createLicense(data))
+    let response = await dispatch(createLicense(data))
+    if (response?.payload?.success) {
+      toast.success('Licencia creada exitosamente')
+    } else {
+      toast.error(response?.payload?.message)
+    }
   }
 
   const [file, setFile] = useState(null)
@@ -83,6 +89,46 @@ const FormLicense = (licenses) => {
       file.readOnly = false
     }
   }, [employeeStore])
+
+  const daysOfLicense = (e) => {
+    let initialDate = inpStartDate.current.value.split('-')
+    let finalDate = inpEndDate.current.value.split('-')
+    let initialDateFormat = new Date(initialDate[0], initialDate[1] - 1, initialDate[2])
+    let finalDateFormat = new Date(finalDate[0], finalDate[1] - 1, finalDate[2])
+    let days = Math.floor((finalDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24)) + 1
+    let daysOfLicense = 0
+
+    if (initialDateFormat > finalDateFormat) {
+      toast.error('El fin de licencia debe ser una fecha mayor a la fecha de inicio', { duration: 6000 })
+      inpEndDate.current.value = null
+    }
+    if (initialDateFormat.getDay() === 0 ||
+      finalDateFormat.getDay() === 0 ||
+      initialDateFormat.getDay() === 6 ||
+      finalDateFormat.getDay() === 6) {
+      toast.error('Las licencias no pueden iniciar ni finalizar un dia no laboral')
+      inpStartDate.current.value = null
+      inpEndDate.current.value = null
+      document.getElementById('daysOfLicenseSpan').classList.add('hidden')
+    }
+
+    for (let i = 0; i < days; i++) {
+      if (initialDateFormat > finalDateFormat) {
+        break
+      }
+      if (initialDateFormat.getDay() !== 0 && initialDateFormat.getDay() !== 6) {
+        daysOfLicense++
+      } else {
+        days = days + 1
+      }
+      initialDateFormat.setDate(initialDateFormat.getDate() + 1)
+    }
+    document.getElementById('daysOfLicenseSpan').textContent = `${daysOfLicense} dias de 
+    licencia`
+    if (daysOfLicense > 0) {
+      document.getElementById('daysOfLicenseSpan').classList.remove('hidden')
+    }
+  }
 
   return (
     <div className='w-full flex flex-col justify-center items-center'>
@@ -128,8 +174,9 @@ const FormLicense = (licenses) => {
           <label className='grid grid-rows-2 grid-cols-2 w-4/5 max-w-[270px] md:max-w-[450px] gap-x-3 md:gap-x-10'>
             <span className=''>Inicio de licencia:</span>
             <span>Fin de licencia:</span>
-            <input ref={inpStartDate} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
-            <input ref={inpEndDate} type="date" name="endDate" id="endDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
+            <input ref={inpStartDate} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
+            <input ref={inpEndDate} onChange={daysOfLicense} type="date" name="endDate" id="endDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
+            <span id='daysOfLicenseSpan' className='col-span-2 text-center mt-3'></span>
           </label>
         </label>
         <label className='flex flex-col gap-4 md:col-span-2 lg:col-span-4'>

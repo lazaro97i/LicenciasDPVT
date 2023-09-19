@@ -13,8 +13,7 @@ const FormSignIn = () => {
   const inpUser = useRef(null)
   const inpPass = useRef(null)
 
-  const sendUser = async (e) => {
-    e.preventDefault()
+  const sendUser = async () => {
 
     const dataUser = {
       email: inpUser.current.value,
@@ -35,7 +34,7 @@ const FormSignIn = () => {
   return (
     <>
       <h1 className='text-3xl'>Licencias DPVT</h1>
-      <form className="border rounded-lg w-full max-w-[600px] flex flex-col items-center mt-20 py-10 gap-10 bg-transparent" action="post">
+      <form onKeyDown={(e) => { e.code === 'Enter' ? sendUser() : null }} className="border rounded-lg w-full max-w-[600px] flex flex-col items-center mt-20 py-10 gap-10 bg-transparent" action="post">
         <p className="text-2xl">Iniciar Sesion</p>
         <label className="flex flex-col bg-transparent w-[250px]">
           <input ref={inpUser} className="border-b outline-none py-1 pl-2" type="text" name="user" id="user" placeholder='Usuario' />

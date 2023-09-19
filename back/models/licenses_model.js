@@ -9,11 +9,15 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  startDate: {
+  year: {
     type: String,
     required: true
   },
-  endDate: {
+  month: {
+    type: String,
+    required: true
+  },
+  day: {
     type: String,
     required: true
   },
