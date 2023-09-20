@@ -1,26 +1,39 @@
-import React, { useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import userActions from '../store/users/actions'
+import toast from 'react-hot-toast'
 
-const { signUp } = userActions
+const { signUp, signinToken } = userActions
 
 const NewUser = () => {
 
   const dispatch = useDispatch()
-
-  const inpFile = useRef('')
-  const inpPass = useRef('')
-  const inpPhoto = useRef('')
+  const userStore = useSelector((store) => store.user)
+  const inpFile = useRef(null)
+  const inpPass = useRef(null)
+  const inpPhoto = useRef(null)
   const [role, setRole] = useState(undefined)
 
-  const submitSignout = (e) => {
+  const submitSignout = async (e) => {
     const data = {
-      fileNumber: inpFile.current.value,
-      password: inpPass.current.value,
+      fileNumber: inpFile.current.value ? inpFile.current.value : null,
+      password: inpPass.current.value ? inpPass.current.value : null,
       photo: inpPhoto.current.value,
       role: role
     }
-    dispatch(signUp(data))
+    let response = await dispatch(signUp(data))
+    if (response.payload.success) {
+      toast.success('Usuario creado correctamente')
+    } else {
+      response?.payload?.message?.map((e) => {
+        if (e.message) {
+          toast.error(e.message)
+        } else {
+          toast.error(e)
+        }
+      })
+    }
+    dispatch(signinToken({ token: localStorage.getItem('token') }))
   }
 
   return (

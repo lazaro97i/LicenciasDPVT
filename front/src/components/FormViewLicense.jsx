@@ -11,13 +11,17 @@ const FormViewLicense = ({ licenseFound }) => {
   const dispatch = useDispatch()
 
   const sendFile = async () => {
-    // await e.preventDefault()
     let response = await dispatch(get_licenses(inpFile.current.value))
     if (response?.payload?.success) {
-      toast.success(`${response?.payload?.message}`)
-      licenseFound(true)
+      if (response?.payload?.response?.licenses?.length > 0) {
+        toast.success(`${response?.payload?.message}`)
+        licenseFound(true)
+      } else {
+        toast.success(`⚠️ El legajo ingresado no posee licencias`, { duration: 6000 })
+        licenseFound(true)
+      }
     } else {
-      toast.error(`${response?.payload?.message ? response?.payload?.message : "Error"}`)
+      toast.error(response.payload.message ? response.payload.message : 'Error')
       licenseFound(false)
     }
   }

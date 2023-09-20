@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import userActions from '../store/users/actions'
+import toast from 'react-hot-toast'
 
 const { signIn, signinToken } = userActions
 
@@ -16,7 +17,7 @@ const FormSignIn = () => {
   const sendUser = async () => {
 
     const dataUser = {
-      email: inpUser.current.value,
+      fileNumber: inpUser.current.value,
       password: inpPass.current.value
     }
 
@@ -27,6 +28,9 @@ const FormSignIn = () => {
       if (response.payload.success) {
         localStorage.setItem('token', response.payload.response.token)
         navigate('/reg_license')
+        toast.success('Usuario autenticado')
+      } else {
+        toast.error(response.payload.message)
       }
     }
   }
