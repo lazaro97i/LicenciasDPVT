@@ -42,7 +42,7 @@ const LicensesModal = ({ handleModal }) => {
     for (let dia = 0; dia < d; dia++) {
       if (month && year) {
         let dias = new Date(year, month - 1, dia + 1)
-        licenseStore.licenses.licenses.forEach((l) => {
+        licenseStore?.licenses?.licenses?.forEach((l) => {
           if (dias.getFullYear() === parseInt(l.year) &&
             (dias.getMonth() + 1) === parseInt(l.month) &&
             dias.getDate() === parseInt(l.day)
@@ -55,6 +55,10 @@ const LicensesModal = ({ handleModal }) => {
     }
   }
   generateMonths()
+
+  useEffect(() => {
+    generateCalendar()
+  }, [licenseStore.success])
 
   const generateCalendar = () => {
     const calendar = document.getElementById('divCalendar')
