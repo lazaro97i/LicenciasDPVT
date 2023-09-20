@@ -29,7 +29,7 @@ const FormLicense = (licenses) => {
   let [typeLicense, setTipeLicense] = useState(null)
   let inpObserv = useRef('')
 
-  const handleData = async () => {
+  const handleData = async (e) => {
     const data = {
       fileNumber: (inpFile.current.value).toLowerCase(),
       name: (inpName.current.value).toLowerCase(),

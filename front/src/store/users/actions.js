@@ -51,7 +51,7 @@ const signinToken = createAsyncThunk('users/signinToken', async ({ token: token 
     console.log(e)
     return {
       response: null,
-      message: e.response.data.response,
+      message: [e.response.data.response],
       success: e.response.data.success
     }
   }

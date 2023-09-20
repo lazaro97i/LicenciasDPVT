@@ -79,7 +79,9 @@ const LicensesModal = ({ handleModal }) => {
 
       }
     })
-    calendar.innerHTML = fragment
+    if (calendar) {
+      calendar.innerHTML = fragment
+    }
     daysOfLicense.forEach((d) => {
       let day = document.getElementById(`${d.getDate()}`)
       day.classList.add("bg-red-700")
