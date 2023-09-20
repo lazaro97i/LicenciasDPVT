@@ -99,18 +99,28 @@ const controller = {
 
     const data = {
       fileNumber: req.body.fileNumber,
-      password: bcryptjs.hashSync(req.body.password, 10),
+      // password: bcryptjs.hashSync(req.body.password, 10),
       photo: req.body.photo,
       role: req.body.role,
       status: false
     }
+    if (req.body.password) {
+      data.password = bcryptjs.hashSync(req.body.password, 10)
+    }
 
     try {
-      await User.create(data)
-      req.body.success = true
-      req.body.sc = 201
-      req.body.data = "Usuario creado con éxito!"
-      return defaultResponse(req, res)
+      const newUser = await User.create(data)
+      if (newUser) {
+        req.body.success = true
+        req.body.sc = 201
+        req.body.data = "Usuario creado con éxito!"
+        return defaultResponse(req, res)
+      } else {
+        req.body.success = false
+        req.body.sc = 400
+        req.body.data = "Error al crear el usuario verifique los datos"
+        return defaultResponse(req, res)
+      }
     } catch (e) {
       console.log(e)
     }
