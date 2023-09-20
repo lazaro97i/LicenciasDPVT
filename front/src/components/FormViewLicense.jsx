@@ -11,7 +11,6 @@ const FormViewLicense = ({ licenseFound }) => {
   const dispatch = useDispatch()
 
   const sendFile = async () => {
-    // await e.preventDefault()
     let response = await dispatch(get_licenses(inpFile.current.value))
     if (response?.payload?.success) {
       toast.success(`${response?.payload?.message}`)
