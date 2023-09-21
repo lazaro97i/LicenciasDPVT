@@ -39,7 +39,7 @@ const NewUser = () => {
       dispatch(signinToken({ token: localStorage.getItem('token') }))
     } else {
       response?.payload?.message?.map((e) => {
-        toast.error(e.message)
+        e.message ? toast.error(e.message) : toast.error(e)
         dispatch(signinToken({ token: localStorage.getItem('token') }))
       })
     }
