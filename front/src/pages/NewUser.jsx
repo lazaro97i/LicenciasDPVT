@@ -40,7 +40,9 @@ const NewUser = () => {
 
   useEffect(() => {
     if (userStore?.userAuth?.role !== 'ADMIN_ROLE') {
-      toast.error('No autorizado')
+      if (window.location.pathname === '/reg_license') {
+        toast.error('No autorizado')
+      }
       navigate('/reg_license')
     }
   }, [])
