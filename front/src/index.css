@@ -6,14 +6,13 @@
   padding: 0%;
   margin: 0%;
   box-sizing: border-box;
-  font-family: 'Asap', sans-serif;
-  color: #f0f1ef;
+  font-family: 'Poppins', sans-serif;
+  color: #0f2942;
+  border-color: #a6aaae;
 }
 
 #root {
-  background: url('./assets/background.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: #f1f8fe;
   scrollbar-gutter: stable;
   height: 100vh;
   overflow: auto;
@@ -47,7 +46,8 @@ label {
 }
 
 select option {
-  background: #020418;
+  background: #0f2942;
+  color: #f1f8fe;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -56,4 +56,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .first_class {
   grid-column-start: var(--d1);
+}
+
+.li-license:hover {
+  #svgArrowBot {
+    stroke: #f1f8fe;
+  }
 }

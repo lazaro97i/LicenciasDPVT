@@ -26,7 +26,7 @@ const LicensesModal = ({ handleModal }) => {
   let days = []
 
   const generateYears = () => {
-    let year = 2000
+    let year = 2010
     let actualYear = new Date().getFullYear()
     for (year; year <= actualYear + 1; year++) {
       years.push(year)
@@ -69,13 +69,13 @@ const LicensesModal = ({ handleModal }) => {
         let d1 = (d.getDay() + 1)
         rootElement.style.setProperty('--d1', d1)
         if (d.getDay() === 0 || d.getDay() === 6) {
-          fragment += `<li id='${d.getDate()}' class='first_class p-[.2rem] rounded-sm text-center bg-yellow-700'>${d.getDate()}</li>`
+          fragment += `<li id='${d.getDate()}' class='first_class p-[.2rem] rounded-sm text-center bg-[#0f2942] text-[#f1f8fe]'>${d.getDate()}</li>`
         } else {
           fragment += `<li id='${d.getDate()}' class='first_class p-[.2rem] rounded-sm text-center'>${d.getDate()}</li>`
         }
       } else {
         if (d.getDay() === 0 || d.getDay() === 6) {
-          fragment += `<li id='${d.getDate()}' class='p-[.2rem] rounded-sm text-center bg-yellow-700'>${d.getDate()}</li>`
+          fragment += `<li id='${d.getDate()}' class='p-[.2rem] rounded-sm text-center bg-[#0f2942] text-[#f1f8fe]'>${d.getDate()}</li>`
         } else {
           fragment += `<li class='p-[.2rem] rounded-sm text-center' id='${d.getDate()}'>${d.getDate()}</li>`
         }
@@ -87,7 +87,7 @@ const LicensesModal = ({ handleModal }) => {
     }
     daysOfLicense.forEach((d) => {
       let day = document.getElementById(`${d.getDate()}`)
-      day.classList.add("bg-red-700")
+      day.classList.add("bg-red-700", "text-[#f1f8fe]")
     })
   }
 
@@ -98,7 +98,7 @@ const LicensesModal = ({ handleModal }) => {
       {
         licenseStore?.licenses
           ? <>
-            <p className='text-2xl font-medium mb-5'>{licenseStore.licenses.employee.name}</p>
+            <p className='text-2xl font-[600] mb-5'>{(licenseStore.licenses.employee.name).toUpperCase()}</p>
             <div className='w-full max-h-[380px] flex flex-col items-center'>
               <form className='flex items-end justify-evenly w-full'>
                 <label className='flex flex-col gap-3'>
@@ -134,21 +134,21 @@ const LicensesModal = ({ handleModal }) => {
             </div>
             <div className='min-h-[335px] border rounded-sm my-5 px-3 pb-2 flex flex-col items-center justify-center'>
               <ol className='grid grid-cols-7 gap-4 w-full text-center border-b pb-2'>
-                <li>D</li>
-                <li>L</li>
-                <li>M</li>
-                <li>M</li>
-                <li>J</li>
-                <li>V</li>
-                <li>S</li>
+                <li className='font-[600]'>D</li>
+                <li className='font-[600]'>L</li>
+                <li className='font-[600]'>M</li>
+                <li className='font-[600]'>M</li>
+                <li className='font-[600]'>J</li>
+                <li className='font-[600]'>V</li>
+                <li className='font-[600]'>S</li>
               </ol>
               <ol id='divCalendar' className='grid grid-flow-row grid-cols-7 gap-4 mt-2'>
 
               </ol>
             </div>
-            <div className='w-[300px] flex items-center justify-center gap-2'>
-              <p className='bg-yellow-700 px-2'>Sabado/domingo</p>
-              <p className='bg-red-700 px-2'>Dias de licencia</p>
+            <div className='w-[350px] flex items-center justify-center gap-2'>
+              <p className='bg-[#0f2942] px-2 text-[#f1f8fe]'>Sabado/domingo</p>
+              <p className='bg-red-700 px-2 text-[#f1f8fe]'>Dias de licencia</p>
             </div>
           </>
           : null

@@ -27,7 +27,8 @@ const SignIn = () => {
   }, [userStore?.success])
 
   return (
-    <div id="home" className="div-contain h-screen w-full flex flex-col justify-center items-center px-6">
+    <div id="home" className="div-contain h-screen w-full flex flex-col justify-center items-center px-6 bg-[#0f2942]">
+      <h1 className='text-4xl md:text-5xl text-[#f1f8fe] font-[700] mb-14'>Licencias DPVT</h1>
       <FormSignIn />
     </div>
   )

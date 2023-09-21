@@ -28,9 +28,9 @@ const FormViewLicense = ({ licenseFound }) => {
 
   return (
     <>
-      <h1 className='text-3xl'>Ver licencia</h1>
-      <form onKeyDown={(e) => { e.code === 'Enter' ? sendFile() : null }} className="border rounded-lg w-full max-w-[600px] flex flex-wrap justify-center gap-x-2 mt-20 py-10">
-        <p className="text-2xl text-center w-full mb-8">Ingresar Legajo:</p>
+      <h1 className='text-4xl font-[600]'>Ver licencia</h1>
+      <form onKeyDown={(e) => { e.code === 'Enter' ? sendFile() : null }} className="border rounded-sm w-full max-w-[600px] flex flex-wrap justify-center gap-x-2 mt-20 py-10">
+        <p className="text-2xl text-center font-[500] w-full mb-8">Ingresar Legajo:</p>
         <label>
           <input ref={inpFile} className='outline-none border-b pl-1 w-[100px] text-center' type="number" name="file" id="file" placeholder='Legajo' />
         </label>
@@ -39,7 +39,7 @@ const FormViewLicense = ({ licenseFound }) => {
         </label>
         <label>
           <span onClick={sendFile} className='cursor-pointer'>
-            <svg className='pointer-events-none' width={'30px'} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#f0f1ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+            <svg className='pointer-events-none' width={'30px'} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#0f2942" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
           </span>
         </label>
       </form >
