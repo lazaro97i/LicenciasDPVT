@@ -92,7 +92,7 @@ const FormLicense = (licenses) => {
 
   const daysOfLicense = (e) => {
     let initialDate = inpStartDate.current.value.split('-')
-    let finalDate = inpEndDate.current.value.split('-')
+    let finalDate = inpEndDate?.current?.value.split('-')
     let initialDateFormat = new Date(initialDate[0], initialDate[1] - 1, initialDate[2])
     let finalDateFormat = new Date(finalDate[0], finalDate[1] - 1, finalDate[2])
     let days = Math.floor((finalDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24)) + 1
@@ -170,15 +170,19 @@ const FormLicense = (licenses) => {
         <label>
           <input ref={inpDedication} type="text" name="dedicationOp" id="dedicationOp" placeholder='Dedicacion op.' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label className='md:col-span-2'>
-          <label className='grid grid-rows-2 grid-cols-2 w-4/5 max-w-[270px] md:max-w-[450px] gap-x-3 md:gap-x-10'>
-            <span className=''>Inicio de licencia:</span>
-            <span>Fin de licencia:</span>
-            <input ref={inpStartDate} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
-            <input ref={inpEndDate} onChange={daysOfLicense} type="date" name="endDate" id="endDate" className='outline-none border-b rounded-sm text-center max-w-[270px] md:max-w-[350px]' />
+        <div className='w-full flex justify-center md:col-span-2'>
+          <div className='md:col-span-2 grid grid-rows-1 grid-cols-2 w-[350px] items-center'>
+            <label className='flex flex-col'>
+              <span>Inicio de licencia:</span>
+              <input ref={inpStartDate} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center' />
+            </label>
+            <label className='flex flex-col'>
+              <span>Fin de licencia:</span>
+              <input ref={inpEndDate} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center' />
+            </label>
             <span id='daysOfLicenseSpan' className='col-span-2 text-center mt-3'></span>
-          </label>
-        </label>
+          </div>
+        </div>
         <label className='flex flex-col gap-4 md:col-span-2 lg:col-span-4'>
           <span className='text-start w-4/5 max-w-[270px] md:max-w-[350px]'>Tipo de licencia:</span>
           <select onClick={(e) => setTipeLicense(e.target.value)} name="select" id="select" className='outline-none bg-transparent border-b w-4/5 max-w-[270px] md:max-w-[350px]'>
