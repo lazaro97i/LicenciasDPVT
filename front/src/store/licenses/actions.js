@@ -31,6 +31,10 @@ const createLicense = createAsyncThunk('licenses/createLicense', async (data) =>
     }
   } catch (e) {
     console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     return {
       response: null,
       message: e.response.data.response,
@@ -53,6 +57,10 @@ const get_licenses = createAsyncThunk('licenses/get_licenses', async (file) => {
     }
   } catch (e) {
     console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     return {
       response: null,
       message: e.response.data.response,

@@ -72,6 +72,10 @@ const signOut = createAsyncThunk('users/signOut', async () => {
     }
   } catch (e) {
     console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     return {
       response: null,
       message: e.response.data.response,
@@ -95,6 +99,10 @@ const signUp = createAsyncThunk('users/signup', async (data) => {
     }
   } catch (e) {
     console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     return {
       response: null,
       message: e.response.data.response,

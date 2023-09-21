@@ -31,6 +31,10 @@ const getEmployee = createAsyncThunk('employee/getEmployee', async (file) => {
     }
   } catch (e) {
     console.log(e.response.data.response)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
     return {
       response: null,
       message: e.response.data.response,
