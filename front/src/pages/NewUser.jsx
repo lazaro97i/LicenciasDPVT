@@ -16,6 +16,13 @@ const NewUser = () => {
   const inpPhoto = useRef(null)
   const [role, setRole] = useState(undefined)
 
+  useEffect(() => {
+    if (userStore?.userAuth?.role !== 'ADMIN_ROLE' &&
+      userStore?.userAuth?.length > 0) {
+      navigate('/reg_license')
+    }
+  }, [])
+
   const submitSignout = async (e) => {
     const data = {
       fileNumber: inpFile.current.value ? inpFile.current.value : null,
@@ -38,14 +45,6 @@ const NewUser = () => {
     dispatch(signinToken({ token: localStorage.getItem('token') }))
   }
 
-  useEffect(() => {
-    if (userStore?.userAuth?.role !== 'ADMIN_ROLE') {
-      if (window.location.pathname === '/reg_license') {
-        toast.error('No autorizado')
-      }
-      navigate('/reg_license')
-    }
-  }, [])
 
   return (
     <div className='w-full h-full div-contain flex flex-col items-center px-6 pt-28 pb-10'>
