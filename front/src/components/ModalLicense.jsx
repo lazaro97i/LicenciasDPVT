@@ -58,17 +58,20 @@ const LicensesModal = ({ handleModal }) => {
 
   useEffect(() => {
     generateCalendar()
-  }, [licenseStore.success])
+  }, [licenseStore.success, month, year])
 
   const generateCalendar = () => {
     const calendar = document.getElementById('divCalendar')
     let fragment = ''
     days.forEach(d => {
       if (d.getDate() == 1) {
+        let rootElement = document.getElementById('root')
+        let d1 = (d.getDay() + 1)
+        rootElement.style.setProperty('--d1', d1)
         if (d.getDay() === 0 || d.getDay() === 6) {
-          fragment += `<li id='${d.getDate()}' class='p-[.2rem] rounded-sm text-center bg-yellow-700 col-start-${parseInt(d.getDay() + 1)}'>${d.getDate()}</li>`
+          fragment += `<li id='${d.getDate()}' class='first_class p-[.2rem] rounded-sm text-center bg-yellow-700'>${d.getDate()}</li>`
         } else {
-          fragment += `<li id='${d.getDate()}' class='p-[.2rem] rounded-sm text-center col-start-${parseInt(d.getDay() + 1)}'>${d.getDate()}</li>`
+          fragment += `<li id='${d.getDate()}' class='first_class p-[.2rem] rounded-sm text-center'>${d.getDate()}</li>`
         }
       } else {
         if (d.getDay() === 0 || d.getDay() === 6) {
@@ -100,7 +103,7 @@ const LicensesModal = ({ handleModal }) => {
               <form className='flex items-end justify-evenly w-full'>
                 <label className='flex flex-col gap-3'>
                   <span>Ingresar mes:</span>
-                  <select defaultValue={new Date().getMonth()} onClick={generateCalendar}
+                  <select defaultValue={new Date().getMonth()}
                     onChange={(e) => { setMonth(parseInt(e.target.value) + 1) }} className='bg-transparent outline-none border rounded-sm px-1 py-1'>
                     {
                       months.map((m, i) => {
@@ -115,7 +118,7 @@ const LicensesModal = ({ handleModal }) => {
                 </label>
                 <label className='flex flex-col gap-3'>
                   <span>Ingresar año:</span>
-                  <select onClick={generateCalendar} onChange={(e) => { setYear(parseInt(e.target.value)) }} defaultValue={new Date().getFullYear()} className='bg-transparent outline-none border rounded-sm px-1 py-1' name="sectionYear" id="sectionYear">
+                  <select onChange={(e) => { setYear(parseInt(e.target.value)) }} defaultValue={new Date().getFullYear()} className='bg-transparent outline-none border rounded-sm px-1 py-1' name="sectionYear" id="sectionYear">
                     {
                       years.map((y, i) => {
                         return (
@@ -129,8 +132,8 @@ const LicensesModal = ({ handleModal }) => {
                 </label>
               </form>
             </div>
-            <div className='min-h-[290px] border rounded-sm my-5 px-3 pb-2 flex flex-col items-center justify-center'>
-              <ol className='grid grid-cols-7 gap-4 mt-5 w-full text-center border-b pb-2'>
+            <div className='min-h-[335px] border rounded-sm my-5 px-3 pb-2 flex flex-col items-center justify-center'>
+              <ol className='grid grid-cols-7 gap-4 w-full text-center border-b pb-2'>
                 <li>D</li>
                 <li>L</li>
                 <li>M</li>
@@ -139,7 +142,7 @@ const LicensesModal = ({ handleModal }) => {
                 <li>V</li>
                 <li>S</li>
               </ol>
-              <ol id='divCalendar' className='grid grid-cols-7 gap-4 mt-2'>
+              <ol id='divCalendar' className='grid grid-flow-row grid-cols-7 gap-4 mt-2'>
 
               </ol>
             </div>
@@ -155,22 +158,3 @@ const LicensesModal = ({ handleModal }) => {
 }
 
 export default LicensesModal
-
-
-// {
-//   licenses?.map((li, i) => {
-//     return (
-//       <div key={i} className='border rounded-md w-[calc(1_/_%100)] flex flex-col items-start justify-center py-5 px-4 absolute top-0 left-0 col-span-1'>
-//         {/* <p>Tipo de licencia: {li?.typeLicense}</p>
-//         <p className=' self-center mt-5 mb-2'>Observacion:</p>
-//         <span className='self-center text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore perspiciatis totam, sunt minima deserunt delectus esse eum nisi eaque expedita iusto, soluta ea quae facere nobis nihil fuga fugit iste!</span>
-//         <div className='w-full flex justify-center mt-5 gap-12'>
-//           <p className='flex flex-col items-center'>Inicio: <span>{li?.startDate}</span></p>
-//           <p className='flex flex-col items-center'>Finalizacion: <span>{li?.endDate}</span></p>
-//         </div>
-//         <p className='pt-5'>Registrada por: {li?.userId}</p> */}
-
-//       </div>
-//     )
-//   })
-// }

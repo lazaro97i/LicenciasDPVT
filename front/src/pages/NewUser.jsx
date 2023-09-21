@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import userActions from '../store/users/actions'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const { signUp, signinToken } = userActions
 
 const NewUser = () => {
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const userStore = useSelector((store) => store.user)
   const inpFile = useRef(null)
   const inpPass = useRef(null)
@@ -35,6 +37,15 @@ const NewUser = () => {
     }
     dispatch(signinToken({ token: localStorage.getItem('token') }))
   }
+
+  useEffect(() => {
+    if (userStore?.userAuth?.role !== 'ADMIN_ROLE') {
+      if (window.location.pathname === '/reg_license') {
+        toast.error('No autorizado')
+      }
+      navigate('/reg_license')
+    }
+  }, [])
 
   return (
     <div className='w-full h-full div-contain flex flex-col items-center px-6 pt-28 pb-10'>
