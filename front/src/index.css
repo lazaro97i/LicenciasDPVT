@@ -14,9 +14,9 @@
   background: url('./assets/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  scrollbar-gutter: stable;
   height: 100vh;
   overflow: auto;
-  scrollbar-gutter: auto;
 }
 
 #user,
@@ -52,4 +52,8 @@ select option {
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
+}
+
+.first_class {
+  grid-column-start: var(--d1);
 }

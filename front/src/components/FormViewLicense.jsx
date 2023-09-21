@@ -48,11 +48,3 @@ const FormViewLicense = ({ licenseFound }) => {
 }
 
 export default FormViewLicense
-
-// <form action='#' onKeyDown={enterKey} className="border rounded-lg w-full max-w-[600px] flex flex-wrap justify-center gap-x-5 mt-20 py-10 bg-transparent">
-//      <p className="text-2xl text-center w-full mb-8">Ingresar Legajo:</p>
-//    <label className="flex flex-col bg-transparent">
-//   <input ref={inpFile} className="border-b outline-none py-1 pl-2 w-[100px] text-center" type="number" name="user" id="user" placeholder='Legajo' />
-//  </label>
-{/* <input onClick={sendFile} className="text-xl cursor-pointer border border-[#79b0ff] px-6 py-1 rounded-md text-[#79b0ff] hover:bg-[#101a50] hover:text-[#f0f1ef] transition-all duration-300" type="button" value="Ver" /> */ }
-//     </form>
