@@ -50,10 +50,6 @@ select option {
   color: #f1f8fe;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
-
 .first_class {
   grid-column-start: var(--d1);
 }

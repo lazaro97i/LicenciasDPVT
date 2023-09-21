@@ -30,18 +30,21 @@ const NewUser = () => {
       photo: inpPhoto.current.value,
       role: role
     }
-    let response = await dispatch(signUp(data))
-    if (response.payload.success) {
-      toast.success('Usuario creado correctamente')
+    try {
+      let response = await dispatch(signUp(data))
+      if (response.payload.success) {
+        toast.success('Usuario creado correctamente')
+      } else if (response.payload.message === 'Usuario no autorizado') {
+        toast.error(response.payload.message)
+      } else {
+        response?.payload?.message?.map((e) => {
+          e.message ? toast.error(e.message) : toast.error(e)
+        })
+      }
+    } catch (e) {
+      console.log(e)
+    } finally {
       dispatch(signinToken({ token: localStorage.getItem('token') }))
-    } else if (response.payload.message === 'Usuario no autorizado') {
-      toast.error(response.payload.message)
-      dispatch(signinToken({ token: localStorage.getItem('token') }))
-    } else {
-      response?.payload?.message?.map((e) => {
-        e.message ? toast.error(e.message) : toast.error(e)
-        dispatch(signinToken({ token: localStorage.getItem('token') }))
-      })
     }
   }
 
