@@ -1,41 +1,61 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import userActions from '../store/users/actions'
 import { Link, useNavigate } from 'react-router-dom'
 
 const { signOut } = userActions
 
+const routesAdmin = [
+  {
+    path: '/new_user',
+    name: 'Agregar usuario'
+  },
+  {
+    path: null,
+    name: 'Licencias',
+    children: [
+      {
+        path: '/reg_license',
+        name: 'Agregar licencia'
+      },
+      {
+        path: '/view_license',
+        name: 'Ver licencia'
+      }
+    ]
+  },
+  {
+    path: '',
+    name: 'Perfil'
+  }
+]
+const routesUser = [
+  {
+    path: null,
+    name: 'Licencias',
+    children: [
+      {
+        path: '/reg_license',
+        name: 'Agregar licencia'
+      },
+      {
+        path: '/view_license',
+        name: 'Ver licencia'
+      }
+    ]
+  },
+  {
+    path: '',
+    name: 'Perfil'
+  }
+]
+
 const Nav = () => {
 
   const [nav, setNav] = useState(false)
   const [navLicenses, setNavLicenses] = useState(false)
+  const userStore = useSelector((store) => store.user)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-
-  const routes = [
-    {
-      path: '/new_user',
-      name: 'Agregar usuario'
-    },
-    {
-      path: null,
-      name: 'Licencias',
-      children: [
-        {
-          path: '/reg_license',
-          name: 'Agregar licencia'
-        },
-        {
-          path: '/view_license',
-          name: 'Ver licencia'
-        }
-      ]
-    },
-    {
-      path: '',
-      name: 'Perfil'
-    }
-  ]
 
   const signout = async (e) => {
     const response = await dispatch(signOut())
@@ -54,34 +74,63 @@ const Nav = () => {
         <div onClick={toggleNav} className='absolute w-screen h-screen bg-[#050712c6] top-0 left-[350px] [backdrop-filter:_blur(2px)]'></div>
         <ul className='w-full flex flex-col mt-20 gap-8 items-start'>
           {
-            routes.map((route, i) => {
-              return (
-                route.path !== null
-                  ? <Link className='pl-10' onClick={toggleNav} key={i} to={route.path}>{route.name}</Link>
-                  :
-                  <div className='relative pl-10' key={i}>
-                    <div key={i} onClick={() => setNavLicenses(!navLicenses)} className='flex gap-5 items-center cursor-pointer'>
-                      <li>{route.name}</li>
-                      <span>
-                        <svg width={'30px'} viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#f0f1ef" strokeWidth="3.5"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.384"></g><g id="SVGRepo_iconCarrier"><polyline points="48 32 32 48 16 32"></polyline><polyline points="48 16 32 32 16 16"></polyline></g></svg>
-                      </span>
+            userStore?.userAuth?.role === 'ADMIN_ROLE'
+              ? routesAdmin.map((route, i) => {
+                return (
+                  route.path !== null
+                    ? <Link className='pl-10' onClick={toggleNav} key={i} to={route.path}>{route.name}</Link>
+                    :
+                    <div className='relative pl-10' key={i}>
+                      <div key={i} onClick={() => setNavLicenses(!navLicenses)} className='flex gap-5 items-center cursor-pointer'>
+                        <li>{route.name}</li>
+                        <span>
+                          <svg width={'30px'} viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#f0f1ef" strokeWidth="3.5"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.384"></g><g id="SVGRepo_iconCarrier"><polyline points="48 32 32 48 16 32"></polyline><polyline points="48 16 32 32 16 16"></polyline></g></svg>
+                        </span>
+                      </div>
+                      {
+                        navLicenses
+                          ? <div className='flex flex-col items-center pt-2 pb-2 gap1 absolute bg-[#f0f1ef] w-[200px] rounded-b-md'>
+                            {
+                              route.children.map((route, i) => {
+                                return (
+                                  <Link className='text-[#0d1223] w-full text-center py-2 font-medium hover:bg-[#0d1223] hover:text-[#f0f1ef] transition-all duration-300' key={i} onClick={() => { toggleNav(), setNavLicenses(!navLicenses) }} to={route.path}>{route.name}</Link>
+                                )
+                              })
+                            }
+                          </div>
+                          : null
+                      }
                     </div>
-                    {
-                      navLicenses
-                        ? <div className='flex flex-col items-center pt-2 pb-2 gap1 absolute bg-[#f0f1ef] w-[200px] rounded-b-md'>
-                          {
-                            route.children.map((route, i) => {
-                              return (
-                                <Link className='text-[#0d1223] w-full text-center py-2 font-medium hover:bg-[#0d1223] hover:text-[#f0f1ef] transition-all duration-300' key={i} onClick={() => { toggleNav(), setNavLicenses(!navLicenses) }} to={route.path}>{route.name}</Link>
-                              )
-                            })
-                          }
-                        </div>
-                        : null
-                    }
-                  </div>
-              )
-            })
+                )
+              })
+              : routesUser.map((route, i) => {
+                return (
+                  route.path !== null
+                    ? <Link className='pl-10' onClick={toggleNav} key={i} to={route.path}>{route.name}</Link>
+                    :
+                    <div className='relative pl-10' key={i}>
+                      <div key={i} onClick={() => setNavLicenses(!navLicenses)} className='flex gap-5 items-center cursor-pointer'>
+                        <li>{route.name}</li>
+                        <span>
+                          <svg width={'30px'} viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#f0f1ef" strokeWidth="3.5"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.384"></g><g id="SVGRepo_iconCarrier"><polyline points="48 32 32 48 16 32"></polyline><polyline points="48 16 32 32 16 16"></polyline></g></svg>
+                        </span>
+                      </div>
+                      {
+                        navLicenses
+                          ? <div className='flex flex-col items-center pt-2 pb-2 gap1 absolute bg-[#f0f1ef] w-[200px] rounded-b-md'>
+                            {
+                              route.children.map((route, i) => {
+                                return (
+                                  <Link className='text-[#0d1223] w-full text-center py-2 font-medium hover:bg-[#0d1223] hover:text-[#f0f1ef] transition-all duration-300' key={i} onClick={() => { toggleNav(), setNavLicenses(!navLicenses) }} to={route.path}>{route.name}</Link>
+                                )
+                              })
+                            }
+                          </div>
+                          : null
+                      }
+                    </div>
+                )
+              })
           }
         </ul>
         <span onClick={toggleNav} className='absolute top-5 right-5 cursor-pointer'>
