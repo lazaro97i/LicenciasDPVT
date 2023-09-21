@@ -64,11 +64,10 @@ const Nav = () => {
       location.reload()
     }
   }
-
   const toggleNav = (e) => {
     setNav(!nav)
   }
-  console.log(userStore);
+
   const NavContent = () => {
     return (
       <div className='fixed top-0 left-0 w-full max-w-[250px] bg-[#e3effb] border-r h-screen flex justify-center z-10'>
@@ -130,8 +129,8 @@ const Nav = () => {
               })
           }
         </ul>
-        <span onClick={toggleNav} className='absolute top-5 right-5 cursor-pointer'>
-          <svg fill="#0f2942" width={'45px'} viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>cancel2</title> <path d="M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z"></path> </g></svg>
+        <span onClick={() => { toggleNav(), setNavLicenses(false) }} className='absolute top-5 right-5 cursor-pointer'>
+          <svg fill="#0f2942" width={'45px'} viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z"></path> </g></svg>
         </span>
         <input onClick={signout} type="button" value="Cerrar sesión" className='rounded-md px-3 py-2 bg-[#a30d26] hover:bg-[#a9293a] cursor-pointer absolute bottom-32 text-[#f1f8fe]' />
       </div >
@@ -149,7 +148,7 @@ const Nav = () => {
             <img className='w-[50px]' src={userStore?.userAuth?.photo} alt="" />
           </div>
           <div>
-            <p className='text-[#f1f8fe] font-[400] text-[1rem]'>{(userStore?.userAuth?.name).toUpperCase()}</p>
+            <p className='text-[#f1f8fe] font-[400] text-[1rem]'>{(userStore?.userAuth?.name)?.toUpperCase()}</p>
             <p className='text-[#f1f8fe] font-[200]'>{userStore?.userAuth?.fileNumber}</p>
           </div>
         </div>

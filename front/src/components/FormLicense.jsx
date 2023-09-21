@@ -64,6 +64,21 @@ const FormLicense = (licenses) => {
     }
   }, [file])
 
+  const resetForm = () => {
+    let formInputs = document.getElementsByTagName('input')
+    let file = document.getElementById('file')
+    const arrayInputs = [...formInputs]
+
+    arrayInputs.map((c, i) => {
+      if (c.type === 'text') {
+        c.value = ""
+        c.readOnly = false
+        c.classList.remove('bg-[#a7a7a731]')
+      }
+    })
+    file.readOnly = false
+  }
+
   useEffect(() => {
     let formInputs = document.getElementsByTagName('input')
     let file = document.getElementById('file')
@@ -72,21 +87,14 @@ const FormLicense = (licenses) => {
       arrayInputs.map((c, i) => {
         if (c.type === 'text') {
           let employee = Object.entries(employeeStore.employee)
-          c.value = employee[i][1]
+          c.value = employee[i + 1][1]
           c.readOnly = true
           c.classList.add('bg-[#a7a7a731]', 'rounded-t-sm')
         }
       })
       file.readOnly = true
     } else {
-      arrayInputs.map((c, i) => {
-        if (c.type === 'text') {
-          c.value = ""
-          c.readOnly = false
-          c.classList.remove('bg-[#a7a7a731]')
-        }
-      })
-      file.readOnly = false
+      resetForm()
     }
   }, [employeeStore])
 
@@ -134,8 +142,14 @@ const FormLicense = (licenses) => {
     <div className='w-full flex flex-col justify-center items-center'>
       <p className='mb-10 text-4xl font-[600] text-center'>Agregar lincencia</p>
       <form action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border border-[#a6aaae] rounded-sm py-10'>
-        <label className='md:col-span-2 lg:col-span-4'>
-          <input ref={inpFile} onClick={(e) => e.target.readOnly ? e.target.readOnly = false : null} onInput={(e) => setFile(e.target.value)} type="number" name="file" id="file" placeholder='Legajo' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+        <label className='md:col-span-2 lg:col-span-4 relative'>
+          <label className='relative'>
+            <input ref={inpFile} onClick={(e) => e.target.readOnly ? e.target.readOnly = false : null} onInput={(e) => setFile(e.target.value)} type="number" name="file" id="file" placeholder='Legajo' className='pl-7 outline-none border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px]' />
+            <span onClick={() => { resetForm(), document.getElementById('file').value = '' }} className='absolute right-10 top-[-3px] cursor-pointer'>
+              <svg fill="#0f2942" width={'25px'} viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z"></path> </g></svg>
+            </span>
+          </label>
+
         </label>
         <label className='md:col-span-2 lg:col-span-4'>
           <input ref={inpName} type="text" name="name" id="name" placeholder='Apellido y nombre' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />

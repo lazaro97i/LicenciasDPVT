@@ -36,9 +36,8 @@ const FormSignIn = () => {
   }
 
   return (
-    <>
-      <h1 className='text-4xl font-[700]'>Licencias DPVT</h1>
-      <form onKeyDown={(e) => { e.code === 'Enter' ? sendUser() : null }} className="border rounded-lg w-full max-w-[600px] flex flex-col items-center mt-20 py-10 gap-10 bg-transparent" action="post">
+    <div className='w-full flex flex-col justify-center items-center bg-[#f1f8fe] py-16 rounded-lg md:max-w-[700px] px-6'>
+      <form onKeyDown={(e) => { e.code === 'Enter' ? sendUser() : null }} className="border rounded-sm w-full max-w-[600px] flex flex-col items-center py-10 gap-10 bg-transparent" action="post">
         <p className="text-2xl font-[500]">Iniciar Sesion</p>
         <label className="flex flex-col bg-transparent w-[250px]">
           <input ref={inpUser} className="border-b outline-none py-1 pl-2" type="text" name="user" id="user" placeholder='Usuario' />
@@ -49,7 +48,7 @@ const FormSignIn = () => {
       </form>
       <div className="w-full max-w-[600px] flex mt-3"><p className="underline cursor-pointer self-start">Olvide la contraseña</p></div>
       <input onClick={sendUser} className="mt-10 text-xl cursor-pointer px-6 py-2 rounded-md bg-[#0f2942] text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Iniciar sesion" />
-    </>
+    </div>
   )
 }
 

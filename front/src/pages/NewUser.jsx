@@ -14,12 +14,12 @@ const NewUser = () => {
   const inpFile = useRef(null)
   const inpPass = useRef(null)
   const inpPhoto = useRef(null)
-  const [role, setRole] = useState(undefined)
+  const [role, setRole] = useState(null)
 
   useEffect(() => {
-    if (userStore?.userAuth?.role !== 'ADMIN_ROLE' &&
-      userStore?.userAuth?.length > 0) {
-      navigate('/reg_license')
+    if (userStore.userAuth.length > 0 &&
+      userStore.userAuth.role !== 'ADMIN_ROLE') {
+      navigate('/')
     }
   }, [])
 
@@ -33,21 +33,21 @@ const NewUser = () => {
     let response = await dispatch(signUp(data))
     if (response.payload.success) {
       toast.success('Usuario creado correctamente')
+      dispatch(signinToken({ token: localStorage.getItem('token') }))
+    } else if (response.payload.message === 'Usuario no autorizado') {
+      toast.error(response.payload.message)
+      dispatch(signinToken({ token: localStorage.getItem('token') }))
     } else {
       response?.payload?.message?.map((e) => {
-        if (e.message) {
-          toast.error(e.message)
-        } else {
-          toast.error(e)
-        }
+        toast.error(e.message)
+        dispatch(signinToken({ token: localStorage.getItem('token') }))
       })
     }
-    dispatch(signinToken({ token: localStorage.getItem('token') }))
   }
 
 
   return (
-    <div className='w-full h-full div-contain flex flex-col items-center px-6 pt-28 pb-10'>
+    <div className='w-full h-full div-contain flex flex-col items-center px-6 pt-16 pb-10'>
       <p className='text-4xl mb-10 font-[600]'>Agregar usuario</p>
       <form className='w-full max-w-[600px] grid grid-cols-1 gap-10 border rounded-sm py-10' >
         <label>
