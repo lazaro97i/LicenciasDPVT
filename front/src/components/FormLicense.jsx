@@ -132,60 +132,60 @@ const FormLicense = (licenses) => {
 
   return (
     <div className='w-full flex flex-col justify-center items-center'>
-      <p className='mb-10 text-3xl text-center'>Agregar lincencia</p>
-      <form action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border rounded-lg py-10'>
+      <p className='mb-10 text-4xl font-[600] text-center'>Agregar lincencia</p>
+      <form action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border border-[#a6aaae] rounded-sm py-10'>
         <label className='md:col-span-2 lg:col-span-4'>
-          <input ref={inpFile} onClick={(e) => e.target.readOnly ? e.target.readOnly = false : null} onInput={(e) => setFile(e.target.value)} type="number" name="file" id="file" placeholder='Legajo' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpFile} onClick={(e) => e.target.readOnly ? e.target.readOnly = false : null} onInput={(e) => setFile(e.target.value)} type="number" name="file" id="file" placeholder='Legajo' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label className='md:col-span-2 lg:col-span-4'>
-          <input ref={inpName} type="text" name="name" id="name" placeholder='Apellido y nombre' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpName} type="text" name="name" id="name" placeholder='Apellido y nombre' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpApart} type="text" name="apartDiv" id="apartDiv" placeholder='Depto/Div' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpApart} type="text" name="apartDiv" id="apartDiv" placeholder='Depto/Div' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpPosition} type="text" name="position" id="position" placeholder='Cargo' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpPosition} type="text" name="position" id="position" placeholder='Cargo' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpFunction} type="text" name="function" id="function" placeholder='Funcion' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpFunction} type="text" name="function" id="function" placeholder='Funcion' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpKeyDate} type="text" name="keyDate" id="keyDate" placeholder='Fecha clave' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpKeyDate} type="text" name="keyDate" id="keyDate" placeholder='Fecha clave' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpZone} type="text" name="zone" id="zone" placeholder='Zona' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpZone} type="text" name="zone" id="zone" placeholder='Zona' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpCamp} type="text" name="camp" id="camp" placeholder='Campamento' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpCamp} type="text" name="camp" id="camp" placeholder='Campamento' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpViatic} type="text" name="viaticB" id="viaticB" placeholder='Viatico "B"' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpViatic} type="text" name="viaticB" id="viaticB" placeholder='Viatico "B"' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpAdded} type="text" name="added" id="added" placeholder='Adscripto' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpAdded} type="text" name="added" id="added" placeholder='Adscripto' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpUprooting} type="text" name="uprooting" id="uprooting" placeholder='Desarraigo' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpUprooting} type="text" name="uprooting" id="uprooting" placeholder='Desarraigo' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
-          <input ref={inpDedication} type="text" name="dedicationOp" id="dedicationOp" placeholder='Dedicacion op.' className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+          <input ref={inpDedication} type="text" name="dedicationOp" id="dedicationOp" placeholder='Dedicacion op.' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <div className='w-full flex justify-center md:col-span-2'>
           <div className='md:col-span-2 grid grid-rows-1 grid-cols-2 w-[350px] items-center'>
             <label className='flex flex-col'>
               <span>Inicio de licencia:</span>
-              <input ref={inpStartDate} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center' />
+              <input ref={inpStartDate} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b border-[#a6aaae] rounded-sm text-center' />
             </label>
             <label className='flex flex-col'>
               <span>Fin de licencia:</span>
-              <input ref={inpEndDate} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b rounded-sm text-center' />
+              <input ref={inpEndDate} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b border-[#a6aaae] rounded-sm text-center' />
             </label>
             <span id='daysOfLicenseSpan' className='col-span-2 text-center mt-3'></span>
           </div>
         </div>
         <label className='flex flex-col gap-4 md:col-span-2 lg:col-span-4'>
           <span className='text-start w-4/5 max-w-[270px] md:max-w-[350px]'>Tipo de licencia:</span>
-          <select onClick={(e) => setTipeLicense(e.target.value)} name="select" id="select" className='outline-none bg-transparent border-b w-4/5 max-w-[270px] md:max-w-[350px]'>
+          <select onClick={(e) => setTipeLicense(e.target.value)} name="select" id="select" className='outline-none bg-transparent border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px]'>
             <option value={null} className='[display:none]'>Seleccione un tipo de licencia</option>
             {
               licenses.licenses.map((l, i) => {
@@ -197,10 +197,10 @@ const FormLicense = (licenses) => {
           </select>
         </label>
         <label className='md:col-span-2 lg:col-span-4'>
-          <textarea ref={inpObserv} name="textarea" id="observationsArea" placeholder='Observaciones ...' className='bg-[#101b436e] resize-none w-4/5 max-w-[270px] md:max-w-[350px] h-[150px] pl-1 rounded-sm border border-[#f0f1ef35]  outline-none'></textarea>
+          <textarea ref={inpObserv} name="textarea" id="observationsArea" placeholder='Observaciones ...' className='bg-[#d8d8d86e] resize-none w-4/5 max-w-[270px] md:max-w-[350px] h-[150px] pl-1 rounded-sm border border-[#00000035]  outline-none'></textarea>
         </label>
       </form>
-      <input onClick={handleData} className="mt-10 text-xl cursor-pointer border border-[#79b0ff] px-6 py-2 rounded-md text-[#79b0ff] hover:bg-[z] hover:text-[#f0f1ef] transition-all duration-300" type="button" value="Aceptar" />
+      <input onClick={handleData} className="mt-10 bg-[#0f2942] text-xl cursor-pointer px-6 py-2 rounded-md text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Aceptar" />
     </div>
   )
 }
