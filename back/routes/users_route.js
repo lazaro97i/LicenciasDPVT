@@ -6,6 +6,7 @@ import passport from '../config/passport.js'
 import userExists from '../middlewares/userExists.js'
 import validatoSchema from '../middlewares/validatorSchema.js'
 import schema from '../schemas/user_schema.js'
+import isAdmin from '../middlewares/isAdmin.js'
 
 const router = express.Router()
 
@@ -25,6 +26,7 @@ router.post('/signup',
   passport.authenticate('jwt', { session: false }),
   validatoSchema(schema),
   userExists,
+  isAdmin,
   signup)
 router.get('/profile',
   passport.authenticate('jwt', { session: false }),

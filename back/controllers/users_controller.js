@@ -90,7 +90,9 @@ const controller = {
         fileNumber: user.fileNumber,
         photo: user.photo,
         role: user.role,
-        name: employe.name
+      }
+      if (employe) {
+        req.body.data.name = employe.name
       }
       defaultResponse(req, res)
     } catch (e) {
@@ -102,13 +104,14 @@ const controller = {
 
     const data = {
       fileNumber: req.body.fileNumber,
-      // password: bcryptjs.hashSync(req.body.password, 10),
-      photo: req.body.photo,
       role: req.body.role,
       status: false
     }
     if (req.body.password) {
       data.password = bcryptjs.hashSync(req.body.password, 10)
+    }
+    if (!req.body.photo || req.body.photo === '') {
+      data.photo = 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png'
     }
 
     try {
