@@ -1,4 +1,5 @@
 import { User } from "../models/users_model.js"
+import { Employee } from '../models/employee_model.js'
 import defaultResponse from '../config/response.js'
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -82,12 +83,14 @@ const controller = {
     let { token } = req.body
     try {
       token = jwt.verify(token, process.env.KEY_JWT)
+      const employe = await Employee.findOne({ fileNumber: user.fileNumber })
       req.body.success = true
       req.body.sc = 200
       req.body.data = {
         fileNumber: user.fileNumber,
         photo: user.photo,
-        role: user.role
+        role: user.role,
+        name: employe.name
       }
       defaultResponse(req, res)
     } catch (e) {
