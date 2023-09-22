@@ -6,6 +6,7 @@ const LicensesModal = ({ handleModal }) => {
   const licenseStore = useSelector((store) => store.license)
   const [month, setMonth] = useState(9)
   const [year, setYear] = useState(2023)
+  let [tl, setTl] = useState([])
   const months = [
 
     'Enero',
@@ -47,7 +48,13 @@ const LicensesModal = ({ handleModal }) => {
             (dias.getMonth() + 1) === parseInt(l.month) &&
             dias.getDate() === parseInt(l.day)
           ) {
-            daysOfLicense.push(dias)
+            daysOfLicense.push(
+              {
+                day: dias,
+                type: l.typeLicense,
+                obs: l.observation
+              }
+            )
           }
         })
         days.push(dias)
@@ -69,13 +76,13 @@ const LicensesModal = ({ handleModal }) => {
         let d1 = (d.getDay() + 1)
         rootElement.style.setProperty('--d1', d1)
         if (d.getDay() === 0 || d.getDay() === 6) {
-          fragment += `<li id='${d.getDate()}' class='first_class p-[.2rem] rounded-sm text-center bg-[#0f2942] text-[#f1f8fe]'>${d.getDate()}</li>`
+          fragment += `<li id='${d.getDate()}' class='first_class p-[.2rem] rounded-sm text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
         } else {
           fragment += `<li id='${d.getDate()}' class='first_class p-[.2rem] rounded-sm text-center'>${d.getDate()}</li>`
         }
       } else {
         if (d.getDay() === 0 || d.getDay() === 6) {
-          fragment += `<li id='${d.getDate()}' class='p-[.2rem] rounded-sm text-center bg-[#0f2942] text-[#f1f8fe]'>${d.getDate()}</li>`
+          fragment += `<li id='${d.getDate()}' class='p-[.2rem] rounded-sm text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
         } else {
           fragment += `<li class='p-[.2rem] rounded-sm text-center' id='${d.getDate()}'>${d.getDate()}</li>`
         }
@@ -85,13 +92,122 @@ const LicensesModal = ({ handleModal }) => {
     if (calendar) {
       calendar.innerHTML = fragment
     }
-    daysOfLicense.forEach((d) => {
-      let day = document.getElementById(`${d.getDate()}`)
-      day.classList.add("bg-red-700", "text-[#f1f8fe]")
+    daysOfLicense.forEach((dl) => {
+      let day = document.getElementById(`${dl.day.getDate()}`)
+      const divType = document.getElementById('divTypeLicenses')
+
+      switch (dl.type) {
+        case 'injustificadas':
+          day.classList.add("cursor-pointer", "bg-red-700", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-red-700 text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'injustificadas acumuladas':
+          day.classList.add("cursor-pointer", "bg-[#b327bb]", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#b327bb] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'tardanzas':
+          day.classList.add("cursor-pointer", "bg-[#461d83]", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#461d83] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'permanencia':
+          day.classList.add("cursor-pointer", "bg-[#2e817d]", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#2e817d] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'desc. jornada p/tardanza':
+          day.classList.add("cursor-pointer", "bg-[#a48528]", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#a48528] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'dcto. colacion':
+          day.classList.add("cursor-pointer", "bg-[#143a30]", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#143a30] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'just. c/pago de jornal':
+          day.classList.add("cursor-pointer", "bg-[#568521]", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#568521] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'total desc. de jornales':
+          day.classList.add("cursor-pointer", "bg-[#713f12]", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#713f12] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'desc. viat. "b" / serv. apoyo':
+          day.classList.add("cursor-pointer", "bg-[#1c1917]", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#1c1917] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'presentismo':
+          day.classList.add("cursor-pointer", "bg-[#6ee7b7]", "text-[#11251d]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'reintegro de jornales':
+          day.classList.add("cursor-pointer", "bg-[#d17431]", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#d17431] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'dias habiles':
+          day.classList.add("cursor-pointer", "bg-[#f9a8d4]", "text-[#501c39]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-[#f9a8d4] text-[#501c39] px-3 text-md py-1'>${dl.type}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+      }
     })
   }
-
-  // window.onload = function () {, generateCalendar() }
 
   return (
     <div className='w-full max-w-[600px] h-auto flex flex-col justify-center items-center rounded-sm py-5 px-3 mt-10'>
@@ -146,9 +262,8 @@ const LicensesModal = ({ handleModal }) => {
 
               </ol>
             </div>
-            <div className='w-[350px] flex items-center justify-center gap-2'>
-              <p className='bg-[#0f2942] px-2 text-[#f1f8fe]'>Sabado/domingo</p>
-              <p className='bg-red-700 px-2 text-[#f1f8fe]'>Dias de licencia</p>
+            <div id='divTypeLicenses' className='w-[400px] min-h-[250px] flex flex-col justify-start items-center flex-wrap gap-2 text-center'>
+
             </div>
           </>
           : null

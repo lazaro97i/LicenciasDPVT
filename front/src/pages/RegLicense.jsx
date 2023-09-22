@@ -12,13 +12,13 @@ const RegLicense = () => {
     "Tardanzas",
     "Permanencia",
     "Desc. jornada p/tardanza",
-    "Dcto. colación",
+    "Dcto. colacion",
     "Just. c/pago de jornal",
     "Total desc. de jornales",
     'Desc. viat. "B" / serv. apoyo',
     "Presentismo",
     "Reintegro de jornales",
-    "Dias hábiles"
+    "Dias habiles"
   ]
 
   return (
