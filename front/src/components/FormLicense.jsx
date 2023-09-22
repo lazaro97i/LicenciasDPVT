@@ -51,6 +51,7 @@ const FormLicense = (licenses) => {
     let response = await dispatch(createLicense(data))
     if (response?.payload?.success) {
       toast.success('Licencia creada exitosamente')
+      resetForm()
     } else {
       toast.error(response?.payload?.message)
     }
@@ -70,12 +71,13 @@ const FormLicense = (licenses) => {
     const arrayInputs = [...formInputs]
 
     arrayInputs.map((c, i) => {
-      if (c.type === 'text') {
+      if (c.type !== 'button') {
         c.value = ""
         c.readOnly = false
         c.classList.remove('bg-[#a7a7a731]')
       }
     })
+    document.getElementById('daysOfLicenseSpan').classList.add('hidden')
     file.readOnly = false
   }
 
@@ -106,20 +108,27 @@ const FormLicense = (licenses) => {
     let days = Math.floor((finalDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24)) + 1
     let daysOfLicense = 0
 
+    //Vrifica que la fecha final no sea mayor a la inicial
     if (initialDateFormat > finalDateFormat) {
       toast.error('El fin de licencia debe ser una fecha mayor a la fecha de inicio', { duration: 6000 })
       inpEndDate.current.value = null
     }
+
+    //Verifica que las fechas no inicien ni terminen un fin de semana S/D
     if (initialDateFormat.getDay() === 0 ||
-      finalDateFormat.getDay() === 0 ||
-      initialDateFormat.getDay() === 6 ||
-      finalDateFormat.getDay() === 6) {
+      initialDateFormat.getDay() === 6) {
       toast.error('Las licencias no pueden iniciar ni finalizar un dia no laboral')
       inpStartDate.current.value = null
+      document.getElementById('daysOfLicenseSpan').classList.add('hidden')
+    }
+    if (finalDateFormat.getDay() === 0 ||
+      finalDateFormat.getDay() === 6) {
+      toast.error('Las licencias no pueden iniciar ni finalizar un dia no laboral')
       inpEndDate.current.value = null
       document.getElementById('daysOfLicenseSpan').classList.add('hidden')
     }
 
+    //Cuenta los dias de licencia
     for (let i = 0; i < days; i++) {
       if (initialDateFormat > finalDateFormat) {
         break

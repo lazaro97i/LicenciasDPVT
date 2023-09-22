@@ -29,12 +29,6 @@ const Layout = () => {
       setIsLogged(false)
       navigate('/')
     }
-    if (window.location.pathname === '/new_user') {
-      if (userStore.userAuth.length > 0 &&
-        userStore.userAuth.role !== 'ADMIN_ROLE') {
-        navigate('/')
-      }
-    }
   }, [location, userStore?.userAuth?.length])
 
 

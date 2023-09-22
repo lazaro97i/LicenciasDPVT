@@ -11,26 +11,50 @@ const licenseExists = async (req, res, next) => {
 
   if (fileNumber) {
     file = parseInt(fileNumber)
-  } else {
-    next()
+  }
+  if (!startDate || !endDate) {
+    req.body.success = false
+    req.body.sc = 400
+    req.body.data = 'Debe ingresar fechas válidas'
+    return defaultResponse(req, res)
   }
 
   let yearIni = startDate.split('-')[0]
   let yearEnd = endDate.split('-')[0]
-  let monthIni = (startDate.split('-')[1] % 10).toString()
-  let monthEnd = (endDate.split('-')[1] % 10).toString()
-  let dayIni = startDate.split('-')[2]
-  let dayEnd = endDate.split('-')[2]
+  let monthIni = (parseInt(startDate.split('-')[1]) < 10 ? startDate.split('-')[1] % 10 : startDate.split('-')[1]).toString()
+  let monthEnd = (parseInt(endDate.split('-')[1]) < 10 ? endDate.split('-')[1] % 10 : endDate.split('-')[1]).toString()
+  let dayIni = (parseInt(startDate.split('-')[2]) < 10 ? startDate.split('-')[2] % 10 : startDate.split('-')[2]).toString()
+  let dayEnd = (parseInt(endDate.split('-')[2]) < 10 ? endDate.split('-')[2] % 10 : endDate.split('-')[2]).toString()
 
-  const license = await License.find({
+  // const license = await License.find({
+  //   $and: [
+  //     { fileNumber: file },
+  //     { $or: [{ year: yearIni }, { year: yearEnd }] },
+  //     { $or: [{ month: monthIni }, { month: monthEnd }] },
+  //     { $or: [{ day: dayIni }, { day: dayEnd }] },
+  //   ]
+  // })
+
+  // console.log(dayIni + '-' + monthIni + '-' + yearIni)
+  // console.log(dayEnd + '-' + monthEnd + '-' + yearEnd)
+
+  const dateIni = await License.find({
     $and: [
       { fileNumber: file },
-      { $or: [{ year: yearIni }, { year: yearEnd }] },
-      { $or: [{ month: monthIni }, { month: monthEnd }] },
-      { $or: [{ day: dayIni }, { day: dayEnd }] },
+      { year: yearIni },
+      { month: monthIni },
+      { day: dayIni },
     ]
   })
-  if (license.length === 0) {
+  const dateEnd = await License.find({
+    $and: [
+      { fileNumber: file },
+      { year: yearEnd },
+      { month: monthEnd },
+      { day: dayEnd }
+    ]
+  })
+  if (dateIni.length === 0 && dateEnd.length === 0) {
     next()
   } else {
     req.body.success = false
@@ -41,3 +65,4 @@ const licenseExists = async (req, res, next) => {
 }
 
 export default licenseExists
+
