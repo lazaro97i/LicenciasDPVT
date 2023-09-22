@@ -100,7 +100,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'injustificadas':
           day.classList.add("cursor-pointer", "bg-red-700", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-red-700 text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-red-700 text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -109,7 +109,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'injustificadas acumuladas':
           day.classList.add("cursor-pointer", "bg-[#b327bb]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#b327bb] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#b327bb] text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -118,7 +118,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'tardanzas':
           day.classList.add("cursor-pointer", "bg-[#461d83]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#461d83] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#461d83] text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -127,7 +127,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'permanencia':
           day.classList.add("cursor-pointer", "bg-[#2e817d]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#2e817d] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#2e817d] text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -136,7 +136,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'desc. jornada p/tardanza':
           day.classList.add("cursor-pointer", "bg-[#a48528]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#a48528] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#a48528] text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -145,7 +145,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'dcto. colacion':
           day.classList.add("cursor-pointer", "bg-[#143a30]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#143a30] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#143a30] text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -154,7 +154,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'just. c/pago de jornal':
           day.classList.add("cursor-pointer", "bg-[#568521]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#568521] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#568521] text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -163,7 +163,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'total desc. de jornales':
           day.classList.add("cursor-pointer", "bg-[#713f12]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#713f12] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#713f12] text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -172,7 +172,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'desc. viat. "b" / serv. apoyo':
           day.classList.add("cursor-pointer", "bg-[#1c1917]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#1c1917] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#1c1917] text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -181,7 +181,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'presentismo':
           day.classList.add("cursor-pointer", "bg-[#6ee7b7]", "text-[#11251d]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -190,7 +190,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'reintegro de jornales':
           day.classList.add("cursor-pointer", "bg-[#d17431]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#d17431] text-[#f1f8fe] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#d17431] text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
@@ -199,7 +199,7 @@ const LicensesModal = ({ handleModal }) => {
         case 'dias habiles':
           day.classList.add("cursor-pointer", "bg-[#f9a8d4]", "text-[#501c39]")
           day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#f9a8d4] text-[#501c39] px-3 text-md py-1'>${dl.type}</p>
+            divType.innerHTML = `<p class='rounded-md bg-[#f9a8d4] text-[#501c39] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
             <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
             <p class='text-justify' >${dl.obs}</p>
             `
