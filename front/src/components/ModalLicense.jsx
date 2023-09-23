@@ -6,9 +6,7 @@ const LicensesModal = ({ handleModal }) => {
   const licenseStore = useSelector((store) => store.license)
   const [month, setMonth] = useState(9)
   const [year, setYear] = useState(2023)
-  let [tl, setTl] = useState([])
   const months = [
-
     'Enero',
     'Febrero',
     'Marzo',
@@ -65,7 +63,7 @@ const LicensesModal = ({ handleModal }) => {
 
   useEffect(() => {
     generateCalendar()
-  }, [licenseStore.success, month, year])
+  }, [licenseStore?.success, month, year, licenseStore])
 
   const generateCalendar = () => {
     const calendar = document.getElementById('divCalendar')

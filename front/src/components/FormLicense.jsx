@@ -11,6 +11,7 @@ const FormLicense = (licenses) => {
 
   const dispatch = useDispatch()
   const employeeStore = useSelector((store) => store.employee)
+  let form = document.getElementById('formLicense')
 
   let inpFile = useRef('')
   let inpName = useRef('')
@@ -71,12 +72,13 @@ const FormLicense = (licenses) => {
     const arrayInputs = [...formInputs]
 
     arrayInputs.map((c, i) => {
-      if (c.type !== 'button') {
+      if (c.type !== 'button' && c.id !== 'file') {
         c.value = ""
         c.readOnly = false
         c.classList.remove('bg-[#a7a7a731]')
       }
     })
+    inpObserv.current.value = ''
     document.getElementById('daysOfLicenseSpan').classList.add('hidden')
     file.readOnly = false
   }
@@ -84,6 +86,7 @@ const FormLicense = (licenses) => {
   useEffect(() => {
     let formInputs = document.getElementsByTagName('input')
     let file = document.getElementById('file')
+    let form = document.getElementById('formLicense')
     const arrayInputs = [...formInputs]
     if (employeeStore?.success) {
       arrayInputs.map((c, i) => {
@@ -150,7 +153,7 @@ const FormLicense = (licenses) => {
   return (
     <div className='w-full flex flex-col justify-center items-center'>
       <p className='mb-10 text-4xl font-[600] text-center'>Agregar lincencia</p>
-      <form action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border border-[#a6aaae] rounded-sm py-10'>
+      <form id='formLicenses' action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border border-[#a6aaae] rounded-sm py-10'>
         <label className='md:col-span-2 lg:col-span-4 relative'>
           <label className='relative'>
             <input ref={inpFile} onClick={(e) => e.target.readOnly ? e.target.readOnly = false : null} onInput={(e) => setFile(e.target.value)} type="number" name="file" id="file" placeholder='Legajo' className='pl-7 outline-none border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px]' />

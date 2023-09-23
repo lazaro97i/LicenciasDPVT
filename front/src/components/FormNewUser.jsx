@@ -56,7 +56,6 @@ const FormNewUser = () => {
     }
   }
 
-
   return (
     <>
       <p className='text-4xl mb-10 font-[600]'>Agregar usuario</p>
