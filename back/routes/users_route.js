@@ -10,9 +10,20 @@ import isAdmin from '../middlewares/isAdmin.js'
 
 const router = express.Router()
 
-const { signin, get_user, signinToken, signout, signup } = controller
+const { signin, get_user, signinToken, signout, signup, read } = controller
 
-// router.get('/', read)
+//get
+router.get('/profile',
+  passport.authenticate('jwt', { session: false }),
+  get_user
+)
+router.get('/',
+  passport.authenticate('jwt', { session: false }),
+  isAdmin,
+  read
+)
+
+//post
 router.post('/signin',
   accountExistsSignin,
   signin
@@ -28,11 +39,6 @@ router.post('/signup',
   userExists,
   isAdmin,
   signup)
-router.get('/profile',
-  passport.authenticate('jwt', { session: false }),
-  get_user
-)
-
 router.put('/signout',
   passport.authenticate('jwt', { session: false }),
   signout

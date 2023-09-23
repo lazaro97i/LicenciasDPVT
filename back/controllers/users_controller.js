@@ -9,16 +9,18 @@ const controller = {
 
   read: async (req, res) => {
     try {
-      const users = await User.find()
+      let users = await User.find()
       if (users) {
         req.body.success = true
         req.body.sc = 200
         req.body.data = users
         return defaultResponse(req, res)
+      } else {
+        req.body.success = false
+        req.body.sc = 400
+        req.body.data = "Usuarios no encontrados"
+        return defaultResponse(req, res)
       }
-      req.body.success = false
-      req.body.sc = 400
-      req.body.data = "Users not found :("
     } catch (e) {
       console.log(e)
     }
