@@ -7,10 +7,6 @@ const { signOut } = userActions
 
 const routesAdmin = [
   {
-    path: '/new_user',
-    name: 'Agregar usuario'
-  },
-  {
     path: null,
     name: 'Licencias',
     children: [
@@ -25,8 +21,12 @@ const routesAdmin = [
     ]
   },
   {
-    path: '',
-    name: 'Perfil'
+    path: '/new_user',
+    name: 'Agregar usuario'
+  },
+  {
+    path: 'admin_panel',
+    name: 'Administracion'
   }
 ]
 const routesUser = [
@@ -54,7 +54,7 @@ const Nav = () => {
 
   const [nav, setNav] = useState(false)
   const [navLicenses, setNavLicenses] = useState(false)
-  const userStore = useSelector((store) => store.user)
+  const authStore = useSelector((store) => store.auth)
   const dispatch = useDispatch()
 
   const signout = async (e) => {
@@ -71,23 +71,23 @@ const Nav = () => {
   const NavContent = () => {
     return (
       <div className='fixed top-0 left-0 w-full max-w-[250px] bg-[#e3effb] border-r h-screen flex justify-center z-10'>
-        <div onClick={toggleNav} className='absolute w-screen h-screen bg-[#1d2535c6] top-0 left-[250px] [backdrop-filter:_blur(2px)]'></div>
+        <div onClick={() => { toggleNav(), setNavLicenses(false) }} className='absolute w-screen h-screen bg-[#1d2535c6] top-0 left-[250px] [backdrop-filter:_blur(2px)]'></div>
         <ul className='flex flex-col mt-28 gap-5 relative'>
           {
-            userStore?.userAuth?.role === 'ADMIN_ROLE'
+            authStore?.auth?.role === 'ADMIN_ROLE'
               ? routesAdmin.map((route, i) => {
                 return (
                   route.path !== null
-                    ? <Link className='hover:bg-[#166eb3] hover:text-[#f1f8fe] font-[500] text-[1rem] rounded-md transition-all duration-200 px-8 py-2' onClick={toggleNav} key={i} to={route.path}>{route.name}</Link>
+                    ? <Link className='hover:bg-[#166eb3] hover:text-[#f1f8fe] font-[500] text-[1rem] rounded-md transition-all duration-200 px-8 py-2' onClick={() => { toggleNav(), setNavLicenses(false) }} key={i} to={route.path}>{route.name}</Link>
                     :
                     <div className='relative hover:text-[#f1f8fe]' key={i}>
                       <li className='hover:bg-[#166eb3] hover:text-[#f1f8fe] font-[500] text-[1rem] rounded-md transition-all duration-200 li-license px-8 py-2 cursor-pointer flex gap-2 justify-between items-center max-h-[40px]' onClick={() => setNavLicenses(!navLicenses)} >
                         {route.name}
-                        <svg className='hover:stroke-[#f1f8fe]' id='svgArrowBot' width={'30px'} viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000000" strokeWidth="3.5"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.384"></g><g id="SVGRepo_iconCarrier"><polyline points="48 32 32 48 16 32"></polyline><polyline points="48 16 32 32 16 16"></polyline></g></svg>
+                        <svg className='hover:stroke-[#f1f8fe]' id='svgArrowBot' width={'30px'} viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#0f2942" strokeWidth="3.5"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#0f2942" strokeWidth="0.384"></g><g id="SVGRepo_iconCarrier"><polyline points="48 32 32 48 16 32"></polyline><polyline points="48 16 32 32 16 16"></polyline></g></svg>
                       </li>
                       {
                         navLicenses
-                          ? <div className='flex flex-col items-center pt-2 pb-2 gap-1 absolute bg-[#144b78] w-[175px] rounded-b-md'>
+                          ? <div className='flex flex-col items-center pt-2 pb-2 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1'>
                             {
                               route.children.map((route, i) => {
                                 return (
@@ -104,16 +104,16 @@ const Nav = () => {
               : routesUser.map((route, i) => {
                 return (
                   route.path !== null
-                    ? <Link className='hover:bg-[#166eb3] hover:text-[#f1f8fe] font-[500] text-[1rem] rounded-md transition-all duration-200 px-8 py-2' onClick={toggleNav} key={i} to={route.path}>{route.name}</Link>
+                    ? <Link className='hover:bg-[#166eb3] hover:text-[#f1f8fe] font-[500] text-[1rem] rounded-md transition-all duration-200 px-8 py-2' onClick={() => { toggleNav(), setNavLicenses(false) }} key={i} to={route.path}>{route.name}</Link>
                     :
                     <div className='relative hover:text-[#f1f8fe]' key={i}>
                       <li className='hover:bg-[#166eb3] hover:text-[#f1f8fe] font-[500] text-[1rem] rounded-md transition-all duration-200 li-license px-8 py-2 cursor-pointer flex gap-2 justify-between items-center max-h-[40px]' onClick={() => setNavLicenses(!navLicenses)} >
                         {route.name}
-                        <svg className='hover:stroke-[#f1f8fe]' id='svgArrowBot' width={'30px'} viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000000" strokeWidth="3.5"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.384"></g><g id="SVGRepo_iconCarrier"><polyline points="48 32 32 48 16 32"></polyline><polyline points="48 16 32 32 16 16"></polyline></g></svg>
+                        <svg className='hover:stroke-[#f1f8fe]' id='svgArrowBot' width={'30px'} viewBox="0 0 64.00 64.00" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#0f2942" strokeWidth="3.5"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#0f2942" strokeWidth="0.384"></g><g id="SVGRepo_iconCarrier"><polyline points="48 32 32 48 16 32"></polyline><polyline points="48 16 32 32 16 16"></polyline></g></svg>
                       </li>
                       {
                         navLicenses
-                          ? <div className='flex flex-col items-center pt-2 pb-2 gap-1 absolute bg-[#144b78] w-[175px] rounded-b-md'>
+                          ? <div className='flex flex-col items-center pt-2 pb-2 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1'>
                             {
                               route.children.map((route, i) => {
                                 return (
@@ -145,11 +145,11 @@ const Nav = () => {
         </span>
         <div className='flex items-center justify-center gap-5'>
           <div className=''>
-            <img className='w-[50px]' src={userStore?.userAuth?.photo} alt="" />
+            <img className='w-[50px]' src={authStore?.auth?.photo} alt="" />
           </div>
           <div>
-            <p className='text-[#f1f8fe] font-[400] text-[1rem]'>{(userStore?.userAuth?.name)?.toUpperCase()}</p>
-            <p className='text-[#f1f8fe] font-[200]'>{userStore?.userAuth?.fileNumber}</p>
+            <p className='text-[#f1f8fe] font-[400] text-[1rem]'>{(authStore?.auth?.name)?.toUpperCase()}</p>
+            <p className='text-[#f1f8fe] font-[200]'>{authStore?.auth?.fileNumber}</p>
           </div>
         </div>
       </div>

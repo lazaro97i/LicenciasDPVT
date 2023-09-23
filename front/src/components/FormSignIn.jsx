@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import userActions from '../store/users/actions'
 import toast from 'react-hot-toast'
 
-const { signIn, signinToken } = userActions
+const { signIn } = userActions
 
 const FormSignIn = () => {
 

@@ -262,7 +262,7 @@ const LicensesModal = ({ handleModal }) => {
 
               </ol>
             </div>
-            <div id='divTypeLicenses' className='w-[400px] min-h-[250px] flex flex-col justify-start items-center flex-wrap gap-2 text-center'>
+            <div id='divTypeLicenses' className='max-w-[400px] min-h-[250px] flex flex-col justify-start items-center flex-wrap gap-2 text-center'>
 
             </div>
           </>

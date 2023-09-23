@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Nav from './Nav'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector, useStore } from 'react-redux'
-import userActions from '../store/users/actions'
+import authActions from '../store/users/auth/actions'
 
-const { signinToken } = userActions
+const { signinToken } = authActions
 
 const Layout = () => {
 
-  const userStore = useSelector((store) => store.user)
+  const authStore = useSelector((store) => store.auth)
   const location = useLocation()
   const [isLogged, setIsLogged] = useState(false)
   const [tokenLogin, setTokenLogin] = useState(null)
@@ -17,7 +17,7 @@ const Layout = () => {
 
   useEffect(() => {
     let token = localStorage?.getItem('token')
-    if (userStore?.success) {
+    if (authStore?.success) {
       setIsLogged(true)
       setTokenLogin(token)
     } else {
@@ -29,7 +29,7 @@ const Layout = () => {
       setIsLogged(false)
       navigate('/')
     }
-  }, [location, userStore?.userAuth?.length])
+  }, [location, authStore?.auth])
 
 
   return (
@@ -38,9 +38,11 @@ const Layout = () => {
         isLogged ?
           <Nav />
           :
-          <div className='relative w-full flex justify-center mb-10'>
-            <Link to={'/'} className="mt-10 text-xl bg-lime-700 cursor-pointer px-6 py-2 rounded-md hover:bg-lime-600 transition-all text-[#f1f8fe] duration-300 absolute top-[-1rem]">Iniciar sesión</Link>
-          </div>
+          window.location.pathname !== '/new_user' || window.location.pathname !== '/admin_panel'
+            ? <div className='relative w-full flex justify-center mb-10 mt-5'>
+              <Link to={'/'} className="mt-10 text-xl bg-lime-700 cursor-pointer px-6 py-2 rounded-md hover:bg-lime-600 transition-all text-[#f1f8fe] duration-300 absolute top-[-1rem]">Iniciar sesión</Link>
+            </div>
+            : null
       }
       <Outlet />
     </div>
