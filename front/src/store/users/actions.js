@@ -141,7 +141,7 @@ const getUser = createAsyncThunk('users/getUser', async (file) => {
   }
 })
 
-const softDelete = createAsyncThunk('softDelete/users', async (file) => {
+const softDelete = createAsyncThunk('users/softDelete', async (file) => {
 
   try {
     const response = await axios.put(
@@ -168,13 +168,42 @@ const softDelete = createAsyncThunk('softDelete/users', async (file) => {
   }
 })
 
+const updateUser = createAsyncThunk('users/updateUser', async (data) => {
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/user/update`,
+      data,
+      sendAuth()
+    )
+    return {
+      response: response.data.response,
+      message: 'Usuario actualizado correctamente',
+      success: response.data.success
+    }
+  } catch (e) {
+    console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
+    return {
+      response: null,
+      message: e.response.data.message,
+      success: e.response.data.success
+    }
+  }
+
+})
+
 const userActions = {
   signIn,
   signOut,
   signUp,
   getUsers,
   getUser,
-  softDelete
+  softDelete,
+  updateUser
 }
 
 export default userActions

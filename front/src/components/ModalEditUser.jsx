@@ -1,21 +1,35 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import userActions from '../store/users/actions'
 import ModalConfirmDelete from './ModalConfirmDelete'
+import ModalConfirmUpdate from './ModalConfirmUpdate'
+import bcrypts from 'bcryptjs'
+import toast from 'react-hot-toast'
 
 const { getUser, getUsers } = userActions
 
 const ModalEditUser = ({ edit, userFile }) => {
 
   const userStore = useSelector((store) => store.user)
-  const [newRole, setNewRole] = useState(userStore?.user?.user?.role)
-  const [newStatus, setNewStatus] = useState(userStore?.user?.user?.status)
+  const [newRole, setNewRole] = useState(null)
+  const [newStatus, setNewStatus] = useState()
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [confirmUpdate, setConfirmUpdate] = useState(false)
+  const inpOldPass = useRef(null)
+  const inpPass1 = useRef(null)
+  const inpPass2 = useRef(null)
+  const [passCompare, setPassCompare] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getUser(userFile))
   }, [])
+  useEffect(() => {
+    setNewStatus(userStore?.user?.user?.status)
+  }, [userStore?.user])
+  // useEffect(() => {
+  //   dispatch(getUser(userFile))
+  // }, [newStatus])
 
   if (document.getElementById('formEdit')) {
     if (userStore?.user?.user?.role === 'ADMIN_ROLE') {
@@ -30,6 +44,34 @@ const ModalEditUser = ({ edit, userFile }) => {
     }
   }
 
+  const verifyUpdate = async () => {
+    if (inpPass2.current.value.length > 0) {
+      const verifyPass = bcrypts.compareSync(inpOldPass.current.value, userStore?.user?.user?.password)
+      if (verifyPass) {
+        if (passCompare) {
+          setConfirmUpdate(true)
+        } else {
+          toast.error('Verifique los campos de contraseñas')
+        }
+      } else {
+        toast.error('Contraseña actual incorrecta')
+      }
+    } else {
+      setConfirmUpdate(true)
+    }
+  }
+  const repeatPass = () => {
+    if (inpPass1.current.value !== inpPass2.current.value) {
+      document.getElementById('spanPass2').textContent = 'Las contrañas no coinciden'
+      setPassCompare(false)
+    } else {
+      document.getElementById('spanPass2').textContent = ''
+      setPassCompare(true)
+    }
+    if (inpPass2.current.value.length === 0) {
+      document.getElementById('spanPass2').textContent = ''
+    }
+  }
 
   return (
     <div className='w-screen h-screen fixed z-10 top-0 flex justify-center items-center bg-[#0f2942] bg-opacity-70 backdrop-blur-sm px-6 py-10'>
@@ -66,15 +108,18 @@ const ModalEditUser = ({ edit, userFile }) => {
               </label>
             </div>
           </label>
-          <label className='flex flex-col max-w-[500px] gap-y-5 w-full border py-5'>
+          <label className='flex flex-col min-h-[250px] max-w-[500px] gap-y-5 w-full border py-5'>
             <span className='flex w-4/5 max-w-[270px] md:max-w-[350px]'>Actualizar contraseña:</span>
-            <input className='border-b w-[250px] outline-none pl-1' type="password" name='pass' id='pass' placeholder='Contraseña actual' />
-            <input className='border-b w-[250px] outline-none pl-1' type="password" name='pass2' id='pass2' placeholder='Nueva contraseña' />
-            <input className='border-b w-[250px] outline-none pl-1' type="password" name='pass3' id='pass3' placeholder='Confirmar nueva contraseña' />
+            <input ref={inpOldPass} className='border-b w-[250px] outline-none pl-1' type="password" name='oldPass' id='oldPass' placeholder='Contraseña actual' />
+            <input ref={inpPass1} onChange={repeatPass} className='border-b w-[250px] outline-none pl-1' type="password" name='pass1' id='pass1' placeholder='Nueva contraseña' />
+            <div className='flex flex-col relative'>
+              <input ref={inpPass2} onChange={repeatPass} className='border-b w-[250px] outline-none pl-1' type="password" name='pass2' id='pass2' placeholder='Confirmar nueva contraseña' />
+              <span className='absolute mt-6 left-1 text-red-600 text-sm' id='spanPass2'></span>
+            </div>
           </label>
         </form>
-        <input className="mt-10 mb-5 text-xl cursor-pointer px-6 py-2 rounded-md bg-[#0f2942] text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Editar" />
-        <input onClick={() => { setConfirmDelete(true) }} className="text-xl cursor-pointer px-6 py-2 rounded-md bg-red-600 text-[#f1f8fe] hover:bg-red-500 transition-all duration-300" type="button" value="Eliminar usuario" />
+        <input onClick={() => { verifyUpdate() }} className="mt-10 mb-5 text-xl cursor-pointer px-6 py-2 rounded-md bg-[#0f2942] text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Editar" />
+        <input onClick={() => { setConfirmDelete(true) }} className="text-xl cursor-pointer px-6 py-2 rounded-md bg-red-800 text-[#f1f8fe] hover:bg-red-700 transition-all duration-300" type="button" value="Eliminar usuario" />
       </div>
       {
         confirmDelete
@@ -82,6 +127,19 @@ const ModalEditUser = ({ edit, userFile }) => {
             employeeName={userStore?.user?.employee?.name.toUpperCase()}
             userFile={userFile}
             modalDelete={setConfirmDelete}
+            modalEdit={edit}
+          />
+          : null
+      }
+      {
+        confirmUpdate
+          ? <ModalConfirmUpdate
+            employeeName={userStore?.user?.employee?.name.toUpperCase()}
+            userFile={userFile}
+            role={userStore?.user?.user?.role === newRole ? null : newRole}
+            status={newStatus?.toString()}
+            password={inpPass2.current.value}
+            modalUpdate={setConfirmUpdate}
             modalEdit={edit}
           />
           : null
