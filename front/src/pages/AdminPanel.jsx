@@ -12,7 +12,7 @@ const AdminPanel = () => {
 
   useEffect(() => {
     dispatch(getUsers())
-  }, [])
+  }, [userStore?.users?.success])
 
   // if (userStore?.usres?.length > 0) {
   //   userStore?.users?.map((u) => [

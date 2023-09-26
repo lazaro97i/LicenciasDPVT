@@ -157,7 +157,7 @@ const controller = {
     try {
       await User.findOneAndUpdate(
         { fileNumber: file },
-        { isDeleted: true },
+        { status: false },
         { new: true }
       )
       req.body.success = true
@@ -173,7 +173,6 @@ const controller = {
 
     let data = {
       fileNumber: req.body.fileNumber,
-      status: req.body.status
     }
     if (req.body.role) {
       data.role = req.body.role
@@ -181,8 +180,6 @@ const controller = {
     if (req.body.password) {
       data.password = bcryptjs.hashSync(req.body.password, 10)
     }
-
-    console.log(data)
 
     try {
       const user = await User.findOneAndUpdate(

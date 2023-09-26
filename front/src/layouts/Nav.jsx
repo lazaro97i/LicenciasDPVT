@@ -54,6 +54,7 @@ const Nav = () => {
 
   const [nav, setNav] = useState(false)
   const [navLicenses, setNavLicenses] = useState(false)
+  const [navEmployee, setNavEmployee] = useState(false)
   const authStore = useSelector((store) => store.auth)
   const dispatch = useDispatch()
 
@@ -77,7 +78,7 @@ const Nav = () => {
             authStore?.auth?.role === 'ADMIN_ROLE'
               ? routesAdmin.map((route, i) => {
                 return (
-                  route.path !== null
+                  route.path
                     ? <Link className='hover:bg-[#166eb3] hover:text-[#f1f8fe] font-[500] text-[1rem] rounded-md transition-all duration-200 px-8 py-2' onClick={() => { toggleNav(), setNavLicenses(false) }} key={i} to={route.path}>{route.name}</Link>
                     :
                     <div className='relative hover:text-[#f1f8fe]' key={i}>
