@@ -16,6 +16,7 @@ const schema = Joi.object({
   role: Joi.string().required().messages({
     'any.required': 'Rol de usuario obligatorio',
     'string.empty': 'Rol de usuario obligatorio',
+    'string.base': 'Rol de usuario obligatorio',
   }),
   photo: Joi.string().uri().empty('').default('default value')
 })
