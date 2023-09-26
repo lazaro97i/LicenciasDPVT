@@ -6,7 +6,8 @@ const {
   signinToken,
   signUp,
   getUsers,
-  getUser
+  getUser,
+  softDelete
 } = userActions
 
 const initialState = {
@@ -50,7 +51,15 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(getUser.fulfilled, (state, action) => {
       let newState = {
-        response: action.payload.response,
+        user: action.payload.response,
+        message: action.payload.message,
+        success: action.payload.success
+      }
+      return newState
+    })
+    .addCase(softDelete.fulfilled, (state, action) => {
+      let newState = {
+        user: action.payload.response,
         message: action.payload.message,
         success: action.payload.success
       }

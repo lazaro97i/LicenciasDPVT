@@ -68,17 +68,19 @@ const TableAdminPanel = ({ users }) => {
             users?.filter(u => u.role.includes(filterSelect)).filter(u => u.fileNumber.toString().includes(filterFile)).length > 0
               ?
               users?.filter(u => u.role.includes(filterSelect)).filter(u => u.fileNumber.toString().includes(filterFile)).map((u, i) => {
-                return (
-                  <tr key={i} className={`grid grid-cols-4 min-[500px]:grid-cols-5 gap-x-6 w-full border-b mt- py-2 ${i % 2 === 0 ? 'trPair' : ''}`}>
-                    <td>{u.fileNumber}</td>
-                    <td className={u.role === 'ADMIN_ROLE' ? 'text-lime-600' : ''}>{u.role === 'ADMIN_ROLE' ? 'Admin' : 'Usuario'}</td>
-                    <td className={u.status ? 'text-lime-600' : 'text-red-600'} >{u.status ? 'Activo' : 'Inactivo'}</td>
-                    <td className={`${u.isOnline ? 'text-lime-600' : 'text-red-600'} hidden min-[500px]:inline`} >{u.isOnline ? 'Online' : 'Offline'}</td>
-                    <td onClick={() => { handleEdit(), setFileUserEdit(u.fileNumber) }} className='border-l flex justify-center cursor-pointer'>
-                      <svg width={'25px'} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#0f2942"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="edit"> <g> <path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none" stroke="#0f2942" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path> <polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" stroke="#0f2942" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></polygon> </g> </g> </g> </g></svg>
-                    </td>
-                  </tr>
-                )
+                if (!u.isDeleted) {
+                  return (
+                    <tr key={i} className={`grid grid-cols-4 min-[500px]:grid-cols-5 gap-x-6 w-full border-b mt- py-2 ${i % 2 === 0 ? 'trPair' : ''}`}>
+                      <td>{u.fileNumber}</td>
+                      <td className={u.role === 'ADMIN_ROLE' ? 'text-lime-600' : ''}>{u.role === 'ADMIN_ROLE' ? 'Admin' : 'Usuario'}</td>
+                      <td className={u.status ? 'text-lime-600' : 'text-red-600'} >{u.status ? 'Activo' : 'Inactivo'}</td>
+                      <td className={`${u.isOnline ? 'text-lime-600' : 'text-red-600'} hidden min-[500px]:inline`} >{u.isOnline ? 'Online' : 'Offline'}</td>
+                      <td onClick={() => { handleEdit(), setFileUserEdit(u.fileNumber) }} className='border-l flex justify-center cursor-pointer'>
+                        <svg width={'25px'} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#0f2942"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="edit"> <g> <path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none" stroke="#0f2942" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path> <polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" stroke="#0f2942" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></polygon> </g> </g> </g> </g></svg>
+                      </td>
+                    </tr>
+                  )
+                }
               })
               : <tr>
                 <td className='pt-10'>Sin resultados</td>

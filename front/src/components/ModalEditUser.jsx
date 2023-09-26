@@ -8,8 +8,8 @@ const { getUser, getUsers } = userActions
 const ModalEditUser = ({ edit, userFile }) => {
 
   const userStore = useSelector((store) => store.user)
-  const [newRole, setNewRole] = useState(userStore?.response?.user?.role)
-  const [newStatus, setNewStatus] = useState(userStore?.response?.user?.status)
+  const [newRole, setNewRole] = useState(userStore?.user?.user?.role)
+  const [newStatus, setNewStatus] = useState(userStore?.user?.user?.status)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const dispatch = useDispatch()
 
@@ -17,15 +17,13 @@ const ModalEditUser = ({ edit, userFile }) => {
     dispatch(getUser(userFile))
   }, [])
 
-  // defaultChecked = { userStore?.response?.user?.role === 'ADMIN_ROLE' ? true : false
-
   if (document.getElementById('formEdit')) {
-    if (userStore?.response?.user?.role === 'ADMIN_ROLE') {
+    if (userStore?.user?.user?.role === 'ADMIN_ROLE') {
       document.getElementById('adminRole').defaultChecked = true
     } else {
       document.getElementById('userRole').defaultChecked = true
     }
-    if (userStore?.response?.user?.status) {
+    if (userStore?.user?.user?.status) {
       document.getElementById('statusActive').defaultChecked = true
     } else {
       document.getElementById('statusInactive').defaultChecked = true
@@ -36,11 +34,11 @@ const ModalEditUser = ({ edit, userFile }) => {
   return (
     <div className='w-screen h-screen fixed z-10 top-0 flex justify-center items-center bg-[#0f2942] bg-opacity-70 backdrop-blur-sm px-6 py-10'>
       <div className='w-full h-full overflow-auto bg-[#f1f8fe] flex flex-col justify-start relative items-center py-5 max-w-[700px] rounded-md px-3'>
-        <span onClick={() => { edit(), dispatch(getUsers()) }} className='absolute top-5 right-5'>
+        <span onClick={() => { edit(), dispatch(getUsers()) }} className='absolute top-5 right-5 cursor-pointer'>
           <svg fill="#0f29420" width={'35px'} viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z"></path> </g></svg>
         </span>
-        <p className='w-full text-center text-2xl font-[600] mt-16 mb-5'>{userStore?.response?.employee?.name.toUpperCase()}</p>
-        <p className='w-full max-w-[500px] mb-5'>Legajo: <span className='font-[500] pl-2'>{userStore?.response?.user?.fileNumber}</span></p>
+        <p className='w-full text-center text-2xl font-[600] mt-16 mb-5'>{userStore?.user?.employee?.name.toUpperCase()}</p>
+        <p className='w-full max-w-[500px] mb-5'>Legajo: <span className='font-[500] pl-2'>{userStore?.user?.user?.fileNumber}</span></p>
         <form id='formEdit' className='flex flex-col justify-center items-center w-full'>
           <label className='flex flex-col max-w-[500px] w-full gap-5 justify-center border py-5'>
             <span className='flex w-4/5 max-w-[270px] md:max-w-[350px]'>Actualizar rol de usuario:</span>
@@ -81,9 +79,10 @@ const ModalEditUser = ({ edit, userFile }) => {
       {
         confirmDelete
           ? <ModalConfirmDelete
-            employeeName={userStore?.response?.employee?.name.toUpperCase()}
+            employeeName={userStore?.user?.employee?.name.toUpperCase()}
             userFile={userFile}
-            modal={setConfirmDelete}
+            modalDelete={setConfirmDelete}
+            modalEdit={edit}
           />
           : null
       }
