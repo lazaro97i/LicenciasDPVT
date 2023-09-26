@@ -11,6 +11,7 @@ const FormLicense = (licenses) => {
 
   const dispatch = useDispatch()
   const employeeStore = useSelector((store) => store.employee)
+  let form = document.getElementById('formLicense')
 
   let inpFile = useRef('')
   let inpName = useRef('')
@@ -30,6 +31,12 @@ const FormLicense = (licenses) => {
   let inpObserv = useRef('')
 
   const handleData = async (e) => {
+    console.log(typeLicense)
+    if (!typeLicense || typeLicense === 'Seleccione un tipo de licencia') {
+      setTipeLicense(null)
+      document.getElementById('typeLicenseNullMessage').classList.remove('hidden')
+      document.getElementById('typeLicenseNullMessage').textContent = 'Debe indicar el tipo de licencia'
+    }
     const data = {
       fileNumber: (inpFile.current.value).toLowerCase(),
       name: (inpName.current.value).toLowerCase(),
@@ -71,12 +78,13 @@ const FormLicense = (licenses) => {
     const arrayInputs = [...formInputs]
 
     arrayInputs.map((c, i) => {
-      if (c.type !== 'button') {
+      if (c.type !== 'button' && c.id !== 'file') {
         c.value = ""
         c.readOnly = false
         c.classList.remove('bg-[#a7a7a731]')
       }
     })
+    inpObserv.current.value = ''
     document.getElementById('daysOfLicenseSpan').classList.add('hidden')
     file.readOnly = false
   }
@@ -150,7 +158,7 @@ const FormLicense = (licenses) => {
   return (
     <div className='w-full flex flex-col justify-center items-center'>
       <p className='mb-10 text-4xl font-[600] text-center'>Agregar lincencia</p>
-      <form action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border border-[#a6aaae] rounded-sm py-10'>
+      <form id='formLicenses' action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border border-[#a6aaae] rounded-sm py-10'>
         <label className='md:col-span-2 lg:col-span-4 relative'>
           <label className='relative'>
             <input ref={inpFile} onClick={(e) => e.target.readOnly ? e.target.readOnly = false : null} onInput={(e) => setFile(e.target.value)} type="number" name="file" id="file" placeholder='Legajo' className='pl-7 outline-none border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px]' />
@@ -206,9 +214,9 @@ const FormLicense = (licenses) => {
             <span id='daysOfLicenseSpan' className='col-span-2 text-center mt-3'></span>
           </div>
         </div>
-        <label className='flex flex-col gap-4 md:col-span-2 lg:col-span-4'>
-          <span className='text-start w-4/5 max-w-[270px] md:max-w-[350px]'>Tipo de licencia:</span>
-          <select onClick={(e) => setTipeLicense(e.target.value)} name="select" id="select" className='outline-none bg-transparent border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px]'>
+        <label className='flex flex-col md:col-span-2 lg:col-span-4'>
+          <span className='text-start w-4/5 max-w-[270px] md:max-w-[350px] mb-2'>Tipo de licencia:</span>
+          <select onClick={(e) => { setTipeLicense(e.target.value), document.getElementById('typeLicenseNullMessage').textContent = '' }} name="select" id="select" className='outline-none bg-transparent border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px] mb-1'>
             <option value={null} className='[display:none]'>Seleccione un tipo de licencia</option>
             {
               licenses.licenses.map((l, i) => {
@@ -218,6 +226,7 @@ const FormLicense = (licenses) => {
               })
             }
           </select>
+          <span id='typeLicenseNullMessage' className='text-sm text-red-600'></span>
         </label>
         <label className='md:col-span-2 lg:col-span-4'>
           <textarea ref={inpObserv} name="textarea" id="observationsArea" placeholder='Observaciones ...' className='bg-[#d8d8d86e] resize-none w-4/5 max-w-[270px] md:max-w-[350px] h-[150px] pl-1 rounded-sm border border-[#00000035]  outline-none'></textarea>

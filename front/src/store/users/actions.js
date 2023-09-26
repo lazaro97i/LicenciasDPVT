@@ -35,28 +35,6 @@ const signIn = createAsyncThunk('signin/user', async (dataUser) => {
   }
 })
 
-const signinToken = createAsyncThunk('users/signinToken', async ({ token: token }) => {
-  try {
-    const user = await axios.post(`
-      ${API_URL}/user/token`,
-      { token: token },
-      sendAuth()
-    )
-    return {
-      response: user.data.response,
-      message: 'Usuario autenticado',
-      success: user.data.success
-    }
-  } catch (e) {
-    console.log(e)
-    return {
-      response: null,
-      message: [e.response.data.response],
-      success: e.response.data.success
-    }
-  }
-})
-
 const signOut = createAsyncThunk('users/signOut', async () => {
 
   try {
@@ -109,14 +87,123 @@ const signUp = createAsyncThunk('users/signup', async (data) => {
       success: e.response.data.success
     }
   }
+})
+
+const getUsers = createAsyncThunk('users/getUsers', async () => {
+
+  try {
+    const users = await axios.get(
+      `${API_URL}/user`,
+      sendAuth()
+    )
+    return {
+      response: users.data.response,
+      message: 'Usuarios encontrados',
+      success: users.data.success
+    }
+  } catch (e) {
+    console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
+    return {
+      response: null,
+      message: e.response.data.message,
+      success: e.response.data.success
+    }
+  }
+})
+
+const getUser = createAsyncThunk('users/getUser', async (file) => {
+
+  try {
+    const user = await axios.get(
+      `${API_URL}/user/profile/${file}`,
+      sendAuth()
+    )
+    return {
+      response: user.data.response,
+      message: 'Usuario encontrado',
+      success: user.data.success
+    }
+  } catch (e) {
+    console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
+    return {
+      response: null,
+      message: e.response.data.message,
+      success: e.response.data.success
+    }
+  }
+})
+
+const softDelete = createAsyncThunk('users/softDelete', async (file) => {
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/user/delete`,
+      { file: file },
+      sendAuth(),
+    )
+    return {
+      response: response.data.response,
+      message: 'Usuario eliminado correctamente',
+      success: response.data.success
+    }
+  } catch (e) {
+    console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
+    return {
+      response: null,
+      message: e.response.data.message,
+      success: e.response.data.success
+    }
+  }
+})
+
+const updateUser = createAsyncThunk('users/updateUser', async (data) => {
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/user/update`,
+      data,
+      sendAuth()
+    )
+    return {
+      response: response.data.response,
+      message: 'Usuario actualizado correctamente',
+      success: response.data.success
+    }
+  } catch (e) {
+    console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
+    return {
+      response: null,
+      message: e.response.data.message,
+      success: e.response.data.success
+    }
+  }
 
 })
 
 const userActions = {
   signIn,
-  signinToken,
   signOut,
-  signUp
+  signUp,
+  getUsers,
+  getUser,
+  softDelete,
+  updateUser
 }
 
 export default userActions

@@ -9,16 +9,18 @@ const controller = {
 
   read: async (req, res) => {
     try {
-      const users = await User.find()
+      let users = await User.find({}, '-_id -password -__v -createdAt -updatedAt')
       if (users) {
         req.body.success = true
         req.body.sc = 200
         req.body.data = users
         return defaultResponse(req, res)
+      } else {
+        req.body.success = false
+        req.body.sc = 400
+        req.body.data = "Usuarios no encontrados"
+        return defaultResponse(req, res)
       }
-      req.body.success = false
-      req.body.sc = 400
-      req.body.data = "Users not found :("
     } catch (e) {
       console.log(e)
     }
@@ -34,7 +36,7 @@ const controller = {
       if (verified) {
         await User.findOneAndUpdate(
           { fileNumber: user.fileNumber },
-          { status: true },
+          { isOnline: true },
           { new: true }
         )
         let token = jwt.sign(
@@ -66,7 +68,7 @@ const controller = {
     const { user } = req
     try {
       await User.findByIdAndUpdate(user.id,
-        { status: false },
+        { isOnline: false },
         { new: true }
       )
       req.body.success = true
@@ -105,7 +107,7 @@ const controller = {
     const data = {
       fileNumber: req.body.fileNumber,
       role: req.body.role,
-      status: false
+      status: true
     }
     if (req.body.password) {
       data.password = bcryptjs.hashSync(req.body.password, 10)
@@ -134,13 +136,63 @@ const controller = {
 
   get_user: async (req, res) => {
 
-    const { user } = req
+    const { file } = req.params
+    const { employee } = req
 
     try {
-      const userData = await User.findById(user.id, '-password -__v -status -createdAt -updatedAt')
+      const user = await User.findOne({ fileNumber: file }, '-_id -__v -createdAt -updatedAt')
       req.body.success = true
       req.body.sc = 200
-      req.body.data = userData
+      req.body.data = { user, employee }
+      return defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  softDelete: async (req, res) => {
+
+    const { file } = req.body
+
+    try {
+      await User.findOneAndUpdate(
+        { fileNumber: file },
+        { isDeleted: true },
+        { new: true }
+      )
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = 'Usuario eliminado correctamente'
+      return defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  updateUser: async (req, res) => {
+
+    let data = {
+      fileNumber: req.body.fileNumber,
+      status: req.body.status
+    }
+    if (req.body.role) {
+      data.role = req.body.role
+    }
+    if (req.body.password) {
+      data.password = bcryptjs.hashSync(req.body.password, 10)
+    }
+
+    console.log(data)
+
+    try {
+      const user = await User.findOneAndUpdate(
+        { fileNumber: data.fileNumber },
+        data,
+        { new: true }
+      )
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = user
       return defaultResponse(req, res)
     } catch (e) {
       console.log(e)

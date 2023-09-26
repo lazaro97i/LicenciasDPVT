@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react"
 import FormSignIn from "../components/FormSignIn"
 import { useDispatch, useSelector } from "react-redux"
-import userActions from "../store/users/actions"
 import { useNavigate, useLocation } from "react-router-dom"
+import authActions from "../store/users/auth/actions"
 
-const { signinToken } = userActions
+const { signinToken } = authActions
 
 const SignIn = () => {
 
-  const userStore = useSelector((store) => store.user)
+  const authStore = useSelector((store) => store.auth)
   const [tokenLogin, setTokenLogin] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
     let token = localStorage.getItem('token')
-    if (userStore?.success) {
+    if (authStore?.success) {
       setTokenLogin(token)
       if (localStorage.getItem('token')) {
         navigate('/reg_license')
@@ -24,11 +24,11 @@ const SignIn = () => {
     if (token && token !== tokenLogin) {
       dispatch(signinToken({ token: token }))
     }
-  }, [userStore?.success])
+  }, [authStore?.auth])
 
   return (
-    <div id="home" className="div-contain h-screen w-full flex flex-col justify-center items-center px-6 bg-[#0f2942]">
-      <h1 className='text-4xl md:text-5xl text-[#f1f8fe] font-[700] mb-14'>Licencias DPVT</h1>
+    <div id="home" className="w-screen h-full flex flex-col overflow-auto justify-start items-center px-6 pt-10 pb-20 bg-[#0f2942]">
+      <h1 className='text-4xl md:text-5xl text-[#f1f8fe] text-center9 font-[700] mb-14 mt-20'>Licencias DPVT</h1>
       <FormSignIn />
     </div>
   )

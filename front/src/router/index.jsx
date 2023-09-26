@@ -4,6 +4,7 @@ import SignIn from '../pages/SignIn'
 import RegLicense from '../pages/RegLicense'
 import NewUser from '../pages/NewUser'
 import ViewLicense from '../pages/ViewLicense'
+import AdminPanel from '../pages/AdminPanel'
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
         path: '/view_license',
         element: <ViewLicense />
       },
+      {
+        path: '/admin_panel',
+        element: <AdminPanel />
+      }
     ]
   },
   {

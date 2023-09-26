@@ -4,7 +4,11 @@ import { createReducer } from '@reduxjs/toolkit'
 const {
   signIn,
   signinToken,
-  signUp
+  signUp,
+  getUsers,
+  getUser,
+  softDelete,
+  updateUser
 } = userActions
 
 const initialState = {
@@ -30,17 +34,41 @@ const userReducer = createReducer(initialState, (builder) => {
       }
       return newState
     })
-    .addCase(signinToken.fulfilled, (state, action) => {
+    .addCase(signUp.fulfilled, (state, action) => {
       let newState = {
-        userAuth: action.payload.response,
+        new_user: action.payload.response,
         message: action.payload.message,
         success: action.payload.success
       }
       return newState
     })
-    .addCase(signUp.fulfilled, (state, action) => {
+    .addCase(getUsers.fulfilled, (state, action) => {
       let newState = {
-        new_user: action.payload.response,
+        users: action.payload.response,
+        message: action.payload.message,
+        success: action.payload.success
+      }
+      return newState
+    })
+    .addCase(getUser.fulfilled, (state, action) => {
+      let newState = {
+        user: action.payload.response,
+        message: action.payload.message,
+        success: action.payload.success
+      }
+      return newState
+    })
+    .addCase(softDelete.fulfilled, (state, action) => {
+      let newState = {
+        user: action.payload.response,
+        message: action.payload.message,
+        success: action.payload.success
+      }
+      return newState
+    })
+    .addCase(updateUser.fulfilled, (state, action) => {
+      let newState = {
+        user: action.payload.response,
         message: action.payload.message,
         success: action.payload.success
       }

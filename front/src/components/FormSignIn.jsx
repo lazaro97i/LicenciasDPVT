@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import userActions from '../store/users/actions'
 import toast from 'react-hot-toast'
 
-const { signIn, signinToken } = userActions
+const { signIn } = userActions
 
 const FormSignIn = () => {
 
@@ -36,7 +36,7 @@ const FormSignIn = () => {
   }
 
   return (
-    <div className='w-full flex flex-col justify-center items-center bg-[#f1f8fe] py-16 rounded-lg md:max-w-[700px] px-6'>
+    <div className='w-full flex flex-col justify-center items-center bg-[#f1f8fe] py-10 rounded-lg md:max-w-[700px] px-6'>
       <form onKeyDown={(e) => { e.code === 'Enter' ? sendUser() : null }} className="border rounded-sm w-full max-w-[600px] flex flex-col items-center py-10 gap-10 bg-transparent" action="post">
         <p className="text-2xl font-[500]">Iniciar Sesion</p>
         <label className="flex flex-col bg-transparent w-[250px]">
