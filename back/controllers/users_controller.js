@@ -138,12 +138,31 @@ const controller = {
 
     const { file } = req.params
     const { employee } = req
-    console.log(file)
+
     try {
       const user = await User.findOne({ fileNumber: file }, '-_id -password -__v -createdAt -updatedAt')
       req.body.success = true
       req.body.sc = 200
       req.body.data = { user, employee }
+      return defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  softDelete: async (req, res) => {
+
+    const { file } = req.body
+
+    try {
+      await User.findOneAndUpdate(
+        { fileNumber: file },
+        { isDeleted: true },
+        { new: true }
+      )
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = 'Usuario eliminado correctamente'
       return defaultResponse(req, res)
     } catch (e) {
       console.log(e)
