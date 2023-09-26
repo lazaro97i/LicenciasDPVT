@@ -96,7 +96,6 @@ const getUsers = createAsyncThunk('users/getUsers', async () => {
       `${API_URL}/user`,
       sendAuth()
     )
-    console.log(users)
     return {
       response: users.data.response,
       message: 'Usuarios encontrados',
@@ -114,14 +113,40 @@ const getUsers = createAsyncThunk('users/getUsers', async () => {
       success: e.response.data.success
     }
   }
+})
 
+const getUser = createAsyncThunk('users/getUser', async (file) => {
+
+  try {
+    const user = await axios.get(
+      `${API_URL}/user/profile/${file}`,
+      sendAuth()
+    )
+    return {
+      response: user.data.response,
+      message: 'Usuario encontrado',
+      success: user.data.success
+    }
+  } catch (e) {
+    console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
+    return {
+      response: null,
+      message: e.response.data.message,
+      success: e.response.data.success
+    }
+  }
 })
 
 const userActions = {
   signIn,
   signOut,
   signUp,
-  getUsers
+  getUsers,
+  getUser
 }
 
 export default userActions
