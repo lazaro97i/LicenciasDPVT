@@ -9,7 +9,7 @@ const controller = {
 
   read: async (req, res) => {
     try {
-      let users = await User.find()
+      let users = await User.find({}, '-_id -password -__v -createdAt -updatedAt')
       if (users) {
         req.body.success = true
         req.body.sc = 200
@@ -36,7 +36,7 @@ const controller = {
       if (verified) {
         await User.findOneAndUpdate(
           { fileNumber: user.fileNumber },
-          { status: true },
+          { isOnline: true },
           { new: true }
         )
         let token = jwt.sign(
@@ -68,7 +68,7 @@ const controller = {
     const { user } = req
     try {
       await User.findByIdAndUpdate(user.id,
-        { status: false },
+        { isOnline: false },
         { new: true }
       )
       req.body.success = true
@@ -107,7 +107,7 @@ const controller = {
     const data = {
       fileNumber: req.body.fileNumber,
       role: req.body.role,
-      status: false
+      status: true
     }
     if (req.body.password) {
       data.password = bcryptjs.hashSync(req.body.password, 10)
@@ -136,13 +136,14 @@ const controller = {
 
   get_user: async (req, res) => {
 
-    const { user } = req
-
+    const { file } = req.params
+    const { employee } = req
+    console.log(file)
     try {
-      const userData = await User.findById(user.id, '-password -__v -status -createdAt -updatedAt')
+      const user = await User.findOne({ fileNumber: file }, '-_id -password -__v -createdAt -updatedAt')
       req.body.success = true
       req.body.sc = 200
-      req.body.data = userData
+      req.body.data = { user, employee }
       return defaultResponse(req, res)
     } catch (e) {
       console.log(e)

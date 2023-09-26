@@ -12,7 +12,7 @@ const employeeExists = async (req, res, next) => {
   } else {
     req.body.success = false
     req.body.sc = 400
-    req.body.data = 'Legajo inexistente'
+    req.body.data = 'Legajo de empleado inexistente'
     return defaultResponse(req, res)
   }
 }
