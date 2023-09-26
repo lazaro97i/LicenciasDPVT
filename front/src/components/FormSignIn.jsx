@@ -40,7 +40,7 @@ const FormSignIn = () => {
       <form onKeyDown={(e) => { e.code === 'Enter' ? sendUser() : null }} className="border rounded-sm w-full max-w-[600px] flex flex-col items-center py-10 gap-10 bg-transparent" action="post">
         <p className="text-2xl font-[500]">Iniciar Sesion</p>
         <label className="flex flex-col bg-transparent w-[250px]">
-          <input ref={inpUser} className="border-b outline-none py-1 pl-2" type="text" name="user" id="user" placeholder='Usuario' />
+          <input ref={inpUser} className="border-b outline-none py-1 pl-2" type="number" name="user" id="user" placeholder='Legajo' />
         </label>
         <label className="flex flex-col bg-transparent w-[250px]">
           <input ref={inpPass} className="border-b outline-none py-1 pl-2" type="password" name="password" id="password" placeholder='Contraseña' />

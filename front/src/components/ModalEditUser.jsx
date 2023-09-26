@@ -12,7 +12,6 @@ const ModalEditUser = ({ edit, userFile }) => {
 
   const userStore = useSelector((store) => store.user)
   const [newRole, setNewRole] = useState(null)
-  const [newStatus, setNewStatus] = useState()
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [confirmUpdate, setConfirmUpdate] = useState(false)
   const inpOldPass = useRef(null)
@@ -24,23 +23,12 @@ const ModalEditUser = ({ edit, userFile }) => {
   useEffect(() => {
     dispatch(getUser(userFile))
   }, [])
-  useEffect(() => {
-    setNewStatus(userStore?.user?.user?.status)
-  }, [userStore?.user])
-  // useEffect(() => {
-  //   dispatch(getUser(userFile))
-  // }, [newStatus])
 
   if (document.getElementById('formEdit')) {
     if (userStore?.user?.user?.role === 'ADMIN_ROLE') {
       document.getElementById('adminRole').defaultChecked = true
     } else {
       document.getElementById('userRole').defaultChecked = true
-    }
-    if (userStore?.user?.user?.status) {
-      document.getElementById('statusActive').defaultChecked = true
-    } else {
-      document.getElementById('statusInactive').defaultChecked = true
     }
   }
 
@@ -95,19 +83,6 @@ const ModalEditUser = ({ edit, userFile }) => {
               </label>
             </div>
           </label>
-          <label className='flex flex-col max-w-[500px] gap-5 py-5 border-x justify-center w-full'>
-            <span className='flex w-4/5 max-w-[270px] md:max-w-[350px]'>Actualizar estado:</span>
-            <div className='flex gap-10 justify-center'>
-              <label>
-                <input onClick={(e) => { setNewStatus(e.target.value) }} className='peer hidden' type="radio" value={true} name='status' id='statusActive' />
-                <p className='peer-checked:bg-[#3c7720] peer-checked:text-[#f1f8fe] cursor-pointer bg-transparent py-1 w-[100px] text-center rounded-md border border-[#0f2942] peer-checked:border-[#f1f8fe]'>Activo</p>
-              </label>
-              <label>
-                <input onClick={(e) => { setNewStatus(e.target.value) }} className='peer hidden' type="radio" value={false} name='status' id='statusInactive' />
-                <p className='peer-checked:bg-[#94081f] peer-checked:text-[#f1f8fe] cursor-pointer bg-transparent py-1 w-[100px] text-center rounded-md border border-[#0f2942] peer-checked:border-[#f1f8fe]'>Inactivo</p>
-              </label>
-            </div>
-          </label>
           <label className='flex flex-col min-h-[250px] max-w-[500px] gap-y-5 w-full border py-5'>
             <span className='flex w-4/5 max-w-[270px] md:max-w-[350px]'>Actualizar contraseña:</span>
             <input ref={inpOldPass} className='border-b w-[250px] outline-none pl-1' type="password" name='oldPass' id='oldPass' placeholder='Contraseña actual' />
@@ -119,12 +94,11 @@ const ModalEditUser = ({ edit, userFile }) => {
           </label>
         </form>
         <input onClick={() => { verifyUpdate() }} className="mt-10 mb-5 text-xl cursor-pointer px-6 py-2 rounded-md bg-[#0f2942] text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Editar" />
-        <input onClick={() => { setConfirmDelete(true) }} className="text-xl cursor-pointer px-6 py-2 rounded-md bg-red-800 text-[#f1f8fe] hover:bg-red-700 transition-all duration-300" type="button" value="Eliminar usuario" />
+        <input onClick={() => { setConfirmDelete(true) }} className="text-xl cursor-pointer px-6 py-2 rounded-md bg-red-800 text-[#f1f8fe] hover:bg-red-700 transition-all duration-300 mb-10" type="button" value="Eliminar usuario" />
       </div>
       {
         confirmDelete
           ? <ModalConfirmDelete
-            employeeName={userStore?.user?.employee?.name.toUpperCase()}
             userFile={userFile}
             modalDelete={setConfirmDelete}
             modalEdit={edit}
@@ -137,7 +111,6 @@ const ModalEditUser = ({ edit, userFile }) => {
             employeeName={userStore?.user?.employee?.name.toUpperCase()}
             userFile={userFile}
             role={userStore?.user?.user?.role === newRole ? null : newRole}
-            status={newStatus?.toString()}
             password={inpPass2.current.value}
             modalUpdate={setConfirmUpdate}
             modalEdit={edit}
