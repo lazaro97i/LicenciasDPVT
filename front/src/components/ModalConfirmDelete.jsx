@@ -28,8 +28,6 @@ const ModalConfirmDelete = ({ userFile, modalDelete, modalEdit }) => {
     }
   }
 
-  console.log(userStore)
-
   return (
     <div className='w-screen h-screen fixed z-10 top-0 flex justify-center items-center bg-[#09131d] bg-opacity-70 backdrop-blur-sm px-6 py-10'>
       <div className='bg-[#f1f8fe] flex flex-col justify-start items-center py-5 max-w-[700px] rounded-md px-3'>

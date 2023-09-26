@@ -44,8 +44,35 @@ const getEmployee = createAsyncThunk('employee/getEmployee', async (file) => {
 
 })
 
+const newEmployee = createAsyncThunk('employee/newEmployee', async (data) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/employee`,
+      data,
+      sendAuth()
+    )
+    return {
+      response: response.data.response,
+      message: 'Empleado agregado correctamente',
+      success: response.data.success
+    }
+  } catch (e) {
+    console.log(e)
+    if (e.response.status === 401) {
+      localStorage.removeItem('token')
+      window.location.reload()
+    }
+    return {
+      response: null,
+      message: e.response.data.message,
+      success: e.response.data.success
+    }
+  }
+})
+
 const employeeActions = {
-  getEmployee
+  getEmployee,
+  newEmployee
 }
 
 export default employeeActions

@@ -5,6 +5,7 @@ import RegLicense from '../pages/RegLicense'
 import NewUser from '../pages/NewUser'
 import ViewLicense from '../pages/ViewLicense'
 import AdminPanel from '../pages/AdminPanel'
+import NewEmployee from '../pages/NewEmployee'
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
       {
         path: '/admin_panel',
         element: <AdminPanel />
-      }
+      },
+      {
+        path: '/new_employee',
+        element: <NewEmployee />
+      },
     ]
   },
   {

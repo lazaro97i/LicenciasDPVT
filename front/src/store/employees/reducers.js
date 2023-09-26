@@ -1,7 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit"
 import employeeActions from "./actions"
 
-const { getEmployee } = employeeActions
+const {
+  getEmployee,
+  newEmployee
+} = employeeActions
 
 const initialState = {
   employee: [],
@@ -16,6 +19,14 @@ const employeeReducer = createReducer(initialState, (builder) => {
         employee: action.payload.response,
         message: action.payload.message,
         success: action.payload.success
+      }
+      return newState
+    })
+    .addCase(newEmployee.fulfilled, (state, action) => {
+      let newState = {
+        employee: action.payload.response,
+        message: action.payload.message,
+        success: action.payload.message
       }
       return newState
     })
