@@ -2,6 +2,8 @@ import express from 'express'
 import passport from '../config/passport.js'
 import controller from '../controllers/employee_controller.js'
 import employeeExists from '../middlewares/employeeExists.js'
+import validatorSchema from '../middlewares/validatorSchema.js'
+import schema from '../schemas/employee_schema.js'
 
 const router = express.Router()
 
@@ -15,6 +17,7 @@ router.get('/:file',
 //post
 router.post('/',
   passport.authenticate('jwt', { session: false }),
+  validatorSchema(schema),
   employeeExists,
   newEmployee
 )
