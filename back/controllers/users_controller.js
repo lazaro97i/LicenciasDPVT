@@ -140,7 +140,7 @@ const controller = {
     const { employee } = req
 
     try {
-      const user = await User.findOne({ fileNumber: file }, '-_id -password -__v -createdAt -updatedAt')
+      const user = await User.findOne({ fileNumber: file }, '-_id -__v -createdAt -updatedAt')
       req.body.success = true
       req.body.sc = 200
       req.body.data = { user, employee }
@@ -163,6 +163,36 @@ const controller = {
       req.body.success = true
       req.body.sc = 200
       req.body.data = 'Usuario eliminado correctamente'
+      return defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  updateUser: async (req, res) => {
+
+    let data = {
+      fileNumber: req.body.fileNumber,
+      status: req.body.status
+    }
+    if (req.body.role) {
+      data.role = req.body.role
+    }
+    if (req.body.password) {
+      data.password = bcryptjs.hashSync(req.body.password, 10)
+    }
+
+    console.log(data)
+
+    try {
+      const user = await User.findOneAndUpdate(
+        { fileNumber: data.fileNumber },
+        data,
+        { new: true }
+      )
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = user
       return defaultResponse(req, res)
     } catch (e) {
       console.log(e)

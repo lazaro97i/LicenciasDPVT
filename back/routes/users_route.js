@@ -11,7 +11,7 @@ import employeeExists from '../middlewares/employeeExists.js'
 
 const router = express.Router()
 
-const { signin, get_user, signinToken, signout, signup, read, softDelete } = controller
+const { signin, get_user, signinToken, signout, signup, read, softDelete, updateUser } = controller
 
 //get
 router.get('/profile/:file',
@@ -55,7 +55,7 @@ router.put('/delete',
 router.put('/update',
   passport.authenticate('jwt', { session: false }),
   isAdmin,
-  softDelete
+  updateUser
 )
 
 export default router
