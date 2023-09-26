@@ -64,7 +64,7 @@ const newEmployee = createAsyncThunk('employee/newEmployee', async (data) => {
     }
     return {
       response: null,
-      message: e.response.data.message,
+      message: e.response.data.response,
       success: e.response.data.success
     }
   }

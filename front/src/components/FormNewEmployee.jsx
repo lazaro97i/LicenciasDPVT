@@ -29,7 +29,11 @@ const FormNewEmployee = () => {
     if (file?.length === 4) {
       dispatch(getEmployee(file))
     }
+    if (file?.length === 0) {
+      resetForm()
+    }
   }, [file])
+
   useEffect(() => {
     let formInputs = document.getElementsByTagName('input')
     let file = document.getElementById('file')
@@ -45,9 +49,8 @@ const FormNewEmployee = () => {
         }
       })
       file.readOnly = true
-      toast.error('El legajo ingresado pertenece a un empleado')
     } else {
-      resetForm()
+      // resetForm()
       setVerifyFile(true)
     }
   }, [employeeStore])
@@ -89,7 +92,13 @@ const FormNewEmployee = () => {
       if (response.payload.success) {
         toast.success('Empleado agregado correctamente')
         resetForm()
+      } else {
+        response.payload.message.map((m) => {
+          toast.error(m.message)
+        })
       }
+    } else {
+      toast.error('El legajo ingresado pertenece a un empleado')
     }
   }
 
