@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import TablePrint from './TablePrint'
 
 const LicensesModal = ({ handleModal }) => {
 
@@ -32,6 +33,8 @@ const LicensesModal = ({ handleModal }) => {
     }
   }
   generateYears()
+
+  console.log(licenseStore)
 
   const generateMonths = () => {
     let d
@@ -209,6 +212,7 @@ const LicensesModal = ({ handleModal }) => {
 
   return (
     <div className='w-full max-w-[600px] h-auto flex flex-col justify-center items-center rounded-sm py-5 px-3 mt-10'>
+      <TablePrint />
       {
         licenseStore?.licenses
           ? <>
