@@ -7,7 +7,13 @@ import schema from '../schemas/employee_schema.js'
 
 const router = express.Router()
 
-const { get_employee, newEmployee } = controller
+const { get_employee, newEmployee, read } = controller
+
+//get
+router.get('/',
+  passport.authenticate('jwt', { session: false }),
+  read
+)
 
 router.get('/:file',
   passport.authenticate('jwt', { session: false }),

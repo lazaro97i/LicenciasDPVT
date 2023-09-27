@@ -47,7 +47,6 @@ const controller = {
       userId: user.id
     }
 
-
     try {
       const newEmploye = await Employee.create(dataEmployee)
       if (newEmploye) {
@@ -61,6 +60,19 @@ const controller = {
         req.body.data = 'Error al agregar nuevo empleado'
         return defaultResponse(req, res)
       }
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  read: async (req, res) => {
+
+    try {
+      const employees = await Employee.find()
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = employees
+      return defaultResponse(req, res)
     } catch (e) {
       console.log(e)
     }
