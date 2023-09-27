@@ -97,9 +97,6 @@ const controller = {
       user = {
         user: user.id
       }
-      employee = {
-        name: employee.name
-      }
       req.body.success = true
       req.body.sc = 200
       req.body.data = { licenses, user, employee }
