@@ -94,7 +94,7 @@ const ModalEditUser = ({ edit, userFile }) => {
           </label>
         </form>
         <input onClick={() => { verifyUpdate() }} className="mt-10 mb-5 text-xl cursor-pointer px-6 py-2 rounded-md bg-[#0f2942] text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Editar" />
-        <input onClick={() => { setConfirmDelete(true) }} className="text-xl cursor-pointer px-6 py-2 rounded-md bg-red-800 text-[#f1f8fe] hover:bg-red-700 transition-all duration-300 mb-10" type="button" value="Eliminar usuario" />
+        <input onClick={() => { setConfirmDelete(true) }} className="text-xl cursor-pointer px-6 py-2 rounded-md bg-red-800 text-[#f1f8fe] hover:bg-red-700 transition-all duration-300 mb-16" type="button" value="Eliminar usuario" />
       </div>
       {
         confirmDelete

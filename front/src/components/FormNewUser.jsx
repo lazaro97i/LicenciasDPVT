@@ -41,18 +41,20 @@ const FormNewUser = () => {
         console.log(e)
       }
     } else {
-      document.getElementById('pMessageError').classList.remove('hidden')
+      toast.error('Error, verifique los campos nuevamente')
     }
   }
 
   const repeatPass = () => {
-    document.getElementById('pMessageError').classList.add('hidden')
     if (inpPass.current.value !== inpPass2.current.value) {
       document.getElementById('spanPass2').textContent = 'Las contrañas no coinciden'
       setPassCompare(false)
     } else {
       document.getElementById('spanPass2').textContent = ''
       setPassCompare(true)
+    }
+    if (inpPass2.current.value.length === 0) {
+      document.getElementById('spanPass2').textContent = ''
     }
   }
 
@@ -64,7 +66,7 @@ const FormNewUser = () => {
           <input ref={inpFile} className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' type="number" name="file" id="file" placeholder='Legajo' />
         </label>
         <label>
-          <input ref={inpPass} className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' type="password" name="pass" id="pass" placeholder='Contraseña' />
+          <input onChange={repeatPass} ref={inpPass} className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' type="password" name="pass" id="pass" placeholder='Contraseña' />
         </label>
         <label className='flex flex-col'>
           <input onChange={repeatPass} ref={inpPass2} className='outline-none border-b pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' type="password" name="pass2" id="pass2" placeholder='Repetir contraseña' />
@@ -88,7 +90,6 @@ const FormNewUser = () => {
         </label>
       </form >
       <input onClick={submitSignout} className="mt-10 text-xl cursor-pointer px-6 py-2 rounded-md bg-[#0f2942] text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Agregar" />
-      <p id='pMessageError' className='mt-3 text-red-600 hidden'>Corrija campos con errores</p>
     </>
   )
 }

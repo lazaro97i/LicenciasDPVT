@@ -71,7 +71,7 @@ const TableAdminPanel = ({ users }) => {
               users?.filter(u => u.role.includes(filterSelect)).filter(u => u.fileNumber.toString().includes(filterFile)).map((u, i) => {
                 if (u.status) {
                   return (
-                    <tr key={i} className={`grid grid-cols-4 gap-x-6 w-full border-b mt- py-2 ${i % 2 === 0 ? 'trPair' : ''}`}>
+                    <tr key={i} className={`grid grid-cols-4 gap-x-6 w-full border-b py-2`}>
                       <td>{u.fileNumber}</td>
                       <td className={u.role === 'ADMIN_ROLE' ? 'text-lime-600' : ''}>{u.role === 'ADMIN_ROLE' ? 'Admin' : 'Usuario'}</td>
                       <td className={`${u.isOnline ? 'text-lime-600' : 'text-red-600'}`} >{u.isOnline ? 'Online' : 'Offline'}</td>
