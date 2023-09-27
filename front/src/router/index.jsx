@@ -6,6 +6,7 @@ import NewUser from '../pages/NewUser'
 import ViewLicense from '../pages/ViewLicense'
 import AdminPanel from '../pages/AdminPanel'
 import NewEmployee from '../pages/NewEmployee'
+import ListEmployees from '../pages/ListEmployees'
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/new_employee',
         element: <NewEmployee />
+      },
+      {
+        path: '/employees',
+        element: <ListEmployees />
       },
     ]
   },

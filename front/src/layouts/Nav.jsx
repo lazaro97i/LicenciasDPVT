@@ -29,7 +29,7 @@ const routesAdmin = [
         name: 'Agregar empleado'
       },
       {
-        path: '/',
+        path: '/employees',
         name: 'Listar empleados'
       }
     ]

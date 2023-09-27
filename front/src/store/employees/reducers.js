@@ -3,7 +3,8 @@ import employeeActions from "./actions"
 
 const {
   getEmployee,
-  newEmployee
+  newEmployee,
+  getEmployees
 } = employeeActions
 
 const initialState = {
@@ -27,6 +28,14 @@ const employeeReducer = createReducer(initialState, (builder) => {
         employee: action.payload.response,
         message: action.payload.message,
         success: action.payload.message
+      }
+      return newState
+    })
+    .addCase(getEmployees.fulfilled, (state, action) => {
+      let newState = {
+        response: action.payload.response,
+        message: action.payload.message,
+        success: action.payload.success
       }
       return newState
     })
