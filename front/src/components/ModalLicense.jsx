@@ -212,7 +212,7 @@ const LicensesModal = ({ handleModal }) => {
 
   return (
     <div className='w-full max-w-[600px] h-auto flex flex-col justify-center items-center rounded-sm py-5 px-3 mt-10'>
-      <TablePrint />
+      {/* <TablePrint /> */}
       {
         licenseStore?.licenses
           ? <>
