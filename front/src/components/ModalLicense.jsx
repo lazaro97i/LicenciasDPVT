@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import TablePrint from './TablePrint'
+import html2pdf from 'html2pdf.js'
 
 const LicensesModal = ({ handleModal }) => {
 
   const licenseStore = useSelector((store) => store.license)
-  const [month, setMonth] = useState(9)
+  const [month, setMonth] = useState(new Date().getMonth() + 1)
+  const [table, setTable] = useState(false)
   const [year, setYear] = useState(2023)
   const months = [
     'Enero',
@@ -63,10 +65,6 @@ const LicensesModal = ({ handleModal }) => {
     }
   }
   generateMonths()
-
-  useEffect(() => {
-    generateCalendar()
-  }, [licenseStore?.success, month, year, licenseStore])
 
   const generateCalendar = () => {
     const calendar = document.getElementById('divCalendar')
@@ -209,10 +207,26 @@ const LicensesModal = ({ handleModal }) => {
       }
     })
   }
+  useEffect(() => {
+    generateCalendar()
+  }, [licenseStore?.success, month, year])
+
+  const tablePrint = (e) => {
+
+  }
 
   return (
     <div className='w-full max-w-[600px] h-auto flex flex-col justify-center items-center rounded-sm py-5 px-3 mt-10'>
-      {/* <TablePrint /> */}
+      <label onClick={() => { setTable(true) }}>
+        <input className='mb-5 border px-3 py-1 bg-[#0f2942] hover:bg-[#284c6e] cursor-pointer text-[#f1f8fe] rounded-md ' type="button" name="print" id="print" value='Generar planilla' />
+      </label>
+      {
+        table
+          ? <TablePrint
+            table={setTable}
+          />
+          : null
+      }
       {
         licenseStore?.licenses
           ? <>

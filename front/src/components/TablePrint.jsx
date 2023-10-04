@@ -1,769 +1,300 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import html2pdf from 'html2pdf.js'
 
-const TablePrint = () => {
+
+const TablePrint = ({ table }) => {
+
+  const licenseStore = useSelector((store) => store.license)
+  const [month, setMonth] = useState(false)
+  const [cal, setCal] = useState(false)
+  const year = new Date().getFullYear()
+  const months = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre',
+  ]
+  let daysOfLicense = []
+  let days = []
+  const nameDoc = licenseStore?.licenses?.employee?.name.split(' ').join('_')
+
+  const print = (e) => {
+    console.log(e)
+    const elementoParaConvertir = document.getElementById('tablePrint')  // <-- Aquí puedes elegir cualquier elemento del DOM
+    html2pdf()
+      .set({
+        margin: 0,
+        filename: `${nameDoc}.pdf`,
+        image: {
+          type: 'jpeg',
+          quality: 0.98
+        },
+        html2canvas: {
+          scale: 2, // A mayor escala, mejores gráficos, pero más peso
+        },
+        jsPDF: {
+          orientation: 'l',
+          unit: 'in',
+          format: 'legal',
+          putOnlyUsedFonts: true,
+          floatPrecision: 16 // or "smart", default is 16
+        }
+      })
+      .from(elementoParaConvertir)
+      .save()
+      .catch(err => console.log(err));
+  }
+
+  const generateMonths = () => {
+    setMonth(true)
+    for (let i = 1; i <= 12; i++) {
+      let d
+      d = new Date(year, i, 0).getDate()
+      for (let dia = 0; dia < d; dia++) {
+        let dias = new Date(year, i - 1, dia + 1)
+        licenseStore?.licenses?.licenses?.forEach((l) => {
+          if (dias.getFullYear() === parseInt(l.year) &&
+            (dias.getMonth() + 1) === parseInt(l.month) &&
+            dias.getDate() === parseInt(l.day)
+          ) {
+            daysOfLicense.push(
+              {
+                day: dias,
+                type: l.typeLicense,
+                obs: l.observation
+              }
+            )
+          }
+        })
+        days.push(dias)
+      }
+    }
+  }
+
+  // setMonth(month + 1)
+
+  const generateCalendar = async () => {
+    setCal(true)
+    for (let i = 1; i <= 12; i++) {
+      const calendar = document?.getElementById(`divCalendar${i}`)
+      let fragment = ''
+
+      days.forEach(d => {
+        if (d.getMonth() + 1 === i) {
+          if (d.getDate() == 1) {
+            if (d.getDay() === 0 || d.getDay() === 6) {
+              fragment += `<li id='${d.getDate()}' class='border-x w-[1.15rem] text-sm flex justify-center items-center border-black first_class text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
+            } else {
+              fragment += `<li id='${d.getDate()}' class='border-x w-[1.15rem] text-sm flex justify-center items-center border-black first_class text-center'>${d.getDate()}</li>`
+            }
+          } else {
+            if (d.getDay() === 0 || d.getDay() === 6) {
+              fragment += `<li id='${d.getDate()}' class='border-x w-[1.15rem] text-sm flex justify-center items-center border-black text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
+            } else {
+              fragment += `<li class='border-x w-[1.15rem] text-sm flex justify-center items-center border-black text-center' id='${d.getDate()}'>${d.getDate()}</li>`
+            }
+
+          }
+        }
+      })
+      console.log(calendar)
+      if (calendar) {
+        calendar.innerHTML = fragment
+        daysOfLicense.forEach((dl) => {
+          let calendarLicense = [document?.getElementById(`divCalendar${dl.day.getMonth() + 1}`)]
+          const array = [...calendarLicense[0].children]
+          array.map((d) => {
+            if (parseInt(d.id) === dl.day.getDate() && dl.day.getMonth() + 1 === i) {
+              switch (dl.type) {
+                case 'injustificadas':
+                  d?.classList.add("bg-red-700", "text-[#f1f8fe]")
+                  break
+                case 'injustificadas acumuladas':
+                  d?.classList.add("bg-[#b327bb]", "text-[#f1f8fe]")
+                  break
+                case 'tardanzas':
+                  d?.classList.add("bg-[#461d83]", "text-[#f1f8fe]")
+                  break
+                case 'permanencia':
+                  d?.classList.add("bg-[#2e817d]", "text-[#f1f8fe]")
+                  break
+                case 'desc. jornada p/tardanza':
+                  d?.classList.add("bg-[#a48528]", "text-[#f1f8fe]")
+                  break
+                case 'dcto. colacion':
+                  d?.classList.add("bg-[#143a30]", "text-[#f1f8fe]")
+                  break
+                case 'just. c/pago de jornal':
+                  d?.classList.add("bg-[#568521]", "text-[#f1f8fe]")
+                  break
+                case 'total desc. de jornales':
+                  d?.classList.add("bg-[#713f12]", "text-[#f1f8fe]")
+                  break
+                case 'desc. viat. "b" / serv. apoyo':
+                  d?.classList.add("bg-[#1c1917]", "text-[#f1f8fe]")
+                  break
+                case 'presentismo':
+                  d?.classList.add("bg-[#6ee7b7]", "text-[#11251d]")
+                  break
+                case 'reintegro de jornales':
+                  d?.classList.add("bg-[#d17431]", "text-[#f1f8fe]")
+                  break
+                case 'dias habiles':
+                  d?.classList.add("bg-[#f9a8d4]", "text-[#501c39]")
+              }
+            }
+          })
+        })
+      }
+    }
+
+  }
+
+  useEffect(() => {
+    generateCalendar()
+    generateMonths()
+  }, [])
 
   return (
-    <div className='w-screen h-screen flex flex-col justify-start items-center bg-[#fff] fixed top-0 z-20 left-0 px-6 py-10 overflow-scroll'>
-      <div className='grid grid-cols-4 grid-rows-1 w-full border-4 border-black'>
-        <p className=' col-span-3 text-4xl font-[500] flex justify-center items-center'>FICHA INDIVIDUAL DE TARJAS Y LICENCIAS</p>
-        <div className='border-l-2 border-black flex flex-col justify-center items-center'>
-          <p className=' col-span-1 text-2xl  flex justify-center items-center border-black pb-5'>LEGAJO N°</p>
-          <p className='text-xl font-[500] pb-5'>Legajo</p>
-        </div>
-      </div>
-      <div className='grid grid-cols-12 w-full'>
-        <div className='w-full grid grid-cols-12 grid-rows-6 h-auto col-span-8 self-start'>
-          <p className=' col-span-4 flex justify-start items-center pl-5 text-xl border border-black'>APELLIDO Y NOMBRE</p>
-          <p className='col-span-8  border border-black'></p>
-          <p className='border border-black flex justify-center items-center col-span-2'>Depto/Div.</p>
-          <p className='border border-black flex justify-center items-center col-span-4'></p>
-          <p className='border border-black flex justify-center items-center col-span-2'>Cargo</p>
-          <p className='border border-black flex justify-center items-center col-span-4'></p>
-          <p className='border border-black flex justify-center items-center col-span-2'>Funcion</p>
-          <p className='border border-black flex justify-center items-center col-span-4'></p>
-          <p className='border border-black flex justify-center items-center col-span-2'>Fecha clave</p>
-          <p className='border border-black flex justify-center items-center col-span-4'></p>
-          <p className='border border-black flex justify-center items-center col-span-1'>Zona</p>
-          <p className='border border-black flex justify-center items-center col-span-2'></p>
-          <p className='border border-black flex justify-center items-center col-span-2'>Campamento</p>
-          <p className='border border-black flex justify-center items-center col-span-2'></p>
-          <p className='border border-black flex justify-center items-center col-span-2'>Viatico B</p>
-          <p className='border border-black flex justify-center items-center col-span-3'></p>
-          <p className='border border-black flex justify-center items-center col-span-1'>Adscipto</p>
-          <p className='border border-black flex justify-center items-center col-span-2'></p>
-          <p className='border border-black flex justify-center items-center col-span-2'>Desarraigo</p>
-          <p className='border border-black flex justify-center items-center col-span-2'></p>
-          <p className='border border-black flex justify-center items-center col-span-2'>Dedicacion Op</p>
-          <p className='border border-black flex justify-center items-center col-span-3'></p>
-          <div className=' col-span-12 grid grid-rows-2 grid-cols-12 w-full'>
-            <p className='border border-black flex justify-center items-center col-span-2'>AÑO</p>
-            <p className='border border-black flex justify-center items-center col-span-2'>2023</p>
-            <p className='border border-black flex justify-center items-center col-span-8'>DETALLES DE DIAS TRABAJADOS</p>
-            <p className='border border-black flex justify-center items-center col-span-2'>MES</p>
-            <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-              <div className='grid grid-cols-10'>
-                <p className='border border-black flex justify-center items-center col-span-1'>1</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>2</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>3</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>4</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>5</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>6</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>7</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>8</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>9</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>10</p>
-              </div>
-              <div className='grid grid-cols-10'>
-                <p className='border border-black flex justify-center items-center col-span-1'>11</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>12</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>13</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>14</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>15</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>16</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>17</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>18</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>19</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>20</p>
-              </div>
-              <div className='grid grid-cols-11'>
-                <p className='border border-black flex justify-center items-center col-span-1'>21</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>22</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>23</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>24</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>25</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>26</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>27</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>28</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>29</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>30</p>
-                <p className='border border-black flex justify-center items-center col-span-1'>31</p>
-              </div>
-            </div>
+    <div id='table' className='w-full h-full flex flex-col justify-start items-center bg-[#fff] fixed top-0 z-20 left-0 pt-10 overflow-scroll border border-black'>
+      <div id='tablePrint' className=''>
+        <div className='flex justify-center gap-28 w-[1024px] h-[50px] border-b'>
+          <p className='text-3xl'>FICHA INDIVIDUAL DE TARJAS Y LICENCIAS</p>
+          <div className='flex gap-10 items-center'>
+            <p className=' text-center  col-span-1 text-2xl  flex justify-center items-center pb-5'>LEGAJO N°</p>
+            <p className=' text-center text-3xl font-[500] pb-5'>{licenseStore?.licenses?.employee?.fileNumber}</p>
           </div>
         </div>
-        <div className='grid grid-cols-12 h-auto col-span-3'>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-          <p className='border border-black'></p>
-        </div>
-        <div className='grid grid-cols-4 grid-rows-6 h-auto col-span-1'>
-          <p className=' col-span-4 flex justify-center pt-1 border border-black'>CUMPLIMIENTO</p>
-          <p className=' col-span-1  border flex justify-center text-xl items-center border-black'>A</p>
-          <p className=' col-span-3 border border-black justify-center items-center flex'>Inacis. S/J</p>
-          <p className=' col-span-1  border flex justify-center text-xl items-center border-black'>B</p>
-          <p className=' col-span-3 border border-black justify-center items-center flex'>Puntual.</p>
-          <p className=' col-span-1  border flex justify-center text-xl items-center border-black'>C</p>
-          <p className=' col-span-3 border border-black justify-center items-center flex'>Permanen.</p>
-          <p className=' col-span-4  border flex justify-center text-xl items-center border-black'></p>
-          <p className=' col-span-4  border flex justify-center text-l items-center border-black'>ACLARACION</p>
-        </div>
-      </div>
-      <div className='w-full grid grid-cols-12 grid-rows-2'>
-        <div className='w-full grid grid-cols-12 grid-rows-6 h-auto col-span-8 self-start'>
-          <p className='border border-black flex justify-center items-center col-span-2'>Enero</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
+        <div className='grid grid-cols-12 w-[1024px]'>
+          <div className='w-full grid grid-cols-12 h-auto col-span-8 self-end'>
+            <p className=' col-span-4 flex justify-start items-center pl-5 text-xl border border-black h-[30px]'>APELLIDO Y NOMBRE</p>
+            <p className='col-span-8 flex justify-center items-center text-2xl border border-black font-[600] h-[30px]'>{licenseStore?.licenses?.employee?.name.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>Depto/Div.</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-4 font-[600]'>{licenseStore?.licenses?.employee?.apartDiv.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>Cargo</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-4 font-[600]'>{licenseStore?.licenses?.employee?.position.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>Funcion</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-4 font-[600]'>{licenseStore?.licenses?.employee?.function.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>Fecha clave</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-4 font-[600]'>{licenseStore?.licenses?.employee?.keyDate.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-1 text-[.7rem]'>Zona</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem] font-[600]'>{licenseStore?.licenses?.employee?.zone.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>Campamento</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem] font-[600]'>{licenseStore?.licenses?.employee?.camp.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>Viatico B</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-3 font-[600]'>{licenseStore?.licenses?.employee?.viaticB.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-1 text-[.7rem]'>Adscipto</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem] font-[600]'>{licenseStore?.licenses?.employee?.added.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>Desarraigo</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem] font-[600]'>{licenseStore?.licenses?.employee?.uprooting.toUpperCase()}</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>Dedicacion Op</p>
+            <p className='border h-[30px] border-black flex justify-center items-center col-span-3 font-[600]'>{licenseStore?.licenses?.employee?.dedicationOp.toUpperCase()}</p>
+            <div className=' col-span-12 grid grid-rows-2 grid-cols-12 w-full'>
+              <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem] font-[600]'>AÑO</p>
+              <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem] font-[600]'>{year}</p>
+              <p className='border h-[30px] border-black flex justify-center items-center col-span-8 font-[600]'>DETALLES DE DIAS TRABAJADOS</p>
+              <p className='col-span-2 text-center border border-black font-[500]'>MESES</p>
+              <p className='col-span-10 bg-slate-300'></p>
             </div>
           </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Febrero</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
+          <div className=' grid grid-flow-col grid-cols-12 h-auto col-span-3'>
+            <p className='relative col-span-1'> <span className='absolute rotate-90 text-sm font-[500] bottom-[45px] left-[-35px]'>Injustificadas</span></p>
+            <p className='relative col-span-1 w-[200px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[92px] left-[-81px]'>Injustificadas acumuladas</span></p>
+            <p className='relative col-span-1'><span className='absolute rotate-90 text-sm font-[500] bottom-[35px] left-[-25px]'>Tardanzas</span></p>
+            <p className='relative col-span-1'><span className='absolute rotate-90 text-sm font-[500] bottom-[45px] left-[-35px]'>Permanencia</span></p>
+            <p className='relative col-span-1 w-[200px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[88px] left-[-78px]'>Desc. jornada p/tardanza</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[48px] left-[-38px]'>Dcto. colacion</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[77px] left-[-67px]'>Just. c/pago de jornal</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[77px] left-[-67px]'>Total desc. de jornales</span></p>
+            <p className='relative col-span-1 w-[250px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[87px] left-[-78px]'>Desc. viat. B / serv. apoyo</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[42px] left-[-32px]'>Presentismo</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[72px] left-[-63px]'>Reintegro de jornales</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[42px] left-[-33px]'>Dias habiles</span></p>
           </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Marzo</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-          </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Abril</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-          </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Mayo</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-          </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Junio</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-          </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Julio</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-          </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Agosto</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-          </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Septiembre</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-          </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Octubre</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-          </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Noviembre</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-          </div>
-          <p className='border border-black flex justify-center items-center col-span-2'>Diciembre</p>
-          <div className=' row-span-1 grid grid-cols-3 col-span-10'>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-10'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
-            <div className='grid grid-cols-11'>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-              <p className='border border-black flex justify-center items-center col-span-1'></p>
-            </div>
+          <div className='grid grid-cols-4 grid-rows-6 h-auto col-span-1'>
+            <p className=' text-sm col-span-4 flex justify-center pt-1 border border-black text-[.7rem] font-[500] '>CUMPLIMIENTO</p>
+            <p className=' text-sm col-span-1  border flex justify-center items-center border-black text-[.7rem] font-[500]'>A</p>
+            <p className=' text-sm col-span-3 border border-black text-[.7rem] font-[500] justify-center items-center flex'>Inacis. S/J</p>
+            <p className=' text-sm col-span-1  border flex justify-center items-center border-black text-[.7rem] font-[500]'>B</p>
+            <p className=' text-sm col-span-3 border border-black text-[.7rem] font-[500] justify-center items-center flex'>Puntual.</p>
+            <p className=' text-sm col-span-1  border flex justify-center items-center border-black text-[.7rem] font-[500]'>C</p>
+            <p className=' text-sm col-span-3 border border-black text-[.7rem] font-[500] justify-center items-center flex'>Permanen.</p>
+            <p className=' text-sm col-span-4  border flex justify-center items-center border-black text-[.7rem] font-[500]'></p>
+            <p className=' text-sm col-span-4  border flex justify-center text-l items-center border-black text-[.7rem] font-[500]'>ACLARACION</p>
           </div>
         </div>
-        <div className='grid grid-cols-12 grid-rows-2 h-auto col-span-3 row-span-1'>
-          <div className='grid col-span-12 grid-cols-12 grid-rows-6'>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-          </div>
-          <div className='grid col-span-12 grid-cols-12 grid-rows-6'>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-            <p className='border border-black'></p>
-          </div>
+        <div id='divContainer' className='w-[1024px] grid grid-cols-12'>
+          {
+            months?.map((m, i) => {
+              return (
+                <>
+                  <div key={i} className='grid grid-cols-12 h-auto col-span-8 self-start'>
+                    <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>{m}</p>
+                    <div className=' row-span-1 grid grid-cols-3 col-span-10'>
+                      <div className='grid grid-flow-col col-span-3'>
+                        <ol id={`divCalendar${i + 1}`} className='flex border-y border-black'>
+
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                  <div className=' col-span-4 grid grid-flow-col grid-cols-4'>
+                    <div className='grid grid-cols-12 grid-flow-col col-span-3'>
+                      <ol id={`divCalendar${i + 1}`} className='grid grid-cols-12 col-span-12 border-l-2 border-black'>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                      </ol>
+                    </div>
+                    <div className=' border border-black'>
+
+                    </div>
+                  </div>
+                </>
+              )
+            })
+          }
         </div>
-        <div className='grid grid-cols-12 grid-rows-2 h-auto col-span-1 row-span-1'>
-          <div className='grid col-span-12 grid-rows-6'>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
+        <div className=' w-full border-b pb-5 border-black'>
+          <div className='flex w-full mt-5 items-start justify-center flex-wrap gap-x-5 gap-y-2'>
+            <p className='rounded-md bg-red-700 text-[#f1f8fe] px-3 text-[.8rem] py-1'>Injustificadas</p>
+            <p className='rounded-md bg-[#b327bb] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Injustificadas acumuladas</p>
+            <p className='rounded-md bg-[#461d83] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Tardanzas</p>
+            <p className='rounded-md bg-[#2e817d] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Permanencia</p>
+            <p className='rounded-md bg-[#a48528] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Desc. jornada p/tardanza</p>
+            <p className='rounded-md bg-[#143a30] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Dcto. colacion</p>
           </div>
-          <div className='grid col-span-12 grid-rows-6'>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
-            <p className='border border-black col-span-12'></p>
+          <div className='flex w-full mt-2 items-start justify-center flex-wrap gap-x-5 gap-y-2'>
+            <p className='rounded-md bg-[#568521] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Just. c/pago de jornal</p>
+            <p className='rounded-md bg-[#713f12] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Total desc de jornales</p>
+            <p className='rounded-md bg-[#1c1917] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Desc. viat. B / serv. apoyo</p>
+            <p className='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-[.8rem] py-1'>Presentismo</p>
+            <p className='rounded-md bg-[#d17431] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Reintegro de jornales</p>
+            <p className='rounded-md bg-[#f9a8d4] text-[#501c39] px-3 text-[.8rem] py-1'>Dias habiles</p>
           </div>
         </div>
       </div>
-      <div className='w-full col-span-12 border flex flex-wrap border-black overflow-hidden'>
-        <p className='border-b border-black pt-5 pl-5 pb-10'>OBSERVACIONES: <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos aliquam dolores numquam, aut sequi iste nam neque fugit fugiat, libero aliquid, commodi maxime? Quisquam recusandae dolorum maxime, quo quasi velit!
-          Dolores, similique? Quis expedita velit, aliquam dolorem dolore iste, deserunt, itaque minus assumenda quos doloribus temporibus cupiditate autem quaerat explicabo dicta porro omnis repellat natus harum distinctio dignissimos sint? Nostrum?
-          Placeat aliquam non deserunt quod alias ex.
-        </span></p>
+      <div className=' flex justify-center items-center gap-10'>
+        <input onClick={print} type="button" value="IMPRIMIR" className='mb-5 mt-10 border px-3 py-1 bg-[#0f2942] hover:bg-[#284c6e] cursor-pointer text-[#f1f8fe] rounded-md' />
+        <input onClick={() => { table(false) }} type="button" value="ATRAS" className=' mb-5 mt-10 border px-3 py-1 bg-red-700 hover:bg-red-600 cursor-pointer text-[#f1f8fe] rounded-md' />
       </div>
     </div >
   )
