@@ -55,7 +55,7 @@ const TablePrint = ({ table }) => {
       .catch(err => console.log(err));
   }
 
-  const generateMonths = () => {
+  function generateMonths() {
     console.log('holisM')
     setMonth(true)
     for (let i = 1; i <= 12; i++) {
@@ -84,7 +84,7 @@ const TablePrint = ({ table }) => {
 
   // setMonth(month + 1)
 
-  const generateCalendar = () => {
+  function generateCalendar() {
     console.log('holisC')
 
     setCal(true)
