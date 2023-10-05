@@ -223,15 +223,15 @@ const TablePrint = ({ table }) => {
             <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[42px] left-[-33px]'>Dias habiles</span></p>
           </div>
           <div className='grid grid-cols-4 grid-rows-6 h-auto col-span-1'>
-            <p className=' text-sm col-span-4 flex justify-center pt-1 border border-black text-[.7rem] font-[500] '>CUMPLIMIENTO</p>
-            <p className=' text-sm col-span-1  border flex justify-center items-center border-black text-[.7rem] font-[500]'>A</p>
-            <p className=' text-sm col-span-3 border border-black text-[.7rem] font-[500] justify-center items-center flex'>Inacis. S/J</p>
-            <p className=' text-sm col-span-1  border flex justify-center items-center border-black text-[.7rem] font-[500]'>B</p>
-            <p className=' text-sm col-span-3 border border-black text-[.7rem] font-[500] justify-center items-center flex'>Puntual.</p>
-            <p className=' text-sm col-span-1  border flex justify-center items-center border-black text-[.7rem] font-[500]'>C</p>
-            <p className=' text-sm col-span-3 border border-black text-[.7rem] font-[500] justify-center items-center flex'>Permanen.</p>
-            <p className=' text-sm col-span-4  border flex justify-center items-center border-black text-[.7rem] font-[500]'></p>
-            <p className=' text-sm col-span-4  border flex justify-center text-l items-center border-black text-[.7rem] font-[500]'>ACLARACION</p>
+            <p className=' text-sm col-span-4 flex justify-center pt-1 border border-black text-[.69rem] font-[500] '>CUMPLIMIENTO</p>
+            <p className=' text-sm col-span-1  border flex justify-center items-center border-black text-[.69rem] font-[500]'>A</p>
+            <p className=' text-sm col-span-3 border border-black text-[.69rem] font-[500] justify-center items-center flex'>Inacis. S/J</p>
+            <p className=' text-sm col-span-1  border flex justify-center items-center border-black text-[.69rem] font-[500]'>B</p>
+            <p className=' text-sm col-span-3 border border-black text-[.69rem] font-[500] justify-center items-center flex'>Puntual.</p>
+            <p className=' text-sm col-span-1  border flex justify-center items-center border-black text-[.69rem] font-[500]'>C</p>
+            <p className=' text-sm col-span-3 border border-black text-[.69rem] font-[500] justify-center items-center flex'>Permanen.</p>
+            <p className=' text-sm col-span-4  border flex justify-center items-center border-black text-[.69rem] font-[500]'></p>
+            <p className=' text-sm col-span-4  border flex justify-center text-l items-center border-black text-[.69rem] font-[500]'>ACLARACION</p>
           </div>
         </div>
         <div id='divContainer' className='w-[1024px] grid grid-cols-12'>
