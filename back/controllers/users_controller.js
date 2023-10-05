@@ -85,7 +85,11 @@ const controller = {
     let { token } = req.body
     try {
       token = jwt.verify(token, process.env.KEY_JWT)
-      const employe = await Employee.findOne({ fileNumber: user.fileNumber })
+      const employe = await Employee.findOneAndUpdate(
+        { fileNumber: user.fileNumber },
+        { isOnline: false },
+        { new: true }
+      )
       req.body.success = true
       req.body.sc = 200
       req.body.data = {
