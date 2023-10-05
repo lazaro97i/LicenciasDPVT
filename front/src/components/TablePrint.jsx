@@ -26,6 +26,7 @@ const TablePrint = ({ table }) => {
   let daysOfLicense = []
   let days = []
   const nameDoc = licenseStore?.licenses?.employee?.name.split(' ').join('_')
+  const fileDoc = licenseStore?.licenses?.employee?.fileNumber
 
   const print = (e) => {
     console.log(e)
@@ -33,7 +34,7 @@ const TablePrint = ({ table }) => {
     html2pdf()
       .set({
         margin: 0,
-        filename: `${nameDoc}.pdf`,
+        filename: `${nameDoc}-Legajo_${fileDoc}.pdf`,
         image: {
           type: 'jpeg',
           quality: 0.98
@@ -167,8 +168,8 @@ const TablePrint = ({ table }) => {
   }, [])
 
   return (
-    <div id='table' className='w-full h-full flex flex-col justify-start items-center bg-[#fff] fixed top-0 z-20 left-0 pt-10 overflow-scroll border border-black'>
-      <div id='tablePrint' className=''>
+    <div id='table' className='w-full h-full flex flex-col justify-center items-center bg-[#fff] fixed top-0 z-20 pt-10 overflow-scroll border border-black'>
+      <div id='tablePrint' className=' flex flex-wrap justify-center'>
         <div className='flex justify-center gap-28 w-[1024px] h-[50px] border-b'>
           <p className='text-3xl'>FICHA INDIVIDUAL DE TARJAS Y LICENCIAS</p>
           <div className='flex gap-10 items-center'>
