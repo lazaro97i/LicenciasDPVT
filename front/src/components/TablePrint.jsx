@@ -56,6 +56,7 @@ const TablePrint = ({ table }) => {
   }
 
   const generateMonths = () => {
+    console.log('holisM')
     setMonth(true)
     for (let i = 1; i <= 12; i++) {
       let d
@@ -83,7 +84,9 @@ const TablePrint = ({ table }) => {
 
   // setMonth(month + 1)
 
-  const generateCalendar = async () => {
+  const generateCalendar = () => {
+    console.log('holisC')
+
     setCal(true)
     for (let i = 1; i <= 12; i++) {
       const calendar = document?.getElementById(`divCalendar${i}`)
@@ -161,7 +164,6 @@ const TablePrint = ({ table }) => {
   }
 
   useEffect(() => {
-    console.log('holis')
     if (!cal) {
       generateCalendar()
     }
