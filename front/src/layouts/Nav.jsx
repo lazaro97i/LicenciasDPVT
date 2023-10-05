@@ -102,7 +102,7 @@ const Nav = () => {
                         </li>
                         {
                           navLicenses
-                            ? <div className='flex flex-col items-center pt-2 pb-2 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1 z-10'>
+                            ? <div className='flex flex-col items-center py-3 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1 z-10'>
                               {
                                 route.children.map((route, i) => {
                                   return (
@@ -121,7 +121,7 @@ const Nav = () => {
                         </li>
                         {
                           navEmployee
-                            ? <div className='flex flex-col items-center pt-2 pb-2 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1'>
+                            ? <div className='flex flex-col items-center py-3 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1'>
                               {
                                 route.children.map((route, i) => {
                                   return (
@@ -147,7 +147,7 @@ const Nav = () => {
                         </li>
                         {
                           navLicenses
-                            ? <div className='flex flex-col items-center pt-2 pb-2 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1 z-10'>
+                            ? <div className='flex flex-col items-center py-3 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1 z-10'>
                               {
                                 route.children.map((route, i) => {
                                   return (
@@ -166,7 +166,7 @@ const Nav = () => {
                         </li>
                         {
                           navEmployee
-                            ? <div className='flex flex-col items-center pt-2 pb-2 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1'>
+                            ? <div className='flex flex-col items-center py-3 gap-1 absolute bg-[#144b78] w-[194.77px] rounded-b-md mt-1'>
                               {
                                 route.children.map((route, i) => {
                                   return (
