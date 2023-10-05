@@ -6,8 +6,6 @@ import html2pdf from 'html2pdf.js'
 const TablePrint = ({ table }) => {
 
   const licenseStore = useSelector((store) => store.license)
-  const [month, setMonth] = useState(false)
-  const [cal, setCal] = useState(false)
   const year = new Date().getFullYear()
   const months = [
     'Enero',
@@ -61,8 +59,6 @@ const TablePrint = ({ table }) => {
   }, [])
 
   function generateMonths() {
-    console.log('holisM')
-    setMonth(true)
     for (let i = 1; i <= 12; i++) {
       let d
       d = new Date(year, i, 0).getDate()
@@ -90,9 +86,6 @@ const TablePrint = ({ table }) => {
   // setMonth(month + 1)
 
   function generateCalendar() {
-    console.log('holisC')
-
-    setCal(true)
     for (let i = 1; i <= 12; i++) {
       const calendar = document?.getElementById(`divCalendar${i}`)
       let fragment = ''
@@ -171,7 +164,7 @@ const TablePrint = ({ table }) => {
 
 
   return (
-    <div id='table' className='w-full h-full flex flex-col justify-center items-center bg-[#fff] fixed top-0 z-20 pt-10 overflow-scroll border border-black'>
+    <div id='table' className='w-full h-full flex flex-col justify-start items-center bg-[#fff] fixed top-0 z-20 pt-10 overflow-scroll border border-black'>
       <div id='tablePrint' className=' flex flex-wrap justify-center'>
         <div className='flex justify-center gap-28 w-[1024px] h-[50px] border-b'>
           <p className='text-3xl'>FICHA INDIVIDUAL DE TARJAS Y LICENCIAS</p>
