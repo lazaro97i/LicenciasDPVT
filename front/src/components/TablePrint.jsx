@@ -55,6 +55,13 @@ const TablePrint = ({ table }) => {
       .catch(err => console.log(err));
   }
 
+  useEffect(() => {
+    if (!cal) {
+      generateCalendar()
+    }
+    generateMonths()
+  }, [])
+
   function generateMonths() {
     console.log('holisM')
     setMonth(true)
@@ -163,12 +170,7 @@ const TablePrint = ({ table }) => {
 
   }
 
-  useEffect(() => {
-    if (!cal) {
-      generateCalendar()
-    }
-    generateMonths()
-  }, [])
+
 
   return (
     <div id='table' className='w-full h-full flex flex-col justify-center items-center bg-[#fff] fixed top-0 z-20 pt-10 overflow-scroll border border-black'>
