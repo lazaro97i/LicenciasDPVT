@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import TablePrint from './TablePrint'
-import html2pdf from 'html2pdf.js'
+import TablePrint from './TablePrint.jsx'
 
-const LicensesModal = ({ handleModal }) => {
+const LicensesModal = () => {
 
   const licenseStore = useSelector((store) => store.license)
   const [month, setMonth] = useState(new Date().getMonth() + 1)

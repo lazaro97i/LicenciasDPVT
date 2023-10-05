@@ -106,7 +106,7 @@ const TablePrint = ({ table }) => {
           }
         }
       })
-      console.log(calendar)
+
       if (calendar) {
         calendar.innerHTML = fragment
         daysOfLicense.forEach((dl) => {
@@ -160,7 +160,9 @@ const TablePrint = ({ table }) => {
   }
 
   useEffect(() => {
-    generateCalendar()
+    if (!cal) {
+      generateCalendar()
+    }
     generateMonths()
   }, [])
 
@@ -237,7 +239,7 @@ const TablePrint = ({ table }) => {
             months?.map((m, i) => {
               return (
                 <>
-                  <div key={i} className='grid grid-cols-12 h-auto col-span-8 self-start'>
+                  <div className='grid grid-cols-12 h-auto col-span-8 self-start'>
                     <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>{m}</p>
                     <div className=' row-span-1 grid grid-cols-3 col-span-10'>
                       <div className='grid grid-flow-col col-span-3'>
