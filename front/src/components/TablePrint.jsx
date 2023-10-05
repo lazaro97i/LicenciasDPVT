@@ -40,7 +40,7 @@ const TablePrint = ({ table }) => {
           quality: 0.98
         },
         html2canvas: {
-          scale: 2, // A mayor escala, mejores gráficos, pero más peso
+          scale: 3, // A mayor escala, mejores gráficos, pero más peso
         },
         jsPDF: {
           orientation: 'l',
