@@ -55,7 +55,13 @@ const TablePrint = ({ table }) => {
       .catch(err => console.log(err));
   }
 
-  const generateMonths = () => {
+  useEffect(() => {
+    generateMonths()
+    generateCalendar()
+  }, [])
+
+  function generateMonths() {
+    console.log('holisM')
     setMonth(true)
     for (let i = 1; i <= 12; i++) {
       let d
@@ -83,7 +89,9 @@ const TablePrint = ({ table }) => {
 
   // setMonth(month + 1)
 
-  const generateCalendar = async () => {
+  function generateCalendar() {
+    console.log('holisC')
+
     setCal(true)
     for (let i = 1; i <= 12; i++) {
       const calendar = document?.getElementById(`divCalendar${i}`)
@@ -160,13 +168,7 @@ const TablePrint = ({ table }) => {
 
   }
 
-  useEffect(() => {
-    console.log('holis')
-    if (!cal) {
-      generateCalendar()
-    }
-    generateMonths()
-  }, [])
+
 
   return (
     <div id='table' className='w-full h-full flex flex-col justify-center items-center bg-[#fff] fixed top-0 z-20 pt-10 overflow-scroll border border-black'>
