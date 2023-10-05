@@ -56,10 +56,8 @@ const TablePrint = ({ table }) => {
   }
 
   useEffect(() => {
-    if (!cal) {
-      generateCalendar()
-    }
     generateMonths()
+    generateCalendar()
   }, [])
 
   function generateMonths() {
