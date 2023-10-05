@@ -161,6 +161,7 @@ const TablePrint = ({ table }) => {
   }
 
   useEffect(() => {
+    console.log('holis')
     if (!cal) {
       generateCalendar()
     }
