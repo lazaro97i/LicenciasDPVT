@@ -61,7 +61,6 @@ const TablePrint = ({ table }) => {
 
   function generateMonths() {
     for (let i = 1; i <= 12; i++) {
-      setWorkDay(0)
       let workD = document?.getElementById(`workDay${i}`)
       let d
       d = new Date(year, i, 0).getDate()
@@ -87,6 +86,7 @@ const TablePrint = ({ table }) => {
         }
       }
       workD.textContent = workDay
+      setWorkDay(0)
     }
   }
 
