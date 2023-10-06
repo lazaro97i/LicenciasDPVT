@@ -23,7 +23,7 @@ const TablePrint = ({ table }) => {
   ]
   let daysOfLicense = []
   let days = []
-  let [workDay, setWorkDay] = useState(0)
+  let [workDay, setWorkDay] = useState(null)
   const nameDoc = licenseStore?.licenses?.employee?.name.split(' ').join('_')
   const fileDoc = licenseStore?.licenses?.employee?.fileNumber
 
@@ -64,6 +64,7 @@ const TablePrint = ({ table }) => {
       let workD = document?.getElementById(`workDay${i}`)
       let d
       d = new Date(year, i, 0).getDate()
+      setWorkDay(0)
       for (let dia = 0; dia < d; dia++) {
         let dias = new Date(year, i - 1, dia + 1)
         licenseStore?.licenses?.licenses?.forEach((l) => {
@@ -86,7 +87,6 @@ const TablePrint = ({ table }) => {
         }
       }
       workD.textContent = workDay
-      setWorkDay(0)
     }
   }
 
