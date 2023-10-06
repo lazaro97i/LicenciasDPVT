@@ -23,7 +23,6 @@ const TablePrint = ({ table }) => {
   ]
   let daysOfLicense = []
   let days = []
-  let [workDay, setWorkDay] = useState(null)
   const nameDoc = licenseStore?.licenses?.employee?.name.split(' ').join('_')
   const fileDoc = licenseStore?.licenses?.employee?.fileNumber
 
@@ -61,10 +60,8 @@ const TablePrint = ({ table }) => {
 
   function generateMonths() {
     for (let i = 1; i <= 12; i++) {
-      let workD = document?.getElementById(`workDay${i}`)
       let d
       d = new Date(year, i, 0).getDate()
-      setWorkDay(0)
       for (let dia = 0; dia < d; dia++) {
         let dias = new Date(year, i - 1, dia + 1)
         licenseStore?.licenses?.licenses?.forEach((l) => {
@@ -82,11 +79,7 @@ const TablePrint = ({ table }) => {
           }
         })
         days.push(dias)
-        if (dias.getDay() !== 0 && dias.getDay() !== 6) {
-          setWorkDay(workDay++)
-        }
       }
-      workD.textContent = workDay
     }
   }
 
@@ -95,7 +88,23 @@ const TablePrint = ({ table }) => {
   function generateCalendar() {
     for (let i = 1; i <= 12; i++) {
       const calendar = document?.getElementById(`divCalendar${i}`)
-      const license = document?.getElementById(`contDayLicense${i}`)
+      const licenseInjus = document?.getElementById(`licenseInjus${i}`)
+      const licenseInjusAcu = document?.getElementById(`licenseInjusAcu${i}`)
+      const licenseTard = document?.getElementById(`licenseTard${i}`)
+      const licensePerma = document?.getElementById(`licensePerma${i}`)
+      const licenseDescJor = document?.getElementById(`licenseDescJor${i}`)
+      const licenseDctoCol = document?.getElementById(`licenseDctoCol${i}`)
+      const licenseJustPag = document?.getElementById(`licenseJustPag${i}`)
+      const licenseTotDesc = document?.getElementById(`licenseTotDesc${i}`)
+      const licenseDescViat = document?.getElementById(`licenseDescViat${i}`)
+      const licensePres = document?.getElementById(`licensePres${i}`)
+      const licenseReinJor = document?.getElementById(`licenseReinJor${i}`)
+      const licenseParteMed = document?.getElementById(`licenseParteMed${i}`)
+      const licenseAccTrab = document?.getElementById(`licenseAccTrab${i}`)
+      const licenseLic = document?.getElementById(`licenseLic${i}`)
+      const present = document?.getElementById(`present${i}`)
+      const workD = document?.getElementById(`workDay${i}`)
+
       let fragment = ''
 
       days.forEach(d => {
@@ -104,18 +113,27 @@ const TablePrint = ({ table }) => {
             if (d.getDay() === 0 || d.getDay() === 6) {
               fragment += `<li id='${d.getDate()}' class='border-x w-[1.18rem] text-sm flex justify-center items-center border-black text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
             } else {
+              workD.value += 1
+              workD.textContent = workD.value
+              present.value += 1
+              present.textContent = present.value
               fragment += `<li id='${d.getDate()}' class='border-x w-[1.18rem] text-sm flex justify-center items-center border-black bg-blue-600 text-white text-center'>${d.getDate()}</li>`
             }
           } else {
             if (d.getDay() === 0 || d.getDay() === 6) {
               fragment += `<li id='${d.getDate()}' class='border-x w-[1.18rem] text-sm flex justify-center items-center border-black text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
             } else {
+              workD.value += 1
+              workD.textContent = workD.value
+              present.value += 1
+              present.textContent = present.value
               fragment += `<li class='border-x w-[1.18rem] text-sm flex justify-center items-center border-black bg-blue-600 text-white text-center' id='${d.getDate()}'>${d.getDate()}</li>`
             }
 
           }
         }
       })
+      workD.value = 0
 
       if (calendar) {
         calendar.innerHTML = fragment
@@ -126,59 +144,114 @@ const TablePrint = ({ table }) => {
             if (parseInt(d.id) === dl.day.getDate() && dl.day.getMonth() + 1 === i) {
               switch (dl.type) {
                 case 'injustificadas':
-                  license.textContent = 'p'
+                  licenseInjus.value += 1
+                  licenseInjus.textContent = licenseInjus.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#f9a8d4]", "text-[#501c39]")
                   break
                 case 'injustificadas acumuladas':
+                  licenseInjusAcu.value += 1
+                  licenseInjusAcu.textContent = licenseInjusAcu.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#b327bb]", "text-[#f1f8fe]")
                   break
                 case 'tardanzas':
+                  licenseTard.value += 1
+                  licenseTard.textContent = licenseTard.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#7f1d1d]", "text-[#f1f8fe]")
                   break
                 case 'permanencia':
+                  licensePerma.value += 1
+                  licensePerma.textContent = licensePerma.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#fcd34d]", "text-black")
                   break
                 case 'desc. jornada p/tardanza':
+                  licenseDescJor.value += 1
+                  licenseDescJor.textContent = licenseDescJor.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#a48528]", "text-[#f1f8fe]")
                   break
                 case 'dcto. colacion':
+                  licenseDctoCol.value += 1
+                  licenseDctoCol.textContent = licenseDctoCol.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#143a30]", "text-[#f1f8fe]")
                   break
                 case 'just. c/pago de jornal':
+                  licenseJustPag.value += 1
+                  licenseJustPag.textContent = licenseJustPag.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#22d3ee]", "text-[#f1f8fe]")
                   break
                 case 'total desc. de jornales':
+                  licenseTotDesc.value += 1
+                  licenseTotDesc.textContent = licenseTotDesc.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#451a03]", "text-[#f1f8fe]")
                   break
                 case 'desc. viat. "b" / serv. apoyo':
+                  licenseDescViat.value += 1
+                  licenseDescViat.textContent = licenseDescViat.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#1c1917]", "text-[#f1f8fe]")
                   break
                 case 'presentismo':
+                  licensePres.value += 1
+                  licensePres.textContent = licensePres.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#6ee7b7]", "text-[#11251d]")
                   break
                 case 'reintegro de jornales':
+                  licenseReinJor.value += 1
+                  licenseReinJor.textContent = licenseReinJor.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#d17431]", "text-[#f1f8fe]")
                   break
                 case 'licencias':
+                  licenseLic.value += 1
+                  licenseLic.textContent = licenseLic.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-red-600", "text-[#f1f8fe]")
                   break
                 case 'parte medico':
+                  licenseParteMed.value += 1
+                  licenseParteMed.textContent = licenseParteMed.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-lime-600", "text-[#f1f8fe]")
                   break
                 case 'accidente de trabajo':
+                  licenseAccTrab.value += 1
+                  licenseAccTrab.textContent = licenseAccTrab.value
+                  present.value -= 1
+                  present.textContent = present.value
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-violet-600", "text-[#f1f8fe]")
                   break
@@ -187,6 +260,20 @@ const TablePrint = ({ table }) => {
           })
         })
       }
+      licenseInjus.value = 0
+      licenseInjusAcu.value = 0
+      licenseTard.value = 0
+      licensePerma.value = 0
+      licenseDescJor.value = 0
+      licenseDctoCol.value = 0
+      licenseJustPag.value = 0
+      licenseTotDesc.value = 0
+      licenseDescViat.value = 0
+      licensePres.value = 0
+      licenseReinJor.value = 0
+      licenseParteMed.value = 0
+      licenseAccTrab.value = 0
+      licenseLic.value = 0
     }
 
   }
@@ -285,26 +372,26 @@ const TablePrint = ({ table }) => {
                   <div className=' col-span-5 grid grid-flow-col grid-cols-5'>
                     <div className='grid grid-cols-12 grid-flow-col col-span-3'>
                       <ol id={`divCalendar${i + 1}`} className='grid grid-cols-12 col-span-12 border-l-2 border-black'>
-                        <li id={`contDayLicense${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li id={`licenseInjus${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseInjusAcu${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseTard${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licensePerma${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseDescJor${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseDctoCol${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseJustPag${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseTotDesc${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseDescViat${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licensePres${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseReinJor${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseParteMed${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                       </ol>
                     </div>
                     <div className='grid-flow-col col-span-1'>
                       <ol id={`divCalendar${i + 1}`} className='grid grid-cols-4 border-l-black'>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li id={`workDay${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li id={`licenseAccTrab${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseLic${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`present${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`workDay${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                       </ol>
                     </div>
                     <div className=' border border-black'>
