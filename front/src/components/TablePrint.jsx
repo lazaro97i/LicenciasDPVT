@@ -88,26 +88,52 @@ const TablePrint = ({ table }) => {
   function generateCalendar() {
     for (let i = 1; i <= 12; i++) {
       const calendar = document?.getElementById(`divCalendar${i}`)
+      const licenseInjus = document?.getElementById(`licenseInjus${i}`)
+      const licenseInjusAcu = document?.getElementById(`licenseInjusAcu${i}`)
+      const licenseTard = document?.getElementById(`licenseTard${i}`)
+      const licensePerma = document?.getElementById(`licensePerma${i}`)
+      const licenseDescJor = document?.getElementById(`licenseDescJor${i}`)
+      const licenseDctoCol = document?.getElementById(`licenseDctoCol${i}`)
+      const licenseJustPag = document?.getElementById(`licenseJustPag${i}`)
+      const licenseTotDesc = document?.getElementById(`licenseTotDesc${i}`)
+      const licenseDescViat = document?.getElementById(`licenseDescViat${i}`)
+      const licensePres = document?.getElementById(`licensePres${i}`)
+      const licenseReinJor = document?.getElementById(`licenseReinJor${i}`)
+      const licenseParteMed = document?.getElementById(`licenseParteMed${i}`)
+      const licenseAccTrab = document?.getElementById(`licenseAccTrab${i}`)
+      const licenseLic = document?.getElementById(`licenseLic${i}`)
+      const present = document?.getElementById(`present${i}`)
+      const workD = document?.getElementById(`workDay${i}`)
+
       let fragment = ''
 
       days.forEach(d => {
         if (d.getMonth() + 1 === i) {
           if (d.getDate() == 1) {
             if (d.getDay() === 0 || d.getDay() === 6) {
-              fragment += `<li id='${d.getDate()}' class='border-x w-[1.15rem] text-sm flex justify-center items-center border-black first_class text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
+              fragment += `<li id='${d.getDate()}' class='border-x w-[1.18rem] text-sm flex justify-center items-center border-black text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
             } else {
-              fragment += `<li id='${d.getDate()}' class='border-x w-[1.15rem] text-sm flex justify-center items-center border-black first_class text-center'>${d.getDate()}</li>`
+              workD.value += 1
+              workD.textContent = workD.value
+              present.value += 1
+              present.textContent = present.value
+              fragment += `<li id='${d.getDate()}' class='border-x w-[1.18rem] text-sm flex justify-center items-center border-black bg-blue-600 text-white text-center'>${d.getDate()}</li>`
             }
           } else {
             if (d.getDay() === 0 || d.getDay() === 6) {
-              fragment += `<li id='${d.getDate()}' class='border-x w-[1.15rem] text-sm flex justify-center items-center border-black text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
+              fragment += `<li id='${d.getDate()}' class='border-x w-[1.18rem] text-sm flex justify-center items-center border-black text-center bg-[#cfcfcf] text-[#747577]'>${d.getDate()}</li>`
             } else {
-              fragment += `<li class='border-x w-[1.15rem] text-sm flex justify-center items-center border-black text-center' id='${d.getDate()}'>${d.getDate()}</li>`
+              workD.value += 1
+              workD.textContent = workD.value
+              present.value += 1
+              present.textContent = present.value
+              fragment += `<li class='border-x w-[1.18rem] text-sm flex justify-center items-center border-black bg-blue-600 text-white text-center' id='${d.getDate()}'>${d.getDate()}</li>`
             }
 
           }
         }
       })
+      workD.value = 0
 
       if (calendar) {
         calendar.innerHTML = fragment
@@ -118,45 +144,136 @@ const TablePrint = ({ table }) => {
             if (parseInt(d.id) === dl.day.getDate() && dl.day.getMonth() + 1 === i) {
               switch (dl.type) {
                 case 'injustificadas':
-                  d?.classList.add("bg-red-700", "text-[#f1f8fe]")
+                  licenseInjus.value += 1
+                  licenseInjus.textContent = licenseInjus.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-[#f9a8d4]", "text-[#501c39]")
                   break
                 case 'injustificadas acumuladas':
+                  licenseInjusAcu.value += 1
+                  licenseInjusAcu.textContent = licenseInjusAcu.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#b327bb]", "text-[#f1f8fe]")
                   break
                 case 'tardanzas':
-                  d?.classList.add("bg-[#461d83]", "text-[#f1f8fe]")
+                  licenseTard.value += 1
+                  licenseTard.textContent = licenseTard.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-[#7f1d1d]", "text-[#f1f8fe]")
                   break
                 case 'permanencia':
-                  d?.classList.add("bg-[#2e817d]", "text-[#f1f8fe]")
+                  licensePerma.value += 1
+                  licensePerma.textContent = licensePerma.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-[#fcd34d]", "text-black")
                   break
                 case 'desc. jornada p/tardanza':
+                  licenseDescJor.value += 1
+                  licenseDescJor.textContent = licenseDescJor.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#a48528]", "text-[#f1f8fe]")
                   break
                 case 'dcto. colacion':
+                  licenseDctoCol.value += 1
+                  licenseDctoCol.textContent = licenseDctoCol.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#143a30]", "text-[#f1f8fe]")
                   break
                 case 'just. c/pago de jornal':
-                  d?.classList.add("bg-[#568521]", "text-[#f1f8fe]")
+                  licenseJustPag.value += 1
+                  licenseJustPag.textContent = licenseJustPag.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-[#22d3ee]", "text-[#f1f8fe]")
                   break
                 case 'total desc. de jornales':
-                  d?.classList.add("bg-[#713f12]", "text-[#f1f8fe]")
+                  licenseTotDesc.value += 1
+                  licenseTotDesc.textContent = licenseTotDesc.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-[#451a03]", "text-[#f1f8fe]")
                   break
                 case 'desc. viat. "b" / serv. apoyo':
+                  licenseDescViat.value += 1
+                  licenseDescViat.textContent = licenseDescViat.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#1c1917]", "text-[#f1f8fe]")
                   break
                 case 'presentismo':
+                  licensePres.value += 1
+                  licensePres.textContent = licensePres.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#6ee7b7]", "text-[#11251d]")
                   break
                 case 'reintegro de jornales':
+                  licenseReinJor.value += 1
+                  licenseReinJor.textContent = licenseReinJor.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#d17431]", "text-[#f1f8fe]")
                   break
-                case 'dias habiles':
-                  d?.classList.add("bg-[#f9a8d4]", "text-[#501c39]")
+                case 'licencias':
+                  licenseLic.value += 1
+                  licenseLic.textContent = licenseLic.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-red-600", "text-[#f1f8fe]")
+                  break
+                case 'parte medico':
+                  licenseParteMed.value += 1
+                  licenseParteMed.textContent = licenseParteMed.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-lime-600", "text-[#f1f8fe]")
+                  break
+                case 'accidente de trabajo':
+                  licenseAccTrab.value += 1
+                  licenseAccTrab.textContent = licenseAccTrab.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-violet-600", "text-[#f1f8fe]")
+                  break
               }
             }
           })
         })
       }
+      licenseInjus.value = 0
+      licenseInjusAcu.value = 0
+      licenseTard.value = 0
+      licensePerma.value = 0
+      licenseDescJor.value = 0
+      licenseDctoCol.value = 0
+      licenseJustPag.value = 0
+      licenseTotDesc.value = 0
+      licenseDescViat.value = 0
+      licensePres.value = 0
+      licenseReinJor.value = 0
+      licenseParteMed.value = 0
+      licenseAccTrab.value = 0
+      licenseLic.value = 0
     }
 
   }
@@ -164,17 +281,17 @@ const TablePrint = ({ table }) => {
 
 
   return (
-    <div id='table' className='w-full h-full flex flex-col justify-start items-center bg-[#fff] fixed top-0 z-20 pt-10 overflow-scroll border border-black'>
+    <div id='table' className='w-full h-full flex flex-col justify-start items-center bg-[#fff] fixed left-0 top-0 z-20 pt-10 overflow-auto border border-black'>
       <div id='tablePrint' className=' flex flex-wrap justify-center'>
-        <div className='flex justify-center gap-28 w-[1024px] h-[50px] border-b'>
+        <div className='flex justify-center gap-28 w-[1200px] h-[50px] border-b'>
           <p className='text-3xl'>FICHA INDIVIDUAL DE TARJAS Y LICENCIAS</p>
           <div className='flex gap-10 items-center'>
             <p className=' text-center  col-span-1 text-2xl  flex justify-center items-center pb-5'>LEGAJO N°</p>
             <p className=' text-center text-3xl font-[500] pb-5'>{licenseStore?.licenses?.employee?.fileNumber}</p>
           </div>
         </div>
-        <div className='grid grid-cols-12 w-[1024px]'>
-          <div className='w-full grid grid-cols-12 h-auto col-span-8 self-end'>
+        <div className='grid grid-cols-12 w-[1200px]'>
+          <div className='w-full grid grid-cols-12 h-auto col-span-7 self-end'>
             <p className=' col-span-4 flex justify-start items-center pl-5 text-xl border border-black h-[30px]'>APELLIDO Y NOMBRE</p>
             <p className='col-span-8 flex justify-center items-center text-2xl border border-black font-[600] h-[30px]'>{licenseStore?.licenses?.employee?.name.toUpperCase()}</p>
             <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>Depto/Div.</p>
@@ -217,7 +334,13 @@ const TablePrint = ({ table }) => {
             <p className='relative col-span-1 w-[250px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[87px] left-[-78px]'>Desc. viat. B / serv. apoyo</span></p>
             <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[42px] left-[-32px]'>Presentismo</span></p>
             <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[72px] left-[-63px]'>Reintegro de jornales</span></p>
-            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[42px] left-[-33px]'>Dias habiles</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[42px] left-[-33px]'>Parte medico</span></p>
+          </div>
+          <div className='grid grid-flow-col grid-cols-4 h-auto col-span-1'>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[69px] left-[-61px]'>Accidente de trabajo</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[28px] left-[-20px]'>Licencias</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[26px] left-[-19px]'>Presente</span></p>
+            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[39px] left-[-30px]'>Dias habiles</span></p>
           </div>
           <div className='grid grid-cols-4 grid-rows-6 h-auto col-span-1'>
             <p className='col-span-4 flex justify-center pt-1 border border-black text-[.69rem] font-[500] '>CUMPLIMIENTO</p>
@@ -231,12 +354,12 @@ const TablePrint = ({ table }) => {
             <p className='col-span-4  border flex justify-center text-l items-center border-black text-[.69rem] font-[500]'>ACLARACION</p>
           </div>
         </div>
-        <div id='divContainer' className='w-[1024px] grid grid-cols-12'>
+        <div id='divContainer' className='w-[1200px] grid grid-cols-12'>
           {
             months?.map((m, i) => {
               return (
                 <>
-                  <div className='grid grid-cols-12 h-auto col-span-8 self-start'>
+                  <div className='grid grid-cols-12 h-auto col-span-7 self-start'>
                     <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>{m}</p>
                     <div className=' row-span-1 grid grid-cols-3 col-span-10'>
                       <div className='grid grid-flow-col col-span-3'>
@@ -246,21 +369,29 @@ const TablePrint = ({ table }) => {
                       </div>
                     </div>
                   </div>
-                  <div className=' col-span-4 grid grid-flow-col grid-cols-4'>
+                  <div className=' col-span-5 grid grid-flow-col grid-cols-5'>
                     <div className='grid grid-cols-12 grid-flow-col col-span-3'>
                       <ol id={`divCalendar${i + 1}`} className='grid grid-cols-12 col-span-12 border-l-2 border-black'>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
-                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1'></li>
+                        <li id={`licenseInjus${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseInjusAcu${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseTard${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licensePerma${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseDescJor${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseDctoCol${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseJustPag${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseTotDesc${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseDescViat${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licensePres${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseReinJor${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseParteMed${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                      </ol>
+                    </div>
+                    <div className='grid-flow-col col-span-1'>
+                      <ol id={`divCalendar${i + 1}`} className='grid grid-cols-4 border-l-black'>
+                        <li id={`licenseAccTrab${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseLic${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`present${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`workDay${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                       </ol>
                     </div>
                     <div className=' border border-black'>
@@ -274,20 +405,23 @@ const TablePrint = ({ table }) => {
         </div>
         <div className=' w-full border-b pb-5 border-black'>
           <div className='flex w-full mt-5 items-start justify-center flex-wrap gap-x-5 gap-y-2'>
-            <p className='rounded-md bg-red-700 text-[#f1f8fe] px-3 text-[.8rem] py-1'>Injustificadas</p>
+            <p className='rounded-md bg-blue-600 text-white px-3 text-[.8rem] py-1'>Presente</p>
+            <p className='rounded-md bg-red-600 text-[#f1f8fe] px-3 text-[.8rem] py-1'>Licencias</p>
+            <p className='rounded-md bg-lime-600 text-[#f1f8fe] px-3 text-[.8rem] py-1'>Parte medico</p>
+            <p className='rounded-md bg-violet-600 text-[#f1f8fe] px-3 text-[.8rem] py-1'>Accidente de trabajo</p>
+            <p className='rounded-md bg-[#f9a8d4] text-[#501c39] px-3 text-[.8rem] py-1'>Injustificadas</p>
             <p className='rounded-md bg-[#b327bb] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Injustificadas acumuladas</p>
-            <p className='rounded-md bg-[#461d83] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Tardanzas</p>
-            <p className='rounded-md bg-[#2e817d] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Permanencia</p>
-            <p className='rounded-md bg-[#a48528] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Desc. jornada p/tardanza</p>
-            <p className='rounded-md bg-[#143a30] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Dcto. colacion</p>
+            <p className='rounded-md bg-[#7f1d1d] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Tardanzas</p>
+            <p className='rounded-md bg-[#fcd34d] text-black px-3 text-[.8rem] py-1'>Permanencia</p>
           </div>
           <div className='flex w-full mt-2 items-start justify-center flex-wrap gap-x-5 gap-y-2'>
-            <p className='rounded-md bg-[#568521] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Just. c/pago de jornal</p>
-            <p className='rounded-md bg-[#713f12] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Total desc de jornales</p>
+            <p className='rounded-md bg-[#a48528] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Desc. jornada p/tardanza</p>
+            <p className='rounded-md bg-[#143a30] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Dcto. colacion</p>
+            <p className='rounded-md bg-[#22d3ee] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Just. c/pago de jornal</p>
+            <p className='rounded-md bg-[#451a03] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Total desc de jornales</p>
             <p className='rounded-md bg-[#1c1917] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Desc. viat. B / serv. apoyo</p>
             <p className='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-[.8rem] py-1'>Presentismo</p>
             <p className='rounded-md bg-[#d17431] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Reintegro de jornales</p>
-            <p className='rounded-md bg-[#f9a8d4] text-[#501c39] px-3 text-[.8rem] py-1'>Dias habiles</p>
           </div>
         </div>
       </div>

@@ -219,7 +219,7 @@ const FormLicense = (licenses) => {
           <select onClick={(e) => { setTipeLicense(e.target.value), document.getElementById('typeLicenseNullMessage').textContent = '' }} name="select" id="select" className='outline-none bg-transparent border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px] mb-1'>
             <option value={null} className='[display:none]'>Seleccione un tipo de licencia</option>
             {
-              licenses.licenses.map((l, i) => {
+              licenses.licenses.sort().map((l, i) => {
                 return (
                   <option key={i} value={l}>{l}</option>
                 )

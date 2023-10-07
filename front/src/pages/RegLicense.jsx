@@ -18,7 +18,9 @@ const RegLicense = () => {
     'Desc. viat. "B" / serv. apoyo',
     "Presentismo",
     "Reintegro de jornales",
-    "Dias habiles"
+    "Licencias",
+    "Parte Medico",
+    "Accidente de trabajo"
   ]
 
   return (
