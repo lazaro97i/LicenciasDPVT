@@ -1,4 +1,5 @@
 import { User } from "../models/users_model.js"
+import { Employee } from '../models/employee_model.js'
 import defaultResponse from '../config/response.js'
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -8,16 +9,18 @@ const controller = {
 
   read: async (req, res) => {
     try {
-      const users = await User.find()
+      let users = await User.find({}, '-_id -password -__v -createdAt -updatedAt')
       if (users) {
         req.body.success = true
         req.body.sc = 200
         req.body.data = users
         return defaultResponse(req, res)
+      } else {
+        req.body.success = false
+        req.body.sc = 400
+        req.body.data = "Usuarios no encontrados"
+        return defaultResponse(req, res)
       }
-      req.body.success = false
-      req.body.sc = 400
-      req.body.data = "Users not found :("
     } catch (e) {
       console.log(e)
     }
@@ -33,13 +36,13 @@ const controller = {
       if (verified) {
         await User.findOneAndUpdate(
           { fileNumber: user.fileNumber },
-          { status: true },
+          { isOnline: true },
           { new: true }
         )
         let token = jwt.sign(
           { id: user.id },
           process.env.KEY_JWT,
-          { expiresIn: 60 * 60 * 24 }
+          { expiresIn: 60 * 60 * 3 }
         )
         user = {
           fileNumber: user.fileNumber,
@@ -65,7 +68,7 @@ const controller = {
     const { user } = req
     try {
       await User.findByIdAndUpdate(user.id,
-        { status: false },
+        { isOnline: false },
         { new: true }
       )
       req.body.success = true
@@ -82,12 +85,20 @@ const controller = {
     let { token } = req.body
     try {
       token = jwt.verify(token, process.env.KEY_JWT)
+      const employe = await Employee.findOneAndUpdate(
+        { fileNumber: user.fileNumber },
+        { isOnline: false },
+        { new: true }
+      )
       req.body.success = true
       req.body.sc = 200
       req.body.data = {
         fileNumber: user.fileNumber,
         photo: user.photo,
-        role: user.role
+        role: user.role,
+      }
+      if (employe) {
+        req.body.data.name = employe.name
       }
       defaultResponse(req, res)
     } catch (e) {
@@ -99,18 +110,29 @@ const controller = {
 
     const data = {
       fileNumber: req.body.fileNumber,
-      password: bcryptjs.hashSync(req.body.password, 10),
-      photo: req.body.photo,
       role: req.body.role,
-      status: false
+      status: true
+    }
+    if (req.body.password) {
+      data.password = bcryptjs.hashSync(req.body.password, 10)
+    }
+    if (!req.body.photo || req.body.photo === '') {
+      data.photo = 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png'
     }
 
     try {
-      await User.create(data)
-      req.body.success = true
-      req.body.sc = 201
-      req.body.data = "Usuario creado con éxito!"
-      return defaultResponse(req, res)
+      const newUser = await User.create(data)
+      if (newUser) {
+        req.body.success = true
+        req.body.sc = 201
+        req.body.data = "Usuario creado con éxito!"
+        return defaultResponse(req, res)
+      } else {
+        req.body.success = false
+        req.body.sc = 400
+        req.body.data = "Error al crear el usuario verifique los datos"
+        return defaultResponse(req, res)
+      }
     } catch (e) {
       console.log(e)
     }
@@ -118,13 +140,60 @@ const controller = {
 
   get_user: async (req, res) => {
 
-    const { user } = req
+    const { file } = req.params
+    const { employee } = req
 
     try {
-      const userData = await User.findById(user.id, '-password -__v -status -createdAt -updatedAt')
+      const user = await User.findOne({ fileNumber: file }, '-_id -__v -createdAt -updatedAt')
       req.body.success = true
       req.body.sc = 200
-      req.body.data = userData
+      req.body.data = { user, employee }
+      return defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  softDelete: async (req, res) => {
+
+    const { file } = req.body
+
+    try {
+      await User.findOneAndUpdate(
+        { fileNumber: file },
+        { status: false },
+        { new: true }
+      )
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = 'Usuario eliminado correctamente'
+      return defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  updateUser: async (req, res) => {
+
+    let data = {
+      fileNumber: req.body.fileNumber,
+    }
+    if (req.body.role) {
+      data.role = req.body.role
+    }
+    if (req.body.password) {
+      data.password = bcryptjs.hashSync(req.body.password, 10)
+    }
+
+    try {
+      const user = await User.findOneAndUpdate(
+        { fileNumber: data.fileNumber },
+        data,
+        { new: true }
+      )
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = user
       return defaultResponse(req, res)
     } catch (e) {
       console.log(e)

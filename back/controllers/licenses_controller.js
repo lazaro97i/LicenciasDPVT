@@ -8,46 +8,99 @@ const controller = {
 
     const { user } = req
 
-    const dataLicense = {
-      fileNumber: req.body.fileNumber,
-      typeLicense: req.body.typeLicense,
-      startDate: req.body.startDate,
-      endDate: req.body.endDate,
-      observation: req.body.observation,
-      userId: user.id
+    const { fileNumber, typeLicense, startDate, endDate, observation, name, apartDiv, position, keyDate, zone, camp, viaticB, added, uprooting, dedicationOp } = req.body
+
+    let licenseData = []
+
+    function daysOfLicense() {
+      let initialDate = startDate.split('-')
+      let finalDate = endDate.split('-')
+      let initialDateFormat = new Date(initialDate[0], initialDate[1] - 1, initialDate[2])
+      let finalDateFormat = new Date(finalDate[0], finalDate[1] - 1, finalDate[2])
+      let days = Math.floor((finalDateFormat - initialDateFormat) / (1000 * 60 * 60 * 24)) + 1
+      console.log(days);
+      for (let i = 0; i < days; i++) {
+        let year = ''
+        let month = ''
+        let day = ''
+        if (initialDateFormat > finalDateFormat) {
+          break
+        }
+        if (initialDateFormat.getDay() !== 0 && initialDateFormat.getDay() !== 6) {
+          year = initialDateFormat.getFullYear()
+          month = initialDateFormat.getMonth() + 1
+          day = initialDateFormat.getDate()
+          let data = {
+            fileNumber: fileNumber,
+            typeLicense: typeLicense,
+            year: year,
+            month: month,
+            day: day,
+            observation: observation,
+            userId: user.id
+          }
+          licenseData.push(data)
+        } else {
+          days = days + 1
+        }
+        initialDateFormat.setDate(initialDateFormat.getDate() + 1)
+      }
     }
+
     const dataEmployee = {
-      fileNumber: req.body.fileNumber,
-      name: req.body.name,
-      apartDiv: req.body.apartDiv,
-      position: req.body.position,
+      fileNumber: fileNumber,
+      name: name,
+      apartDiv: apartDiv,
+      position: position,
       function: req.body.function,
-      keyDate: req.body.keyDate,
-      zone: req.body.zone,
-      camp: req.body.camp,
-      viaticB: req.body.viaticB,
-      added: req.body.added,
-      uprooting: req.body.uprooting,
-      dedicationOp: req.body.dedicationOp,
+      keyDate: keyDate,
+      zone: zone,
+      camp: camp,
+      viaticB: viaticB,
+      added: added,
+      uprooting: uprooting,
+      dedicationOp: dedicationOp,
       userId: user.id
     }
 
     try {
-      const findEmployee = await Employee.findOne({ fileNumber: req.body.fileNumber })
+      const findEmployee = await Employee.findOne({ fileNumber: fileNumber })
       if (!findEmployee) {
+        daysOfLicense()
         const employee = await Employee.create(dataEmployee)
-        const license = await License.create(dataLicense)
+        const license = await License.create(licenseData)
         req.body.success = true
         req.body.sc = 201
         req.body.data = { license, employee }
         defaultResponse(req, res)
       } else {
-        const license = await License.create(dataLicense)
+        daysOfLicense()
+        const license = await License.create(licenseData)
         req.body.success = true
         req.body.sc = 201
         req.body.data = license
         defaultResponse(req, res)
       }
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  read: async (req, res) => {
+
+    const { file } = req.params
+    let { user } = req
+    let { employee } = req
+
+    try {
+      const licenses = await License.find({ fileNumber: file })
+      user = {
+        user: user.id
+      }
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = { licenses, user, employee }
+      defaultResponse(req, res)
     } catch (e) {
       console.log(e)
     }

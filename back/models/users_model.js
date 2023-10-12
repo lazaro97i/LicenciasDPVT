@@ -22,6 +22,14 @@ const schema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
+  isOnline: {
+    type: Boolean,
+    required: true
+  },
+  isDeleted: {
+    type: Boolean,
+    required: true
+  }
 }, { timestamps: true })
 
 export const User = mongoose.model('user', schema)

@@ -12,17 +12,19 @@ const RegLicense = () => {
     "Tardanzas",
     "Permanencia",
     "Desc. jornada p/tardanza",
-    "Dcto. colación",
+    "Dcto. colacion",
     "Just. c/pago de jornal",
     "Total desc. de jornales",
     'Desc. viat. "B" / serv. apoyo',
     "Presentismo",
     "Reintegro de jornales",
-    "Dias hábiles"
+    "Licencias",
+    "Parte Medico",
+    "Accidente de trabajo"
   ]
 
   return (
-    <div className='w-full h-full div-contain flex flex-col items-center px-6 pt-28 pb-10'>
+    <div className='w-full h-full div-contain flex flex-col items-center px-6 pt-16 pb-10'>
       <FormLicense
         licenses={typeLicense}
       />
