@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import userActions from '../store/users/actions'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const { signOut } = userActions
 
@@ -11,13 +11,17 @@ const routesAdmin = [
     name: 'Licencias',
     children: [
       {
-        path: '/reg_license',
+        path: '/add-license',
         name: 'Agregar licencia'
       },
       {
         path: '/view_license',
         name: 'Ver licencia'
-      }
+      },
+      {
+        path: '/reg-licenses',
+        name: 'Registro de licencias'
+      },
     ]
   },
   {
@@ -39,7 +43,7 @@ const routesAdmin = [
     name: 'Agregar usuario'
   },
   {
-    path: 'admin_panel',
+    path: '/admin_panel',
     name: 'Administracion'
   }
 ]
@@ -49,13 +53,17 @@ const routesUser = [
     name: 'Licencias',
     children: [
       {
-        path: '/reg_license',
+        path: '/add-license',
         name: 'Agregar licencia'
       },
       {
         path: '/view_license',
         name: 'Ver licencia'
-      }
+      },
+      {
+        path: '/reg-licenses',
+        name: 'Registro de licencias'
+      },
     ]
   },
   {

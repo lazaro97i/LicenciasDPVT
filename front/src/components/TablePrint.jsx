@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import html2pdf from 'html2pdf.js'
 
@@ -278,8 +278,6 @@ const TablePrint = ({ table }) => {
 
   }
 
-
-
   return (
     <div id='table' className='w-full h-full flex flex-col justify-start items-center bg-[#fff] fixed left-0 top-0 z-20 pt-10 overflow-auto border border-black'>
       <div id='tablePrint' className=' flex flex-wrap justify-center'>
@@ -359,7 +357,7 @@ const TablePrint = ({ table }) => {
             months?.map((m, i) => {
               return (
                 <>
-                  <div className='grid grid-cols-12 h-auto col-span-7 self-start'>
+                  <div key={i} className='grid grid-cols-12 h-auto col-span-7 self-start'>
                     <p className='border h-[30px] border-black flex justify-center items-center col-span-2 text-[.8rem]'>{m}</p>
                     <div className=' row-span-1 grid grid-cols-3 col-span-10'>
                       <div className='grid grid-flow-col col-span-3'>

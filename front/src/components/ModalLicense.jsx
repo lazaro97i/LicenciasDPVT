@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import TablePrint from './TablePrint.jsx'
+import TableRegLicenses from './TableRegLicenses.jsx'
+import regLicensesActions from '../store/regLicenses/actions.js'
+import toast from 'react-hot-toast'
+
+const { getOneReg } = regLicensesActions
 
 const LicensesModal = () => {
 
   const licenseStore = useSelector((store) => store.license)
+  const regLicensesStore = useSelector((store) => store.regLicenses)
   const [month, setMonth] = useState(new Date().getMonth() + 1)
   const [table, setTable] = useState(false)
+  const [tableReg, setTableReg] = useState(false)
   const [year, setYear] = useState(2023)
+  const dispatch = useDispatch()
   const months = [
     'Enero',
     'Febrero',
@@ -25,6 +33,15 @@ const LicensesModal = () => {
   const years = []
   let daysOfLicense = []
   let days = []
+
+  const getReg = async (e) => {
+    const response = await dispatch(getOneReg(licenseStore?.licenses?.employee?.fileNumber))
+    if (response?.payload?.response?.response?.length < 1) {
+      toast.error('El legajo no tiene registro de licencias')
+    } else {
+      setTableReg(true)
+    }
+  }
 
   const generateYears = () => {
     let year = 2010
@@ -224,21 +241,30 @@ const LicensesModal = () => {
   }
   useEffect(() => {
     generateCalendar()
-  }, [licenseStore?.success, month, year])
-
-  const tablePrint = (e) => {
-
-  }
+  }, [licenseStore?.success, licenseStore?.licenses?.employee?.fileNumber, month, year])
 
   return (
     <div className='w-full max-w-[600px] h-auto flex flex-col justify-center items-center rounded-sm py-5 px-3 mt-10'>
-      <label onClick={() => { setTable(true) }}>
-        <input className='mb-5 border px-3 py-1 bg-[#0f2942] hover:bg-[#284c6e] cursor-pointer text-[#f1f8fe] rounded-md ' type="button" name="print" id="print" value='Generar planilla' />
-      </label>
+      <div className='flex gap-10'>
+        <button onClick={() => { setTable(true) }} className='mb-5 border px-3 py-1 bg-[#0f2942] hover:bg-[#284c6e] text-[#f1f8fe] rounded-md '>
+          Ver ficha
+        </button>
+        <button onClick={getReg} className='mb-5 border px-3 py-1 bg-[#0f2942] hover:bg-[#284c6e] text-[#f1f8fe] rounded-md '>
+          Ver registro
+        </button>
+      </div>
       {
         table
           ? <TablePrint
             table={setTable}
+          />
+          : null
+      }
+      {
+        tableReg
+          ? <TableRegLicenses
+            table={setTableReg}
+            data={regLicensesStore}
           />
           : null
       }

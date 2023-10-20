@@ -11,7 +11,6 @@ const FormLicense = (licenses) => {
 
   const dispatch = useDispatch()
   const employeeStore = useSelector((store) => store.employee)
-  let form = document.getElementById('formLicense')
 
   let inpFile = useRef('')
   let inpName = useRef('')

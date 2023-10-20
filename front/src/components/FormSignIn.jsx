@@ -27,7 +27,7 @@ const FormSignIn = () => {
       let response = await dispatch(signIn(dataUser))
       if (response.payload.success) {
         localStorage.setItem('token', response.payload.response.token)
-        navigate('/reg_license')
+        navigate('/add-license')
         toast.success('Usuario autenticado')
       } else {
         toast.error(response.payload.message)
