@@ -18,7 +18,7 @@ const SignIn = () => {
     if (authStore?.success) {
       setTokenLogin(token)
       if (localStorage.getItem('token')) {
-        navigate('/reg_license')
+        navigate('/add-license')
       }
     }
     if (token && token !== tokenLogin) {

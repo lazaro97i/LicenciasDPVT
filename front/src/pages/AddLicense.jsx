@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FormLicense from '../components/FormLicense'
 
-const RegLicense = () => {
+const AddLicense = () => {
 
   const navigate = useNavigate()
 
@@ -32,4 +32,4 @@ const RegLicense = () => {
   )
 }
 
-export default RegLicense
+export default AddLicense
