@@ -17,6 +17,20 @@ const controller = {
     }
   },
 
+  readOne: async (req, res) => {
+    const { file } = req.params
+    try {
+      const regLicenses = await RegistroDeLicencia.find({ legajo: file })
+      req.body.success = true
+      req.body.sc = 200
+      req.body.data = regLicenses
+      req.body.message = 'Registros encontrados'
+      return defaultResponse(req, res)
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
   create: async (req, res) => {
 
     const data = {
