@@ -81,30 +81,22 @@ const schema = new mongoose.Schema({
       required: true
     }
   },
-  horasExtras: {
-    trabHs: {
-      type: Number,
-      required: true
-    },
-    saldoHs: {
-      type: Number,
-      required: true
-    }
-  },
-  descansoCompensatorio: {
+  diaFem: {
     diasAcordados: {
       type: Number,
       required: true
     },
-    diasTomados: {
+    totalAcumulados: {
+      type: Number,
+      required: true
+    }
+  },
+  anticipoLic: {
+    diasAcordados: {
       type: Number,
       required: true
     },
-    saldo: {
-      type: Number,
-      required: true
-    },
-    expedienteDeReferencia: {
+    totalAcumulados: {
       type: Number,
       required: true
     }

@@ -28,12 +28,10 @@ const FormRegLicense = () => {
   let anualRegTA = useRef(null)
   let anualRegDT = useRef(null)
   let anualRegSaldo = useRef(null)
-  let horasExTH = useRef(null)
-  let horasExSH = useRef(null)
-  let descansoCompDA = useRef(null)
-  let descansoCompDT = useRef(null)
-  let descansoCompSaldo = useRef(null)
-  let descansoCompExpedienteRef = useRef(null)
+  let diaFemDA = useRef(null)
+  let diaFemTA = useRef(null)
+  let anticLicDA = useRef(null)
+  let anticLicTA = useRef(null)
   let inpObserv = useRef(null)
 
 
@@ -113,15 +111,13 @@ const FormRegLicense = () => {
         diasTomados: anualRegDT.current.value,
         saldo: anualRegSaldo.current.value
       },
-      horasExtras: {
-        trabHs: horasExTH.current.value,
-        saldoHs: horasExSH.current.value
+      diaFem: {
+        diasAcordados: diaFemDA.current.value,
+        totalAcumulados: diaFemTA.current.value
       },
-      descansoCompensatorio: {
-        diasAcordados: descansoCompDA.current.value,
-        diasTomados: descansoCompDT.current.value,
-        saldo: descansoCompSaldo.current.value,
-        expedienteDeReferencia: descansoCompExpedienteRef.current.value
+      anticipoLic: {
+        diasAcordados: anticLicDA.current.value,
+        totalAcumulados: anticLicTA.current.value
       },
       fechaDeUtilizacion: {
         desde: {
@@ -152,7 +148,7 @@ const FormRegLicense = () => {
   return (
     <div className='w-full flex flex-col justify-center items-center'>
       <form id='formLicenses' action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border border-[#a6aaae] rounded-sm py-10'>
-        <label className='col-span-1 lg:col-span-2 relative'>
+        <label className='col-span-1 lg:col-span-4 relative'>
           <label className='relative'>
             <input ref={legajo} onClick={(e) => e.target.readOnly ? e.target.readOnly = false : null} type="number" name="file" id="file" placeholder='Legajo' className='pl-7 outline-none border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px]' />
             <span onClick={() => { resetForm(), document.getElementById('file').value = '' }} className='absolute right-10 top-[-3px] cursor-pointer'>
@@ -160,9 +156,10 @@ const FormRegLicense = () => {
             </span>
           </label>
         </label>
-        <label className='col-span-1 lg:col-span-2'>
-          <label>
-            <input ref={nroExpediente} type="number" name="nroExpediente" id="nroExpediente" placeholder='Nro Expediente' className='outline-none border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px] text-center' />
+        <label className='col-span-1'>
+          <label className='flex flex-wrap gap-x-2'>
+            <span className='underline mb-3 w-full text-center'>Nro. expediente</span>
+            <input ref={nroExpediente} type="number" name="nroExpediente" id="nroExpediente" placeholder='N°' className='outline-none border-b border-[#a6aaae] w-3/5 max-w-[270px] md:max-w-[350px] text-center' />
           </label>
         </label>
         <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
@@ -191,27 +188,23 @@ const FormRegLicense = () => {
           <input ref={familiarEnfermoTA} type="number" name="familiarEnfermoTA" id="familiarEnfermoTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
         </label>
         <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
-          <span className='underline mb-3 w-full text-center'>Horas extra</span>
-          <input ref={horasExTH} type="number" name="horasExTH" id="horasExTH" placeholder='Trab. Hs.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
-          <input ref={horasExSH} type="number" name="horasExSH" id="horasExSH" placeholder='Saldo Hs.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+          <span className='underline mb-3 w-full text-center'>Dia femenino</span>
+          <input ref={diaFemDA} type="number" name="fiaFemDA" id="fiaFemDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+          <input ref={diaFemTA} type="number" name="diaFemTA" id="diaFemTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+        </label>
+        <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
+          <span className='underline mb-3 w-full text-center'>Anticipo de licencia</span>
+          <input ref={anticLicDA} type="number" name="anticipoDeLicenciaDA" id="anticipoDeLicenciaDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+          <input ref={anticLicTA} type="number" name="anticipoDeLicenciaTA" id="anticipoDeLicenciaTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
         </label>
         <label className='flex flex-wrap gap-x-2 col-span-2'>
           <span className='underline mb-3 w-full text-center'>Anual reglamentaria</span>
-          <label className='flex gap-y-3 justify-around w-full flex-wrap gap-x-2'>
+          <label className='flex gap-y-3 justify-evenly w-full flex-wrap gap-x-2'>
             <input ref={anualRegPendiente} type="number" name="anualRegPendiente" id="anualRegPendiente" placeholder='Pendiente' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
             <input ref={anualRegAcordPP} type="number" name="anualRegAcordPP" id="anualRegAcordPP" placeholder='Acordada P/Periodo' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
             <input ref={anualRegTA} type="number" name="anualRegTA" id="anualRegTA" placeholder='Total Acumulada' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
             <input ref={anualRegDT} type="number" name="anualRegDT" id="anualRegDT" placeholder='Dias Tomados' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
             <input ref={anualRegSaldo} type="number" name="anualRegSaldo" id="anualRegSaldo" placeholder='Saldo' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
-          </label>
-        </label>
-        <label className='flex flex-wrap gap-x-2 col-span-2'>
-          <span className='underline mb-3 w-full text-center'>Descanso compensatorio</span>
-          <label className='flex gap-y-3 justify-around w-full flex-wrap gap-x-2'>
-            <input ref={descansoCompDA} type="number" name="descansoCompDA" id="descansoCompDA" placeholder='Dias Acordados' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
-            <input ref={descansoCompDT} type="number" name="descansoCompDT" id="descansoCompDT" placeholder='Dias Tomados' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
-            <input ref={descansoCompSaldo} type="number" name="descansoCompSaldo" id="descansoCompSaldo" placeholder='Saldo' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
-            <input ref={descansoCompExpedienteRef} type="number" name="descansoCompExpedienteRef" id="descansoCompExpedienteRef" placeholder='Expediente de Referencia' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
           </label>
         </label>
         <div className='w-full flex justify-center col-span-2'>

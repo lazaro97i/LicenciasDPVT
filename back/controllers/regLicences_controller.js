@@ -42,8 +42,8 @@ const controller = {
       inciso9AnticipoLic: req.body.inciso9AnticipoLic,
       familiarEnfermo: req.body.familiarEnfermo,
       anualReglamentaria: req.body.anualReglamentaria,
-      horasExtras: req.body.horasExtras,
-      descansoCompensatorio: req.body.descansoCompensatorio,
+      diaFem: req.body.diaFem,
+      anticipoLic: req.body.anticipoLic,
       fechaDeUtilizacion: req.body.fechaDeUtilizacion,
       observaciones: req.body.observaciones,
     }
