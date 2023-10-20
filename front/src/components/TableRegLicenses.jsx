@@ -53,8 +53,8 @@ const TableRegLicenses = ({ table, data }) => {
                 <th className='border-x-2 border-collapse text-[11px]' colSpan={2}>Inciso 9° anticipo lic.</th>
                 <th className='border-x-2 border-collapse text-[11px]' colSpan={2}>Familiar Enfermo</th>
                 <th className='border-x-2 border-collapse text-[11px]' colSpan={5}>Anual reglamentaria</th>
-                <th className='border-x-2 border-collapse text-[11px]' colSpan={2}>Horas extra</th>
-                <th className='border-x-2 border-collapse text-[11px]' colSpan={4}>Descanso compensatorio</th>
+                <th className='border-x-2 border-collapse text-[11px]' colSpan={2}>Dia femenino</th>
+                <th className='border-x-2 border-collapse text-[11px]' colSpan={2}>Anticipo de licencia</th>
                 <th className='border-x-2 border-collapse text-[11px]' colSpan={6}>Fecha de utilizacion</th>
                 <th className='border-2 border-collapse text-[11px]' rowSpan={2}>Observaciones</th>
               </tr>
@@ -74,12 +74,10 @@ const TableRegLicenses = ({ table, data }) => {
                 <td className='border border-b-2 border-collapse text-[11px] text-center'>Total acum.</td>
                 <td className='border border-b-2 border-collapse text-[11px] text-center'>Dias tomados</td>
                 <td className='border border-b-2 border-collapse text-[11px] text-center'>Saldo</td>
-                <td className='border border-l-2 border-b-2 border-collapse text-[11px] text-center'>Trab. Hs</td>
-                <td className='border border-r-2 border-b-2 border-collapse text-[11px] text-center'>Saldo Hs.</td>
                 <td className='border border-l-2 border-b-2 border-collapse text-[11px] text-center'>Dias Acord.</td>
-                <td className='border border-b-2 border-collapse text-[11px] text-center'>Dias tomados</td>
-                <td className='border border-b-2 border-collapse text-[11px] text-center'>Saldo</td>
-                <td className='border border-b-2 border-collapse text-[11px] text-center'>Exp. de Ref.</td>
+                <td className='border border-r-2 border-b-2 border-collapse text-[11px] text-center'>Total Acum.</td>
+                <td className='border border-l-2 border-b-2 border-collapse text-[11px] text-center'>Dias Acord.</td>
+                <td className='border border-r-2 border-b-2 border-collapse text-[11px] text-center'>Total Acum.</td>
                 <td className='border border-b-2 border-l-2 border-collapse text-[11px] text-center' colSpan={3}>Desde D/M/A</td>
                 <td className='border border-b-2 border-r-2 border-collapse text-[11px] text-center' colSpan={3}>Hasta D/M/A</td>
               </tr>
@@ -89,34 +87,32 @@ const TableRegLicenses = ({ table, data }) => {
                 data?.regLicenses?.response.map((d, i) => {
                   return (
                     <tr key={i}>
-                      <td className='border text-center text-[13px]'>{d.nroExpediente}</td>
+                      <td className='border-2 text-center text-[13px]'>{d.nroExpediente}</td>
                       <td className='border text-center text-[13px]'>{d?.enfermedadCD?.diasAcordados}</td>
-                      <td className='border text-center text-[13px]'>{d?.enfermedadCD?.totalAcumulados}</td>
+                      <td className='border border-r-2 text-center text-[13px]'>{d?.enfermedadCD?.totalAcumulados}</td>
                       <td className='border text-center text-[13px]'>{d?.enfermedadLD?.diasAcordados}</td>
-                      <td className='border text-center text-[13px]'>{d?.enfermedadLD?.totalAcumulados}</td>
+                      <td className='border border-r-2 text-center text-[13px]'>{d?.enfermedadLD?.totalAcumulados}</td>
                       <td className='border text-center text-[13px]'>{d?.estudios?.diasAcordados}</td>
-                      <td className='border text-center text-[13px]'>{d?.estudios?.totalAcumulados}</td>
+                      <td className='border border-r-2 text-center text-[13px]'>{d?.estudios?.totalAcumulados}</td>
                       <td className='border text-center text-[13px]'>{d?.inciso9AnticipoLic?.diasAcordados}</td>
-                      <td className='border text-center text-[13px]'>{d?.inciso9AnticipoLic?.totalAcumulados}</td>
+                      <td className='border border-r-2 text-center text-[13px]'>{d?.inciso9AnticipoLic?.totalAcumulados}</td>
                       <td className='border text-center text-[13px]'>{d?.familiarEnfermo?.diasAcordados}</td>
-                      <td className='border text-center text-[13px]'>{d?.familiarEnfermo?.totalAcumulados}</td>
+                      <td className='border border-r-2 text-center text-[13px]'>{d?.familiarEnfermo?.totalAcumulados}</td>
                       <td className='border text-center text-[13px]'>{d?.anualReglamentaria?.pendiente}</td>
                       <td className='border text-center text-[13px]'>{d?.anualReglamentaria?.acordadaPPeriodo}</td>
                       <td className='border text-center text-[13px]'>{d?.anualReglamentaria?.totalAcumulada}</td>
                       <td className='border text-center text-[13px]'>{d?.anualReglamentaria?.diasTomados}</td>
-                      <td className='border text-center text-[13px]'>{d?.anualReglamentaria?.saldo}</td>
-                      <td className='border text-center text-[13px]'>{d?.horasExtras?.trabHs}</td>
-                      <td className='border text-center text-[13px]'>{d?.horasExtras?.saldoHs}</td>
-                      <td className='border text-center text-[13px]'>{d?.descansoCompensatorio?.diasAcordados}</td>
-                      <td className='border text-center text-[13px]'>{d?.descansoCompensatorio?.diasTomados}</td>
-                      <td className='border text-center text-[13px]'>{d?.descansoCompensatorio?.saldo}</td>
-                      <td className='border text-center text-[13px]'>{d?.descansoCompensatorio?.expedienteDeReferencia}</td>
+                      <td className='border border-r-2 text-center text-[13px]'>{d?.anualReglamentaria?.saldo}</td>
+                      <td className='border text-center text-[13px]'>{d?.diaFem?.diasAcordados}</td>
+                      <td className='border border-r-2 text-center text-[13px]'>{d?.diaFem?.totalAcumulados}</td>
+                      <td className='border text-center text-[13px]'>{d?.anticipoLic?.diasAcordados}</td>
+                      <td className='border border-r-2 text-center text-[13px]'>{d?.anticipoLic?.totalAcumulados}</td>
                       <td className='border text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.desde.dia}</td>
                       <td className='border text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.desde.mes}</td>
-                      <td className='border text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.desde.año}</td>
+                      <td className='border border-r-2 text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.desde.año}</td>
                       <td className='border text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.hasta.dia}</td>
                       <td className='border text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.hasta.mes}</td>
-                      <td className='border text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.hasta.año}</td>
+                      <td className='border border-r-2 text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.hasta.año}</td>
                       <td className='border text-center text-[13px]'>{d?.observaciones}</td>
                     </tr>
                   )
