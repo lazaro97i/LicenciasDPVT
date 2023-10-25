@@ -32,6 +32,12 @@ const FormRegLicense = () => {
   let diaFemTA = useRef(null)
   let anticLicDA = useRef(null)
   let anticLicTA = useRef(null)
+  let licenciasDA = useRef(null)
+  let licenciasTA = useRef(null)
+  let parteMedDA = useRef(null)
+  let parteMedTA = useRef(null)
+  let accidenteTrabDA = useRef(null)
+  let accidenteTrabTA = useRef(null)
   let inpObserv = useRef(null)
 
 
@@ -119,6 +125,18 @@ const FormRegLicense = () => {
         diasAcordados: anticLicDA.current.value,
         totalAcumulados: anticLicTA.current.value
       },
+      licencias: {
+        diasAcordados: licenciasDA.current.value,
+        totalAcumulados: licenciasTA.current.value
+      },
+      parteMedico: {
+        diasAcordados: parteMedDA.current.value,
+        totalAcumulados: parteMedTA.current.value
+      },
+      accidenteTrab: {
+        diasAcordados: accidenteTrabDA.current.value,
+        totalAcumulados: accidenteTrabTA.current.value
+      },
       fechaDeUtilizacion: {
         desde: {
           dia: fechaDesde.current.value.split('-')[2],
@@ -148,7 +166,7 @@ const FormRegLicense = () => {
   return (
     <div className='w-full flex flex-col justify-center items-center'>
       <form id='formLicenses' action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border border-[#a6aaae] rounded-sm py-10'>
-        <label className='col-span-1 lg:col-span-4 relative'>
+        <label className='col-span-2 md:col-span-1 lg:col-span-2 relative'>
           <label className='relative'>
             <input ref={legajo} onClick={(e) => e.target.readOnly ? e.target.readOnly = false : null} type="number" name="file" id="file" placeholder='Legajo' className='pl-7 outline-none border-b border-[#a6aaae] w-4/5 max-w-[270px] md:max-w-[350px]' />
             <span onClick={() => { resetForm(), document.getElementById('file').value = '' }} className='absolute right-10 top-[-3px] cursor-pointer'>
@@ -156,46 +174,61 @@ const FormRegLicense = () => {
             </span>
           </label>
         </label>
-        <label className='col-span-1'>
+        <label className='col-span-2 md:col-span-1 lg:col-span-2'>
           <label className='flex flex-wrap gap-x-2'>
             <span className='underline mb-3 w-full text-center'>Nro. expediente</span>
             <input ref={nroExpediente} type="number" name="nroExpediente" id="nroExpediente" placeholder='N°' className='outline-none border-b border-[#a6aaae] w-3/5 max-w-[270px] md:max-w-[350px] text-center' />
           </label>
         </label>
-        <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
           <span className='underline mb-3 w-full text-center'>Enfermedad C/D</span>
           <input ref={enfermedadCDDA} type="number" name="enfermedadCDDA" id="enfermedadCDDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
           <input ref={enfermedadCDTA} type="number" name="enfermedadCDTA" id="enfermedadCDTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
         </label>
-        <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
           <span className='underline mb-3 w-full text-center'>Enfermedad L/D</span>
           <input ref={enfermedadLDDA} type="number" name="enfermedadLDDA" id="enfermedadLDDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
           <input ref={enfermedadLDTA} type="number" name="enfermedadLDTA" id="enfermedadLDTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
         </label>
-        <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
           <span className='underline mb-3 w-full text-center'>Estudios</span>
           <input ref={estudiosDA} type="number" name="estudiosDA" id="estudiosDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
           <input ref={estudiosTA} type="number" name="estudiosTA" id="estudiosTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
         </label>
-        <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
           <span className='underline mb-3 w-full text-center'>Inciso 9° aticipo Lic.</span>
           <input ref={inciso9DA} type="number" name="inciso9DA" id="inciso9DA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
           <input ref={inciso9TA} type="number" name="inciso9TA" id="inciso9TA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
         </label>
-        <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
           <span className='underline mb-3 w-full text-center'>Familiar enfermo</span>
           <input ref={familiarEnfermoDA} type="number" name="familiarEnfermoDA" id="familiarEnfermoDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
           <input ref={familiarEnfermoTA} type="number" name="familiarEnfermoTA" id="familiarEnfermoTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
         </label>
-        <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
           <span className='underline mb-3 w-full text-center'>Dia femenino</span>
           <input ref={diaFemDA} type="number" name="fiaFemDA" id="fiaFemDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
           <input ref={diaFemTA} type="number" name="diaFemTA" id="diaFemTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
         </label>
-        <label className='flex flex-wrap gap-x-2 col-span-2 lg:col-span-1'>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
           <span className='underline mb-3 w-full text-center'>Anticipo de licencia</span>
           <input ref={anticLicDA} type="number" name="anticipoDeLicenciaDA" id="anticipoDeLicenciaDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
           <input ref={anticLicTA} type="number" name="anticipoDeLicenciaTA" id="anticipoDeLicenciaTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+        </label>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
+          <span className='underline mb-3 w-full text-center'>Licencias</span>
+          <input ref={licenciasDA} type="number" name="licenciasDA" id="licenciasDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+          <input ref={licenciasTA} type="number" name="licenciasTA" id="licenciasTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+        </label>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
+          <span className='underline mb-3 w-full text-center'>Parte medico</span>
+          <input ref={parteMedDA} type="number" name="parteMedDA" id="parteMedDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+          <input ref={parteMedTA} type="number" name="parteMedTA" id="parteMedTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+        </label>
+        <label className='flex flex-wrap gap-x-2 col-span-2 md:col-span-1'>
+          <span className='underline mb-3 w-full text-center'>Accidente de trabajo</span>
+          <input ref={accidenteTrabDA} type="number" name="accidenteTrabDA" id="accidenteTrabDA" placeholder='Dias Acord.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+          <input ref={accidenteTrabTA} type="number" name="accidenteTrabTA" id="accidenteTrabTA" placeholder='Total Acum.' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
         </label>
         <label className='flex flex-wrap gap-x-2 col-span-2'>
           <span className='underline mb-3 w-full text-center'>Anual reglamentaria</span>

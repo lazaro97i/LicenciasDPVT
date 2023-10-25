@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
 import FormLicense from '../components/FormLicense'
 
 const AddLicense = () => {
-
-  const navigate = useNavigate()
 
   const typeLicense = [
     "Injustificadas",
@@ -18,9 +15,6 @@ const AddLicense = () => {
     'Desc. viat. "B" / serv. apoyo',
     "Presentismo",
     "Reintegro de jornales",
-    "Licencias",
-    "Parte Medico",
-    "Accidente de trabajo"
   ]
 
   return (
