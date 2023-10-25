@@ -44,6 +44,9 @@ const controller = {
       anualReglamentaria: req.body.anualReglamentaria,
       diaFem: req.body.diaFem,
       anticipoLic: req.body.anticipoLic,
+      licencias: req.body.licencias,
+      parteMedico: req.body.parteMedico,
+      accidenteTrab: req.body.accidenteTrab,
       fechaDeUtilizacion: req.body.fechaDeUtilizacion,
       observaciones: req.body.observaciones,
     }
