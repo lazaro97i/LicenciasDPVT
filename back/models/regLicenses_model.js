@@ -101,6 +101,36 @@ const schema = new mongoose.Schema({
       required: true
     }
   },
+  licencias: {
+    diasAcordados: {
+      type: Number,
+      required: true
+    },
+    totalAcumulados: {
+      type: Number,
+      required: true
+    }
+  },
+  parteMedico: {
+    diasAcordados: {
+      type: Number,
+      required: true
+    },
+    totalAcumulados: {
+      type: Number,
+      required: true
+    }
+  },
+  accidenteTrab: {
+    diasAcordados: {
+      type: Number,
+      required: true
+    },
+    totalAcumulados: {
+      type: Number,
+      required: true
+    }
+  },
   fechaDeUtilizacion: {
     desde: {
       dia: {
