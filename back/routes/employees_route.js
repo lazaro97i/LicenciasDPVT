@@ -23,7 +23,7 @@ router.get('/:file',
 //post
 router.post('/',
   passport.authenticate('jwt', { session: false }),
-  validatorSchema(schema),
+  // validatorSchema(schema),
   employeeExists,
   newEmployee
 )

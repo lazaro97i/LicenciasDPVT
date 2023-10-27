@@ -24,7 +24,7 @@ const employeeExists = async (req, res, next) => {
     if (employee) {
       req.body.success = false
       req.body.sc = 400
-      req.body.data = 'El legjao ingresado ya pertenece a un empleado'
+      req.body.data = 'El legajo ingresado ya pertenece a un empleado'
       return defaultResponse(req, res)
     } else {
       next()
@@ -38,7 +38,7 @@ const employeeExists = async (req, res, next) => {
     } else {
       req.body.success = false
       req.body.sc = 400
-      req.body.message = 'El legjao ingresado no pertenece a un empleado'
+      req.body.message = 'El legajo ingresado no pertenece a un empleado'
       return defaultResponse(req, res)
     }
   }

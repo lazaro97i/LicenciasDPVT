@@ -37,7 +37,7 @@ const getEmployee = createAsyncThunk('employee/getEmployee', async (file) => {
     }
     return {
       response: null,
-      message: e.response.data.response,
+      message: [e.response.data.response],
       success: e.response.data.success
     }
   }

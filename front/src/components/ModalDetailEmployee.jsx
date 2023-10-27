@@ -11,26 +11,28 @@ const ModalDetailEmployee = ({ detail, employee }) => {
         <p className='mt-20 text-3xl font-[500]'>{employee[0]?.name?.toUpperCase()}</p>
         <p className='text-start min-[600px]:text-center w-full mt-5'>Legajo: <span className='font-[500]'>{employee[0]?.fileNumber}</span></p>
         <div className='mt-10 w-full grid grid-cols-2 rounded-t-md'>
+          <p className='font-[500] py-2 flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Cuil:</p>
+          <span className='font-[400] py-2 text-center pl-3'>{employee[0]?.cuil}</span>
           <p className='font-[500] bg-[#e3effb] py-2 flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Depto/Div:</p>
-          <span className='font-[400] bg-[#e3effb] py-2 text-center pl-3'>{employee[0]?.apartDiv}</span>
+          <span className='font-[400] bg-[#e3effb] py-2 text-center pl-3'>{employee[0]?.apartDiv?.toUpperCase()}</span>
           <p className='font-[500] py-2  flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Cargo:</p>
-          <span className='font-[400] py-2  text-center pl-3'>{employee[0]?.position}</span>
+          <span className='font-[400] py-2  text-center pl-3'>{employee[0]?.position?.toUpperCase()}</span>
           <p className='font-[500] bg-[#e3effb] py-2 flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Funcion:</p>
-          <span className='font-[400] bg-[#e3effb] py-2 text-center pl-3'>{employee[0]?.function}</span>
+          <span className='font-[400] bg-[#e3effb] py-2 text-center pl-3'>{employee[0]?.function?.toUpperCase()}</span>
           <p className='font-[500] py-2 flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Fecha clave:</p>
-          <span className='font-[400] py-2 text-center pl-3'>{employee[0]?.keyDate}</span>
+          <span className='font-[400] py-2 text-center pl-3'>{employee[0]?.keyDate?.toUpperCase()}</span>
           <p className='font-[500] py-2 bg-[#e3effb] flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Zona:</p>
-          <span className='font-[400] py-2 bg-[#e3effb] text-center pl-3'>{employee[0]?.zone}</span>
+          <span className='font-[400] py-2 bg-[#e3effb] text-center pl-3'>{employee[0]?.zone?.toUpperCase()}</span>
           <p className='font-[500] py-2 flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Campamento:</p>
-          <span className='font-[400] py-2 text-center pl-3'>{employee[0]?.camp}</span>
+          <span className='font-[400] py-2 text-center pl-3'>{employee[0]?.camp?.toUpperCase()}</span>
           <p className='font-[500] py-2 bg-[#e3effb] flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Viatico B:</p>
-          <span className='font-[400] py-2 bg-[#e3effb] text-center pl-3'>{employee[0]?.viaticB}</span>
+          <span className='font-[400] py-2 bg-[#e3effb] text-center pl-3'>{employee[0]?.viaticB?.toUpperCase()}</span>
           <p className='font-[500] py-2 flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Adscripto:</p>
-          <span className='font-[400] py-2 text-center pl-3'>{employee[0]?.added}</span>
+          <span className='font-[400] py-2 text-center pl-3'>{employee[0]?.added?.toUpperCase()}</span>
           <p className='font-[500] py-2 bg-[#e3effb] flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Desarraigo:</p>
-          <span className='font-[400] py-2 bg-[#e3effb] text-center pl-3'>{employee[0]?.uprooting}</span>
+          <span className='font-[400] py-2 bg-[#e3effb] text-center pl-3'>{employee[0]?.uprooting?.toUpperCase()}</span>
           <p className='font-[500] py-2 flex justify-start min-[600px]:justify-center pl-3 gap-3 col-span-1'>Dedicacion Op.:</p>
-          <span className='font-[400] py-2 text-center pl-3'>{employee[0]?.dedicationOp}</span>
+          <span className='font-[400] py-2 text-center pl-3'>{employee[0]?.dedicationOp?.toUpperCase()}</span>
         </div>
         <input onClick={() => { detail(false) }} className="mt-10 mb-5 text-xl cursor-pointer px-6 py-2 rounded-md bg-[#0f2942] text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Atras" />
       </div>

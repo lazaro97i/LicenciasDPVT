@@ -11,9 +11,9 @@ const FormLicense = (licenses) => {
 
   const dispatch = useDispatch()
   const employeeStore = useSelector((store) => store.employee)
-
   let inpFile = useRef('')
   let inpName = useRef('')
+  let inpCuil = useRef('')
   let inpApart = useRef('')
   let inpPosition = useRef('')
   let inpFunction = useRef('')
@@ -37,22 +37,23 @@ const FormLicense = (licenses) => {
       document.getElementById('typeLicenseNullMessage').textContent = 'Debe indicar el tipo de licencia'
     }
     const data = {
-      fileNumber: (inpFile.current.value).toLowerCase(),
-      name: (inpName.current.value).toLowerCase(),
-      apartDiv: (inpApart.current.value).toLowerCase(),
-      position: (inpPosition.current.value).toLowerCase(),
-      function: (inpFunction.current.value).toLowerCase(),
-      keyDate: (inpKeyDate.current.value).toLowerCase(),
-      zone: (inpZone.current.value).toLowerCase(),
-      camp: (inpCamp.current.value).toLowerCase(),
-      viaticB: (inpViatic.current.value).toLowerCase(),
-      added: (inpAdded.current.value).toLowerCase(),
-      uprooting: (inpUprooting.current.value).toLowerCase(),
-      dedicationOp: (inpDedication.current.value).toLowerCase(),
-      typeLicense: (typeLicense).toLowerCase(),
+      fileNumber: inpFile.current.value,
+      name: (inpName.current.value).toUpperCase(),
+      apartDiv: (inpApart.current.value).toUpperCase(),
+      position: (inpPosition.current.value).toUpperCase(),
+      function: (inpFunction.current.value).toUpperCase(),
+      keyDate: (inpKeyDate.current.value).toUpperCase(),
+      zone: (inpZone.current.value).toUpperCase(),
+      camp: (inpCamp.current.value).toUpperCase(),
+      viaticB: (inpViatic.current.value).toUpperCase(),
+      added: (inpAdded.current.value).toUpperCase(),
+      uprooting: (inpUprooting.current.value).toUpperCase(),
+      dedicationOp: (inpDedication.current.value).toUpperCase(),
+      typeLicense: (typeLicense).toUpperCase(),
       startDate: inpStartDate.current.value,
       endDate: inpEndDate.current.value,
-      observation: (inpObserv.current.value).toLowerCase()
+      cuil: inpCuil.current.value,
+      observation: (inpObserv.current.value).toUpperCase()
     }
     let response = await dispatch(createLicense(data))
     if (response?.payload?.success) {
@@ -90,22 +91,24 @@ const FormLicense = (licenses) => {
 
   useEffect(() => {
     let formInputs = document.getElementsByTagName('input')
-    let file = document.getElementById('file')
+    let fileNum = document.getElementById('file')
     const arrayInputs = [...formInputs]
-    if (employeeStore?.success) {
-      arrayInputs.map((c, i) => {
-        if (c.type === 'text') {
-          let employee = Object.entries(employeeStore.employee)
+    if (employeeStore?.employee && file?.length > 0) {
+      arrayInputs.map((c, i = 1) => {
+        if (c.type === 'text' || c.id === 'cuil') {
+          let employee = Object.entries(employeeStore?.employee)
+          console.log({ c })
           c.value = employee[i + 1][1]
           c.readOnly = true
           c.classList.add('bg-[#a7a7a731]', 'rounded-t-sm')
         }
       })
-      file.readOnly = true
+      fileNum.readOnly = true
     } else {
       resetForm()
+      setFile(null)
     }
-  }, [employeeStore])
+  }, [employeeStore.employee])
 
   const daysOfLicense = (e) => {
     let initialDate = inpStartDate.current.value.split('-')
@@ -167,8 +170,11 @@ const FormLicense = (licenses) => {
           </label>
 
         </label>
-        <label className='md:col-span-2 lg:col-span-4'>
+        <label className='md:col-span-2'>
           <input ref={inpName} type="text" name="name" id="name" placeholder='Apellido y nombre' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+        </label>
+        <label className='md:col-span-2'>
+          <input ref={inpCuil} type="number" name="cuil" id="cuil" placeholder='Nro. Cuil' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
           <input ref={inpApart} type="text" name="apartDiv" id="apartDiv" placeholder='Depto/Div' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
