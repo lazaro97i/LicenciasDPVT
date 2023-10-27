@@ -10,21 +10,28 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
+  cuil: {
+    type: Number,
+    required: true
+  },
   apartDiv: {
     type: String,
     required: true
   },
   position: {
     type: String,
-    required: true
+    required: false,
+    default: 'sin datos'
   },
   function: {
     type: String,
-    required: true
+    required: false,
+    default: 'sin datos'
   },
   keyDate: {
     type: String,
-    required: true
+    required: false,
+    default: 'sin datos'
   },
   zone: {
     type: String,
@@ -32,27 +39,28 @@ const schema = new mongoose.Schema({
   },
   camp: {
     type: String,
-    required: true
+    required: false,
+    default: 'sin datos'
   },
   viaticB: {
     type: String,
-    required: true
+    required: false,
+    default: 'sin datos'
   },
   added: {
     type: String,
-    required: true
+    required: false,
+    default: 'sin datos'
   },
   uprooting: {
     type: String,
-    required: true
+    required: false,
+    default: 'sin datos'
   },
   dedicationOp: {
     type: String,
-    required: true
-  },
-  userId: {
-    type: mongoose.ObjectId,
-    required: true
+    required: false,
+    default: 'sin datos'
   }
 }, { timestamps: true })
 

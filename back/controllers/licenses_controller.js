@@ -8,7 +8,7 @@ const controller = {
 
     const { user } = req
 
-    const { fileNumber, typeLicense, startDate, endDate, observation, name, apartDiv, position, keyDate, zone, camp, viaticB, added, uprooting, dedicationOp } = req.body
+    const { fileNumber, typeLicense, startDate, endDate, observation, name, apartDiv, position, keyDate, zone, camp, viaticB, added, uprooting, dedicationOp, cuil } = req.body
 
     let licenseData = []
 
@@ -60,7 +60,7 @@ const controller = {
       added: added,
       uprooting: uprooting,
       dedicationOp: dedicationOp,
-      userId: user.id
+      cuil: cuil
     }
 
     try {
