@@ -21,17 +21,17 @@ const schema = new mongoose.Schema({
   position: {
     type: String,
     required: false,
-    default: 'sin datos'
+    default: ''
   },
   function: {
     type: String,
     required: false,
-    default: 'sin datos'
+    default: ''
   },
   keyDate: {
     type: String,
     required: false,
-    default: 'sin datos'
+    default: ''
   },
   zone: {
     type: String,
@@ -40,27 +40,27 @@ const schema = new mongoose.Schema({
   camp: {
     type: String,
     required: false,
-    default: 'sin datos'
+    default: ''
   },
   viaticB: {
     type: String,
     required: false,
-    default: 'sin datos'
+    default: ''
   },
   added: {
     type: String,
     required: false,
-    default: 'sin datos'
+    default: ''
   },
   uprooting: {
     type: String,
     required: false,
-    default: 'sin datos'
+    default: ''
   },
   dedicationOp: {
     type: String,
     required: false,
-    default: 'sin datos'
+    default: ''
   }
 }, { timestamps: true })
 
