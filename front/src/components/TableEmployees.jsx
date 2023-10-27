@@ -36,14 +36,17 @@ const TableEmployees = () => {
           <span className='w-[130px]'>Buscar nombre:</span>
           <input onInput={(e) => { setFilterName(e.target.value) }} className='border rounded-sm pl-2 py-1 outline-none w-[50%]' type="search" name="searchName" id="searchName" />
           <input type="text" className='hidden' />
+          <span onClick={() => { dispatch(getEmployees()) }} className='cursor-pointer'>
+            <svg viewBox="0 0 24 24" width={'35px'} fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 12C3 16.9706 7.02944 21 12 21C14.3051 21 16.4077 20.1334 18 18.7083L21 16M21 12C21 7.02944 16.9706 3 12 3C9.69494 3 7.59227 3.86656 6 5.29168L3 8M21 21V16M21 16H16M3 3V8M3 8H8" stroke="#0f2942" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+          </span>
         </label>
       </form>
       <table className='text-center w-full max-w-[700px] mb-20'>
         <thead className='border-b-2'>
-          <tr className='grid grid-cols-3 gap-x-4 w-full py-1 px-2 bg-[#0f2942] rounded-t-md'>
-            <th className='text-[#f1f8fe]'>Legajo</th>
-            <th className='text-[#f1f8fe] text-center min-[600px]:text-start'>Nombre</th>
-            <th colSpan={2} className='text-[#f1f8fe] '>Detalles</th>
+          <tr className='grid grid-cols-7 gap-x-4 w-full py-1 px-2 bg-[#0f2942] rounded-t-md'>
+            <th className='text-[#f1f8fe] col-span-2'>Legajo</th>
+            <th className='text-[#f1f8fe] text-center min-[600px]:text-start col-span-3'>Nombre</th>
+            <th colSpan={2} className='text-[#f1f8fe] col-span-2'>Detalles</th>
           </tr>
         </thead>
         <tbody>
@@ -52,10 +55,10 @@ const TableEmployees = () => {
               ? employeeStore?.response?.filter(f => f.fileNumber.toString().includes(filterFile)).filter(f => f.name.includes(filterName))
                 .map((e, i) => {
                   return (
-                    <tr key={i} className={`grid grid-cols-3 gap-x-6 w-full border-b py-2 hover:bg-[#e3effb]`}>
-                      <td className=' flex items-center justify-center'>{e.fileNumber}</td>
-                      <td onClick={() => { setDetail(true), setFileEmployee(e.fileNumber) }} className=' flex items-center justify-start font-[500] cursor-pointer'>{e.name.toUpperCase()}</td>
-                      <td className=' flex items-center justify-center border-l'>
+                    <tr key={i} className={`grid grid-cols-7 gap-x-3 w-full border-b py-2 hover:bg-[#e3effb]`}>
+                      <td className=' flex items-center justify-center col-span-2'>{e.fileNumber}</td>
+                      <td onClick={() => { setDetail(true), setFileEmployee(e.fileNumber) }} className=' flex items-center justify-start font-[500] cursor-pointer col-span-3 overflow-clip whitespace-nowrap'>{e.name.toUpperCase()}</td>
+                      <td className=' flex items-center justify-center border-l col-span-2 white'>
                         <span onClick={() => { setDetail(true), setFileEmployee(e.fileNumber) }} className='flex justify-center items-center cursor-pointer'>
                           <svg width={'30px'} fill="#0f2942" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12z"></path></g></svg>
                         </span>
