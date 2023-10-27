@@ -15,7 +15,6 @@ const TableEmployees = () => {
   const employeeStore = useSelector((store) => store.employee)
 
   let employee = employeeStore?.response?.filter(e => e.fileNumber === fileEmployee)
-  console.log(fileEmployee)
 
   useEffect(() => {
     dispatch(getEmployees())

@@ -11,7 +11,6 @@ const FormLicense = (licenses) => {
 
   const dispatch = useDispatch()
   const employeeStore = useSelector((store) => store.employee)
-
   let inpFile = useRef('')
   let inpName = useRef('')
   let inpApart = useRef('')
@@ -92,10 +91,10 @@ const FormLicense = (licenses) => {
     let formInputs = document.getElementsByTagName('input')
     let file = document.getElementById('file')
     const arrayInputs = [...formInputs]
-    if (employeeStore?.success) {
+    if (employeeStore?.employee) {
       arrayInputs.map((c, i) => {
         if (c.type === 'text') {
-          let employee = Object.entries(employeeStore.employee)
+          let employee = Object.entries(employeeStore?.employee)
           c.value = employee[i + 1][1]
           c.readOnly = true
           c.classList.add('bg-[#a7a7a731]', 'rounded-t-sm')
@@ -105,7 +104,7 @@ const FormLicense = (licenses) => {
     } else {
       resetForm()
     }
-  }, [employeeStore])
+  }, [employeeStore.employee])
 
   const daysOfLicense = (e) => {
     let initialDate = inpStartDate.current.value.split('-')
