@@ -38,22 +38,22 @@ const FormLicense = (licenses) => {
     }
     const data = {
       fileNumber: inpFile.current.value,
-      name: (inpName.current.value).toLowerCase(),
-      apartDiv: (inpApart.current.value).toLowerCase(),
-      position: (inpPosition.current.value).toLowerCase(),
-      function: (inpFunction.current.value).toLowerCase(),
-      keyDate: (inpKeyDate.current.value).toLowerCase(),
-      zone: (inpZone.current.value).toLowerCase(),
-      camp: (inpCamp.current.value).toLowerCase(),
-      viaticB: (inpViatic.current.value).toLowerCase(),
-      added: (inpAdded.current.value).toLowerCase(),
-      uprooting: (inpUprooting.current.value).toLowerCase(),
-      dedicationOp: (inpDedication.current.value).toLowerCase(),
-      typeLicense: (typeLicense).toLowerCase(),
+      name: (inpName.current.value).toUpperCase(),
+      apartDiv: (inpApart.current.value).toUpperCase(),
+      position: (inpPosition.current.value).toUpperCase(),
+      function: (inpFunction.current.value).toUpperCase(),
+      keyDate: (inpKeyDate.current.value).toUpperCase(),
+      zone: (inpZone.current.value).toUpperCase(),
+      camp: (inpCamp.current.value).toUpperCase(),
+      viaticB: (inpViatic.current.value).toUpperCase(),
+      added: (inpAdded.current.value).toUpperCase(),
+      uprooting: (inpUprooting.current.value).toUpperCase(),
+      dedicationOp: (inpDedication.current.value).toUpperCase(),
+      typeLicense: (typeLicense).toUpperCase(),
       startDate: inpStartDate.current.value,
       endDate: inpEndDate.current.value,
       cuil: inpCuil.current.value,
-      observation: (inpObserv.current.value).toLowerCase()
+      observation: (inpObserv.current.value).toUpperCase()
     }
     let response = await dispatch(createLicense(data))
     if (response?.payload?.success) {
@@ -95,7 +95,7 @@ const FormLicense = (licenses) => {
     const arrayInputs = [...formInputs]
     if (employeeStore?.employee && file?.length > 0) {
       arrayInputs.map((c, i = 1) => {
-        if (c.type === 'text' || c.id == 'cuil') {
+        if (c.type === 'text' || c.id === 'cuil') {
           let employee = Object.entries(employeeStore?.employee)
           console.log({ c })
           c.value = employee[i + 1][1]

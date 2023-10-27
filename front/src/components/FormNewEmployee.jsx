@@ -42,17 +42,17 @@ const FormNewEmployee = () => {
     let response
     let data = {
       fileNumber: inpFile.current.value,
-      name: (inpName.current.value).toLowerCase(),
-      apartDiv: (inpApart.current.value).toLowerCase(),
-      position: (inpPosition.current.value).toLowerCase(),
-      function: (inpFunction.current.value).toLowerCase(),
-      keyDate: (inpKeyDate.current.value).toLowerCase(),
-      zone: (inpZone.current.value).toLowerCase(),
-      camp: (inpCamp.current.value).toLowerCase(),
-      viaticB: (inpViatic.current.value).toLowerCase(),
-      added: (inpAdded.current.value).toLowerCase(),
-      uprooting: (inpUprooting.current.value).toLowerCase(),
-      dedicationOp: (inpDedication.current.value).toLowerCase(),
+      name: (inpName.current.value).toUpperCase(),
+      apartDiv: (inpApart.current.value).toUpperCase(),
+      position: (inpPosition.current.value).toUpperCase(),
+      function: (inpFunction.current.value).toUpperCase(),
+      keyDate: (inpKeyDate.current.value).toUpperCase(),
+      zone: (inpZone.current.value).toUpperCase(),
+      camp: (inpCamp.current.value).toUpperCase(),
+      viaticB: (inpViatic.current.value).toUpperCase(),
+      added: (inpAdded.current.value).toUpperCase(),
+      uprooting: (inpUprooting.current.value).toUpperCase(),
+      dedicationOp: (inpDedication.current.value).toUpperCase(),
       cuil: inpCuil.current.value
     }
     response = await dispatch(newEmployee(data))
