@@ -13,6 +13,7 @@ const FormLicense = (licenses) => {
   const employeeStore = useSelector((store) => store.employee)
   let inpFile = useRef('')
   let inpName = useRef('')
+  let inpCuil = useRef('')
   let inpApart = useRef('')
   let inpPosition = useRef('')
   let inpFunction = useRef('')
@@ -36,7 +37,7 @@ const FormLicense = (licenses) => {
       document.getElementById('typeLicenseNullMessage').textContent = 'Debe indicar el tipo de licencia'
     }
     const data = {
-      fileNumber: (inpFile.current.value).toLowerCase(),
+      fileNumber: inpFile.current.value,
       name: (inpName.current.value).toLowerCase(),
       apartDiv: (inpApart.current.value).toLowerCase(),
       position: (inpPosition.current.value).toLowerCase(),
@@ -51,6 +52,7 @@ const FormLicense = (licenses) => {
       typeLicense: (typeLicense).toLowerCase(),
       startDate: inpStartDate.current.value,
       endDate: inpEndDate.current.value,
+      cuil: inpCuil.current.value,
       observation: (inpObserv.current.value).toLowerCase()
     }
     let response = await dispatch(createLicense(data))
@@ -89,20 +91,22 @@ const FormLicense = (licenses) => {
 
   useEffect(() => {
     let formInputs = document.getElementsByTagName('input')
-    let file = document.getElementById('file')
+    let fileNum = document.getElementById('file')
     const arrayInputs = [...formInputs]
-    if (employeeStore?.employee) {
-      arrayInputs.map((c, i) => {
-        if (c.type === 'text') {
+    if (employeeStore?.employee && file?.length > 0) {
+      arrayInputs.map((c, i = 1) => {
+        if (c.type === 'text' || c.id == 'cuil') {
           let employee = Object.entries(employeeStore?.employee)
+          console.log({ c })
           c.value = employee[i + 1][1]
           c.readOnly = true
           c.classList.add('bg-[#a7a7a731]', 'rounded-t-sm')
         }
       })
-      file.readOnly = true
+      fileNum.readOnly = true
     } else {
       resetForm()
+      setFile(null)
     }
   }, [employeeStore.employee])
 
@@ -166,8 +170,11 @@ const FormLicense = (licenses) => {
           </label>
 
         </label>
-        <label className='md:col-span-2 lg:col-span-4'>
+        <label className='md:col-span-2'>
           <input ref={inpName} type="text" name="name" id="name" placeholder='Apellido y nombre' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
+        </label>
+        <label className='md:col-span-2'>
+          <input ref={inpCuil} type="number" name="cuil" id="cuil" placeholder='Nro. Cuil' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <label>
           <input ref={inpApart} type="text" name="apartDiv" id="apartDiv" placeholder='Depto/Div' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
