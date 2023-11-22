@@ -67,7 +67,7 @@ const routesUser = [
     ]
   },
   {
-    path: '',
+    path: '/add-license',
     name: 'Perfil'
   }
 ]
