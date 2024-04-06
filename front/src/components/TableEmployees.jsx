@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import employeeActions from '../store/employees/actions'
 import ModalDetailEmployee from './ModalDetailEmployee'
+import Pagination from './Pagination'
 
 const { getEmployees } = employeeActions
 
@@ -10,15 +11,22 @@ const TableEmployees = () => {
   const [filterFile, setFilterFile] = useState('')
   const [filterName, setFilterName] = useState('')
   const [detail, setDetail] = useState(false)
+  const [cPage, setCP] = useState(1)
   const [fileEmployee, setFileEmployee] = useState(null)
   const dispatch = useDispatch()
   const employeeStore = useSelector((store) => store.employee)
 
   let employee = employeeStore?.response?.filter(e => e.fileNumber === fileEmployee)
 
+  const indexFinal = cPage * 10
+  const indexInicial = indexFinal - 10
+
   useEffect(() => {
     dispatch(getEmployees())
   }, [])
+
+  const dataLength = employeeStore?.response?.filter(f => f.fileNumber.toString().includes(filterFile)).filter(f => f.name.includes(filterName)).length > 0
+    ? employeeStore?.response?.filter(f => f.fileNumber.toString().includes(filterFile)).filter(f => f.name.includes(filterName)).sort((a, b) => a.fileNumber - b.fileNumber).length : 0
 
   return (
     <div className='w-full flex flex-col justify-center items-center'>
@@ -40,9 +48,9 @@ const TableEmployees = () => {
           </span>
         </label>
       </form>
-      <div className=' h-[500px] overflow-auto w-full max-w-[700px]'>
-        <table className='text-center w-full max-w-[700px] mb-20 relative'>
-          <thead className='sticky top-0 left-0 border-b-2'>
+      <div className=' h-auto w-full max-w-[700px]'>
+        <table className='text-center w-full max-w-[700px] h-auto'>
+          <thead className='top-0 left-0 border-b-2'>
             <tr className='grid grid-cols-7 gap-x-4 w-full py-1 px-2 bg-[#0f2942] rounded-t-md'>
               <th className='text-[#f1f8fe] col-span-2'>Legajo</th>
               <th className='text-[#f1f8fe] text-center min-[600px]:text-start col-span-3'>Nombre</th>
@@ -52,7 +60,7 @@ const TableEmployees = () => {
           <tbody>
             {
               employeeStore?.response?.filter(f => f.fileNumber.toString().includes(filterFile)).filter(f => f.name.includes(filterName)).length > 0
-                ? employeeStore?.response?.filter(f => f.fileNumber.toString().includes(filterFile)).filter(f => f.name.includes(filterName)).sort((a, b) => a.fileNumber - b.fileNumber)
+                ? employeeStore?.response?.filter(f => f.fileNumber.toString().includes(filterFile)).filter(f => f.name.includes(filterName)).sort((a, b) => a.fileNumber - b.fileNumber).slice(indexInicial, indexFinal)
                   .map((e, i) => {
                     return (
                       <tr key={i} className={`grid grid-cols-7 gap-x-3 w-full border-b py-2 hover:bg-[#e3effb]`}>
@@ -79,6 +87,11 @@ const TableEmployees = () => {
           />
           : null
       }
+      <Pagination
+        nPages={Math.ceil(dataLength / 10)}
+        cPage={cPage}
+        selectPage={setCP}
+      />
     </div>
   )
 }
