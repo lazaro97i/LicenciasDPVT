@@ -14,7 +14,7 @@ const LicensesModal = () => {
   const [month, setMonth] = useState(new Date().getMonth() + 1)
   const [table, setTable] = useState(false)
   const [tableReg, setTableReg] = useState(false)
-  const [year, setYear] = useState(2023)
+  const [year, setYear] = useState(new Date().getFullYear())
   const dispatch = useDispatch()
   const months = [
     'Enero',
@@ -230,6 +230,7 @@ const LicensesModal = () => {
         table
           ? <TablePrint
             table={setTable}
+            yearSelected={year}
           />
           : null
       }

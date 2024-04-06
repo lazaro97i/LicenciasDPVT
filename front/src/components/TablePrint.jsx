@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux'
 import html2pdf from 'html2pdf.js'
 
 
-const TablePrint = ({ table }) => {
+const TablePrint = ({ table, yearSelected }) => {
 
   const licenseStore = useSelector((store) => store.license)
-  const year = new Date().getFullYear()
+  const year = yearSelected
   const months = [
     'Enero',
     'Febrero',
@@ -99,9 +99,6 @@ const TablePrint = ({ table }) => {
       const licenseDescViat = document?.getElementById(`licenseDescViat${i}`)
       const licensePres = document?.getElementById(`licensePres${i}`)
       const licenseReinJor = document?.getElementById(`licenseReinJor${i}`)
-      const licenseParteMed = document?.getElementById(`licenseParteMed${i}`)
-      const licenseAccTrab = document?.getElementById(`licenseAccTrab${i}`)
-      const licenseLic = document?.getElementById(`licenseLic${i}`)
       const present = document?.getElementById(`present${i}`)
       const workD = document?.getElementById(`workDay${i}`)
 
