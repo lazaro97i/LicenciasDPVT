@@ -1,12 +1,15 @@
-import React, { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import userActions from '../store/users/actions'
 import toast from 'react-hot-toast'
+import Loader from './Loader'
 
 const { signIn } = userActions
 
 const FormSignIn = () => {
+
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -22,15 +25,23 @@ const FormSignIn = () => {
     }
 
     if (!inpUser.current.value.length || !inpPass.current.value.length) {
-      alert("Debe completar los datos")
+      alert("Debe ingresar usuario y contraseña.")
     } else {
-      let response = await dispatch(signIn(dataUser))
-      if (response.payload.success) {
-        localStorage.setItem('token', response.payload.response.token)
-        navigate('/add-license')
-        toast.success('Usuario autenticado')
-      } else {
+      try {
+        setLoading(true)
+        let response = await dispatch(signIn(dataUser))
+        if (response.payload.success) {
+          localStorage.setItem('token', response.payload.response.token)
+          navigate('/add-license')
+          toast.success('Usuario autenticado')
+        } else {
+          toast.error(response.payload.message)
+        }
+      } catch (e) {
+        console.log(e);
         toast.error(response.payload.message)
+      } finally {
+        setLoading(false)
       }
     }
   }
@@ -47,7 +58,13 @@ const FormSignIn = () => {
         </label>
       </form>
       <div className="w-full max-w-[600px] flex mt-3"><p className="underline cursor-pointer self-start">Olvide la contraseña</p></div>
-      <input onClick={sendUser} className="mt-10 text-xl cursor-pointer px-6 py-2 rounded-md bg-[#0f2942] text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Iniciar sesion" />
+      {
+        loading
+          ? <span className=''>
+            <Loader />
+          </span>
+          : <input onClick={sendUser} className="mt-10 text-xl cursor-pointer px-6 py-2 rounded-md bg-[#0f2942] text-[#f1f8fe] hover:bg-[#166eb3] transition-all duration-300" type="button" value="Iniciar sesion" />
+      }
     </div>
   )
 }
