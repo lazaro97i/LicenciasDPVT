@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import employeeActions from '../store/employees/actions'
 import ModalDetailEmployee from './ModalDetailEmployee'
 import Pagination from './Pagination'
+import Loader from './Loader'
 
 const { getEmployees } = employeeActions
 
@@ -11,6 +12,7 @@ const TableEmployees = () => {
   const [filterFile, setFilterFile] = useState('')
   const [filterName, setFilterName] = useState('')
   const [detail, setDetail] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [cPage, setCP] = useState(1)
   const [fileEmployee, setFileEmployee] = useState(null)
   const dispatch = useDispatch()
@@ -22,7 +24,14 @@ const TableEmployees = () => {
   const indexInicial = indexFinal - 10
 
   useEffect(() => {
-    dispatch(getEmployees())
+    try {
+      setLoading(true)
+      dispatch(getEmployees())
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   const dataLength = employeeStore?.response?.filter(f => f.fileNumber.toString().includes(filterFile)).filter(f => f.name.includes(filterName)).length > 0
@@ -74,7 +83,7 @@ const TableEmployees = () => {
                       </tr>
                     )
                   })
-                : <tr><td className='text-red-600 py-10 font-[500]'>NO SE ENCONTRARON RESULTADOS</td></tr>
+                : <tr><td className='flex justify-center col-span-7'><Loader /></td></tr>
             }
           </tbody>
         </table>
