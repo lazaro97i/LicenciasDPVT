@@ -170,40 +170,52 @@ const FormLicense = (licenses) => {
           </label>
 
         </label>
-        <label className='md:col-span-2'>
+        <label className='md:col-span-2 flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Apellido y nombre:</span>
           <input ref={inpName} type="text" name="name" id="name" placeholder='Apellido y nombre' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label className='md:col-span-2'>
+        <label className='md:col-span-2 flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Nro. Cuil:</span>
           <input ref={inpCuil} type="number" name="cuil" id="cuil" placeholder='Nro. Cuil' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Depto/Div:</span>
           <input ref={inpApart} type="text" name="apartDiv" id="apartDiv" placeholder='Depto/Div' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Cargo:</span>
           <input ref={inpPosition} type="text" name="position" id="position" placeholder='Cargo' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Funcion:</span>
           <input ref={inpFunction} type="text" name="function" id="function" placeholder='Funcion' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Fecha clave:</span>
           <input ref={inpKeyDate} type="text" name="keyDate" id="keyDate" placeholder='Fecha clave' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Zona:</span>
           <input ref={inpZone} type="text" name="zone" id="zone" placeholder='Zona' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Campamento:</span>
           <input ref={inpCamp} type="text" name="camp" id="camp" placeholder='Campamento' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>{'Viatico "B"'}:</span>
           <input ref={inpViatic} type="text" name="viaticB" id="viaticB" placeholder='Viatico "B"' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Adscripto:</span>
           <input ref={inpAdded} type="text" name="added" id="added" placeholder='Adscripto' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Desarraigo:</span>
           <input ref={inpUprooting} type="text" name="uprooting" id="uprooting" placeholder='Desarraigo' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
-        <label>
+        <label className='flex flex-col gap-2'>
+          <span className='pl-1 w-4/5 max-w-[270px] md:max-w-[350px]'>Dedicacion op.:</span>
           <input ref={inpDedication} type="text" name="dedicationOp" id="dedicationOp" placeholder='Dedicacion op.' className='outline-none border-b border-[#a6aaae] pl-1 w-4/5 max-w-[270px] md:max-w-[350px]' />
         </label>
         <div className='w-full flex justify-center md:col-span-2'>
