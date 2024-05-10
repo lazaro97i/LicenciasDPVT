@@ -99,6 +99,7 @@ const TablePrint = ({ table, yearSelected }) => {
       const licenseDescViat = document?.getElementById(`licenseDescViat${i}`)
       const licensePres = document?.getElementById(`licensePres${i}`)
       const licenseReinJor = document?.getElementById(`licenseReinJor${i}`)
+      const licenseLaw = document?.getElementById(`licenseLaw${i}`)
       const present = document?.getElementById(`present${i}`)
       const workD = document?.getElementById(`workDay${i}`)
 
@@ -228,6 +229,14 @@ const TablePrint = ({ table, yearSelected }) => {
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#d17431]", "text-[#f1f8fe]")
                   break
+                case 'ley 9254':
+                  licenseLaw.value += 1
+                  licenseLaw.textContent = licenseLaw.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-[#4b2aa9]", "text-[#f1f8fe]")
+                  break
               }
             }
           })
@@ -244,6 +253,7 @@ const TablePrint = ({ table, yearSelected }) => {
       licenseDescViat.value = 0
       licensePres.value = 0
       licenseReinJor.value = 0
+      licenseLaw.value = 0
     }
 
   }
@@ -290,22 +300,27 @@ const TablePrint = ({ table, yearSelected }) => {
               <p className='col-span-10 bg-slate-300'></p>
             </div>
           </div>
-          <div className=' grid grid-flow-col grid-cols-12 h-auto col-span-3 w-[450px]'>
-            <p className='relative col-span-1'> <span className='absolute rotate-90 text-sm font-[500] bottom-[45px] left-[-35px]'>Injustificadas</span></p>
-            <p className='relative col-span-1 w-[200px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[92px] left-[-81px]'>Injustificadas acumuladas</span></p>
-            <p className='relative col-span-1'><span className='absolute rotate-90 text-sm font-[500] bottom-[35px] left-[-25px]'>Tardanzas</span></p>
-            <p className='relative col-span-1'><span className='absolute rotate-90 text-sm font-[500] bottom-[45px] left-[-35px]'>Permanencia</span></p>
-            <p className='relative col-span-1 w-[200px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[88px] left-[-78px]'>Desc. jornada p/tardanza</span></p>
-            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[48px] left-[-38px]'>Dcto. colacion</span></p>
-            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[77px] left-[-67px]'>Just. c/pago de jornal</span></p>
-            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[77px] left-[-67px]'>Total desc. de jornales</span></p>
-            <p className='relative col-span-1 w-[250px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[87px] left-[-78px]'>Desc. viat. B / serv. apoyo</span></p>
-            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[42px] left-[-32px]'>Presentismo</span></p>
-            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[72px] left-[-63px]'>Reintegro de jornales</span></p>
-            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[26px] left-[-19px]'>Presente</span></p>
-            <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[39px] left-[-30px]'>Dias habiles</span></p>
+          <div className='grid grid-flow-col grid-cols-2 col-span-3'>
+            <div className=' grid grid-flow-col grid-cols-12 h-auto w-[450px]'>
+              <p className='relative col-span-1'> <span className='absolute rotate-90 text-sm font-[500] bottom-[45px] left-[-36px]'>Injustificadas</span></p>
+              <p className='relative col-span-1 w-[200px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[92px] left-[-88px]'>Injustificadas acumuladas</span></p>
+              <p className='relative col-span-1'><span className='absolute rotate-90 text-sm font-[500] bottom-[35px] left-[-35px]'>Tardanzas</span></p>
+              <p className='relative col-span-1'><span className='absolute rotate-90 text-sm font-[500] bottom-[45px] left-[-49px]'>Permanencia</span></p>
+              <p className='relative col-span-1 w-[200px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[88px] left-[-96px]'>Desc. jornada p/tardanza</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[48px] left-[-59px]'>Dcto. colacion</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[77px] left-[-92px]'>Just. c/pago de jornal</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[77px] left-[-97px]'>Total desc. de jornales</span></p>
+              <p className='relative col-span-1 w-[250px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[87px] left-[-112px]'>Desc. viat. B / serv. apoyo</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[42px] left-[-70px]'>Presentismo</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[72px] left-[-105px]'>Reintegro de jornales</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[27px] left-[-67px]'>Ley 9254</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[27px] left-[-70px]'>Presente</span></p>
+            </div>
+            <div>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[-178px] left-[82px] w-[100px]'>Dias habiles</span></p>
+            </div>
           </div>
-          <div className='grid grid-cols-4 grid-rows-6 h-auto col-span-2 ml-7'>
+          <div className='grid grid-cols-4 grid-rows-6 h-auto col-span-2 ml-[32px]'>
             <p className='col-span-4 flex justify-center pt-1 border border-black text-[.69rem] font-[500] '>CUMPLIMIENTO</p>
             <p className='col-span-1  border flex justify-center items-center border-black text-[.69rem] font-[500]'>A</p>
             <p className='col-span-3 border border-black text-[.69rem] font-[500] justify-center items-center flex'>Inacis. S/J</p>
@@ -332,9 +347,9 @@ const TablePrint = ({ table, yearSelected }) => {
                       </div>
                     </div>
                   </div>
-                  <div className=' col-span-5 grid grid-flow-col grid-cols-5'>
-                    <div className='grid grid-cols-12 grid-flow-col col-span-3'>
-                      <ol id={`divCalendar${i + 1}`} className='grid grid-cols-12 col-span-12 border-l-2 border-black'>
+                  <div className='grid grid-cols-12 grid-flow-col col-span-5'>
+                    <div className=' col-span-6 grid grid-cols-12'>
+                      <ol id={`divCalendar${i + 1}`} className='grid grid-cols-12 col-span-12 border-black'>
                         <li id={`licenseInjus${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                         <li id={`licenseInjusAcu${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                         <li id={`licenseTard${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
@@ -346,13 +361,16 @@ const TablePrint = ({ table, yearSelected }) => {
                         <li id={`licenseDescViat${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                         <li id={`licensePres${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                         <li id={`licenseReinJor${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
-                        <li id={`present${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseLaw${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                       </ol>
                     </div>
-                    <div className='grid-flow-col col-span-2'>
-                      <ol id={`divCalendar${i + 1}`} className='grid grid-cols-7 border-l-black'>
+                    <div className='grid-flow-col grid-cols-12 col-span-6'>
+                      <ol id={`divCalendar${i + 1}`} className='grid grid-flow-col grid-cols-12 col-span-12'>
+                        <li id={`present${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                         <li id={`workDay${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
-                        <div className=' border border-black col-span-6'>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <div className=' border border-black col-span-10 overflow-auto'>
 
                         </div>
                       </ol>
@@ -375,6 +393,7 @@ const TablePrint = ({ table, yearSelected }) => {
           <div className='flex w-full mt-2 items-start justify-center flex-wrap gap-x-5 gap-y-2'>
             <p className='rounded-md bg-[#143a30] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Dcto. colacion</p>
             <p className='rounded-md bg-[#22d3ee] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Just. c/pago de jornal</p>
+            <p className='rounded-md bg-[#4b2aa9] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Ley 9254</p>
             <p className='rounded-md bg-[#451a03] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Total desc de jornales</p>
             <p className='rounded-md bg-[#1c1917] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Desc. viat. B / serv. apoyo</p>
             <p className='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-[.8rem] py-1'>Presentismo</p>

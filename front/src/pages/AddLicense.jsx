@@ -12,6 +12,7 @@ const AddLicense = () => {
     "Dcto. colacion",
     "Just. c/pago de jornal",
     "Total desc. de jornales",
+    "Ley 9254",
     'Desc. viat. "B" / serv. apoyo',
     "Presentismo",
     "Reintegro de jornales",
