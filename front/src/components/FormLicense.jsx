@@ -49,7 +49,7 @@ const FormLicense = (licenses) => {
       added: (inpAdded.current.value).toUpperCase(),
       uprooting: (inpUprooting.current.value).toUpperCase(),
       dedicationOp: (inpDedication.current.value).toUpperCase(),
-      typeLicense: (typeLicense).toUpperCase(),
+      typeLicense: (typeLicense).toLowerCase(),
       startDate: inpStartDate.current.value,
       endDate: inpEndDate.current.value,
       cuil: inpCuil.current.value,
