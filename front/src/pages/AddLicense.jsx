@@ -16,6 +16,8 @@ const AddLicense = () => {
     'Desc. viat. "B" / serv. apoyo',
     "Presentismo",
     "Reintegro de jornales",
+    "Licencias anuales",
+    "Licencias prorrogadas"
   ]
 
   return (
