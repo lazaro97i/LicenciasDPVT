@@ -218,6 +218,24 @@ const LicensesModal = () => {
             `
           })
           break
+        case 'licencias anuales':
+          day.classList.add("cursor-pointer", "bg-red-600", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-red-600 text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
+        case 'licencias prorrogadas':
+          day.classList.add("cursor-pointer", "bg-red-600", "text-[#f1f8fe]")
+          day.addEventListener('click', () => {
+            divType.innerHTML = `<p class='rounded-md bg-red-600 text-[#f1f8fe] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
+            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+            <p class='text-justify' >${dl.obs}</p>
+            `
+          })
+          break
       }
     })
   }

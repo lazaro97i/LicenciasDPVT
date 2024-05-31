@@ -100,6 +100,8 @@ const TablePrint = ({ table, yearSelected }) => {
       const licensePres = document?.getElementById(`licensePres${i}`)
       const licenseReinJor = document?.getElementById(`licenseReinJor${i}`)
       const licenseLaw = document?.getElementById(`licenseLaw${i}`)
+      const licenseAnnual = document?.getElementById(`licenseAnnual${i}`)
+      const licenseExtended = document?.getElementById(`licenseExtended${i}`)
       const present = document?.getElementById(`present${i}`)
       const workD = document?.getElementById(`workDay${i}`)
 
@@ -237,6 +239,22 @@ const TablePrint = ({ table, yearSelected }) => {
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#4b2aa9]", "text-[#f1f8fe]")
                   break
+                case 'licencias anuales':
+                  licenseAnnual.value += 1
+                  licenseAnnual.textContent = licenseAnnual.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-red-600", "text-[#f1f8fe]")
+                  break
+                case 'licencias prorrogadas':
+                  licenseExtended.value += 1
+                  licenseExtended.textContent = licenseExtended.value
+                  present.value -= 1
+                  present.textContent = present.value
+                  d?.classList.remove("bg-blue-600", "text-white")
+                  d?.classList.add("bg-red-600", "text-[#f1f8fe]")
+                  break
               }
             }
           })
@@ -254,6 +272,8 @@ const TablePrint = ({ table, yearSelected }) => {
       licensePres.value = 0
       licenseReinJor.value = 0
       licenseLaw.value = 0
+      licenseAnnual.value = 0
+      licenseExtended.value = 0
     }
 
   }
@@ -314,10 +334,12 @@ const TablePrint = ({ table, yearSelected }) => {
               <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[42px] left-[-70px]'>Presentismo</span></p>
               <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[72px] left-[-105px]'>Reintegro de jornales</span></p>
               <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[27px] left-[-67px]'>Ley 9254</span></p>
-              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[27px] left-[-70px]'>Presente</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[59px] left-[-103px]'>Licencias anuales</span></p>
             </div>
             <div>
-              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[-178px] left-[82px] w-[100px]'>Dias habiles</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[-137px] left-[52px] w-[160px]'>Licencias prorrogadas</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[-182px] left-[122px]'>Presente</span></p>
+              <p className='relative col-span-1 w-[150px]'><span className='absolute rotate-90 text-sm font-[500] bottom-[-178px] left-[122px] w-[100px]'>Dias habiles</span></p>
             </div>
           </div>
           <div className='grid grid-cols-4 grid-rows-6 h-auto col-span-2 ml-[32px]'>
@@ -366,6 +388,8 @@ const TablePrint = ({ table, yearSelected }) => {
                     </div>
                     <div className='grid-flow-col grid-cols-12 col-span-6'>
                       <ol id={`divCalendar${i + 1}`} className='grid grid-flow-col grid-cols-12 col-span-12'>
+                        <li id={`licenseAnnual${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
+                        <li id={`licenseExtended${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                         <li id={`present${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                         <li id={`workDay${i + 1}`} className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
                         <li className='border h-[30px] border-black text-center w-[100%] col-span-1 font-[600]'></li>
@@ -389,6 +413,8 @@ const TablePrint = ({ table, yearSelected }) => {
             <p className='rounded-md bg-[#7f1d1d] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Tardanzas</p>
             <p className='rounded-md bg-[#fcd34d] text-black px-3 text-[.8rem] py-1'>Permanencia</p>
             <p className='rounded-md bg-[#a48528] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Desc. jornada p/tardanza</p>
+            <p className='rounded-md bg-red-600 text-[#f1f8fe] px-3 text-[.8rem] py-1'>Licencias anuales</p>
+            <p className='rounded-md bg-red-600 text-[#f1f8fe] px-3 text-[.8rem] py-1'>Licencias prorrogadas</p>
           </div>
           <div className='flex w-full mt-2 items-start justify-center flex-wrap gap-x-5 gap-y-2'>
             <p className='rounded-md bg-[#143a30] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Dcto. colacion</p>
