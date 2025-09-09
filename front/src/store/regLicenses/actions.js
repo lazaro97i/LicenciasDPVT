@@ -36,8 +36,6 @@ const getRegLicenses = createAsyncThunk('regLicenses/getRegLicenses', async () =
 
 const createRegLicense = createAsyncThunk('regLicenses/createRegLicense', async (data) => {
 
-  console.log(data)
-
   try {
     const response = await axios.post(
       `${API_URL}/reg-licenses`,

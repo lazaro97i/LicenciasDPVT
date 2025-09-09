@@ -39,6 +39,7 @@ const FormRegLicense = () => {
   let accidenteTrabDA = useRef(null)
   let accidenteTrabTA = useRef(null)
   let inpObserv = useRef(null)
+  let llegadasTarde = useRef(null)
 
 
   const resetForm = () => {
@@ -87,6 +88,17 @@ const FormRegLicense = () => {
 
   const handleData = async (e) => {
     // console.log(fechaDesde.current.value.split('-'))
+
+    if(legajo.current.value === "" || nroExpediente.current.value === ""){
+      toast.error('Debe completar legajo y nro de expediente.')
+      return;
+    }
+
+    if(fechaDesde.current.value === "" || fechaHasta.current.value === ""){
+      toast.error('Debe completar fechas de utilización')
+      return;
+    }
+
     const data = {
       legajo: legajo.current.value,
       nroExpediente: nroExpediente.current.value,
@@ -149,7 +161,8 @@ const FormRegLicense = () => {
           año: fechaHasta.current.value.split('-')[0]
         }
       },
-      observaciones: inpObserv.current.value
+      observaciones: inpObserv.current.value,
+      llegadasTarde: llegadasTarde.current.value
     }
 
     const response = await dispatch(createRegLicense(data))
@@ -162,6 +175,12 @@ const FormRegLicense = () => {
     }
   }
 
+  const CalcularAcumuladoAnualYSaldo = async (e) => {
+
+    anualRegTA.current.value = (parseInt(anualRegPendiente.current.value) + parseInt(anualRegAcordPP.current.value))
+    anualRegSaldo.current.value = (parseInt(anualRegTA.current.value) - parseInt(anualRegDT.current.value))
+
+  }
 
   return (
     <div className='w-full flex flex-col justify-center items-center'>
@@ -233,11 +252,11 @@ const FormRegLicense = () => {
         <label className='flex flex-wrap gap-x-2 col-span-2'>
           <span className='underline mb-3 w-full text-center'>Anual reglamentaria</span>
           <label className='flex gap-y-3 justify-evenly w-full flex-wrap gap-x-2'>
-            <input ref={anualRegPendiente} type="number" name="anualRegPendiente" id="anualRegPendiente" placeholder='Pendiente' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
-            <input ref={anualRegAcordPP} type="number" name="anualRegAcordPP" id="anualRegAcordPP" placeholder='Acordada P/Periodo' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
-            <input ref={anualRegTA} type="number" name="anualRegTA" id="anualRegTA" placeholder='Total Acumulada' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
-            <input ref={anualRegDT} type="number" name="anualRegDT" id="anualRegDT" placeholder='Dias Tomados' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
-            <input ref={anualRegSaldo} type="number" name="anualRegSaldo" id="anualRegSaldo" placeholder='Saldo' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+            <input onInput={CalcularAcumuladoAnualYSaldo} ref={anualRegPendiente} type="number" name="anualRegPendiente" id="anualRegPendiente" placeholder='Pendiente' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+            <input onInput={CalcularAcumuladoAnualYSaldo} ref={anualRegAcordPP} type="number" name="anualRegAcordPP" id="anualRegAcordPP" placeholder='Acordada P/Periodo' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+            <input ref={anualRegTA} readOnly type="number" name="anualRegTA" id="anualRegTA" placeholder='Total Acumulada' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+            <input onInput={CalcularAcumuladoAnualYSaldo} ref={anualRegDT} type="number" name="anualRegDT" id="anualRegDT" placeholder='Dias Tomados' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
+            <input ref={anualRegSaldo} readOnly type="number" name="anualRegSaldo" id="anualRegSaldo" placeholder='Saldo' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
           </label>
         </label>
         <div className='w-full flex justify-center col-span-2'>
@@ -250,6 +269,15 @@ const FormRegLicense = () => {
             <label className='flex flex-col'>
               <span>Hasta:</span>
               <input ref={fechaHasta} onChange={daysOfLicense} type="date" name="startDate" id="startDate" className='outline-none border-b border-[#a6aaae] rounded-sm text-center' />
+            </label>
+            <span id='daysOfLicenseSpan' className='col-span-2 text-center mt-3'></span>
+          </div>
+        </div>
+        <div className='w-full flex justify-center col-span-1'>
+          <div className='md:col-span-2 grid grid-rows-2 grid-cols-1 w-[350px] items-center'>
+            <span className=' col-span-2 w-full text-center mb-3 underline'>LLegadas tarde</span>
+            <label className='flex justify-center items-center'>
+              <input ref={llegadasTarde} type="number" name="llegadasTarde" id="llegadasTarde" placeholder='Cant. Dias' className='outline-none border-b border-[#a6aaae] w-[80px] text-center' />
             </label>
             <span id='daysOfLicenseSpan' className='col-span-2 text-center mt-3'></span>
           </div>

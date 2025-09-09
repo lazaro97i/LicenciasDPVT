@@ -191,15 +191,15 @@ const LicensesModal = () => {
             `
           })
           break
-        case 'presentismo':
-          day.classList.add("cursor-pointer", "bg-[#6ee7b7]", "text-[#11251d]")
-          day.addEventListener('click', () => {
-            divType.innerHTML = `<p class='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
-            <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
-            <p class='text-justify' >${dl.obs}</p>
-            `
-          })
-          break
+        // case 'presentismo':
+        //   day.classList.add("cursor-pointer", "bg-[#6ee7b7]", "text-[#11251d]")
+        //   day.addEventListener('click', () => {
+        //     divType.innerHTML = `<p class='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-md py-1'>${(dl.type).toUpperCase()}</p>
+        //     <p class='mt-2 text-xl font-[500] w-full text-start underline' >Observaciones:</p>
+        //     <p class='text-justify' >${dl.obs}</p>
+        //     `
+        //   })
+        //   break
         case 'reintegro de jornales':
           day.classList.add("cursor-pointer", "bg-[#d17431]", "text-[#f1f8fe]")
           day.addEventListener('click', () => {

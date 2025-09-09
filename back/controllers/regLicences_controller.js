@@ -49,6 +49,7 @@ const controller = {
       accidenteTrab: req.body.accidenteTrab,
       fechaDeUtilizacion: req.body.fechaDeUtilizacion,
       observaciones: req.body.observaciones,
+      llegadasTarde: req.body.llegadasTarde
     }
 
     try {
