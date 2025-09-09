@@ -159,7 +159,7 @@ const FormLicense = (licenses) => {
 
   return (
     <div className='w-full flex flex-col justify-center items-center'>
-      <p className='mb-10 text-4xl font-[600] text-center'>Agregar lincencia</p>
+      <p className='mb-10 text-4xl font-[600] text-center' >Agregar lincencia</p>
       <form id='formLicenses' action="post" className='w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border border-[#a6aaae] rounded-sm py-10'>
         <label className='md:col-span-2 lg:col-span-4 relative'>
           <label className='relative'>

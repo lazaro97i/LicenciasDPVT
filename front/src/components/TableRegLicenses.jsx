@@ -3,10 +3,7 @@ import html2pdf from 'html2pdf.js'
 
 const TableRegLicenses = ({ table, data }) => {
 
-  console.log(data.regLicenses.response[0].legajo)
-
   const print = (e) => {
-    console.log(e)
     const elementoParaConvertir = document.getElementById('tableRegPrint')  // <-- Aquí puedes elegir cualquier elemento del DOM
     html2pdf()
       .set({
@@ -59,7 +56,8 @@ const TableRegLicenses = ({ table, data }) => {
                 <th className='border-x-2 border-collapse text-[11px]' colSpan={2}>Parte medico</th>
                 <th className='border-x-2 border-collapse text-[11px]' colSpan={2}>Accidente de trab.</th>
                 <th className='border-x-2 border-collapse text-[11px]' colSpan={6}>Fecha de utilizacion</th>
-                <th className='border-2 border-collapse text-[11px]' rowSpan={2}>Observaciones</th>
+                <th className='border-x-2 border-collapse text-[11px] p-1' rowSpan={2} colSpan={1}>Llegadas tarde</th>
+                <th className='border-2 border-collapse text-[11px] p-5' rowSpan={2}>Observaciones</th>
               </tr>
               <tr className=''>
                 <td className='border border-l-2 border-b-2 border-collapse text-[11px] text-center px-[.9px]'>Dias Acord.</td>
@@ -128,6 +126,7 @@ const TableRegLicenses = ({ table, data }) => {
                       <td className='border text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.hasta.dia}</td>
                       <td className='border text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.hasta.mes}</td>
                       <td className='border border-r-2 text-center text-[13px] px-[.8px]'>{d?.fechaDeUtilizacion?.hasta.año}</td>
+                      <td className='border text-center text-[13px]'>{d?.llegadasTarde}</td>
                       <td className='border text-center text-[13px]'>{d?.observaciones}</td>
                     </tr>
                   )

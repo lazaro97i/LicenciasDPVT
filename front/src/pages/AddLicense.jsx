@@ -14,7 +14,6 @@ const AddLicense = () => {
     "Total desc. de jornales",
     "Ley 9254",
     'Desc. viat. "B" / serv. apoyo',
-    "Presentismo",
     "Reintegro de jornales",
     "Licencias anuales",
     "Licencias prorrogadas"

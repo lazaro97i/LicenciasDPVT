@@ -12,123 +12,123 @@ const schema = new mongoose.Schema({
   enfermedadCD: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   enfermedadLD: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   estudios: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   inciso9AnticipoLic: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   familiarEnfermo: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   anualReglamentaria: {
     pendiente: {
       type: Number,
-      required: true
+      required: false
     },
     acordadaPPeriodo: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulada: {
       type: Number,
-      required: true
+      required: false
     },
     diasTomados: {
       type: Number,
-      required: true
+      required: false
     },
     saldo: {
       type: Number,
-      required: true
+      required: false
     }
   },
   diaFem: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   anticipoLic: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   licencias: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   parteMedico: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   accidenteTrab: {
     diasAcordados: {
       type: Number,
-      required: true
+      required: false
     },
     totalAcumulados: {
       type: Number,
-      required: true
+      required: false
     }
   },
   fechaDeUtilizacion: {
@@ -163,6 +163,10 @@ const schema = new mongoose.Schema({
   },
   observaciones: {
     type: String,
+    required: false
+  },
+  llegadasTarde: {
+    type: Number,
     required: false
   }
 })

@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import html2pdf from 'html2pdf.js'
+import regLicensesActions from '../store/regLicenses/actions'
 
+const { getOneReg } = regLicensesActions
 
 const TablePrint = ({ table, yearSelected }) => {
 
+  const dispatch = useDispatch()
   const licenseStore = useSelector((store) => store.license)
+  const [diasInciso9, setDiasInciso9] = useState(false)
+  const [dateInciso, setDateInciso] = useState("")
   const year = yearSelected
   const months = [
     'Enero',
@@ -27,7 +32,6 @@ const TablePrint = ({ table, yearSelected }) => {
   const fileDoc = licenseStore?.licenses?.employee?.fileNumber
 
   const print = (e) => {
-    console.log(e)
     const elementoParaConvertir = document.getElementById('tablePrint')  // <-- Aquí puedes elegir cualquier elemento del DOM
     html2pdf()
       .set({
@@ -56,7 +60,8 @@ const TablePrint = ({ table, yearSelected }) => {
   useEffect(() => {
     generateMonths()
     generateCalendar()
-  }, [])
+    TraerIncisos()
+  }, [diasInciso9])
 
   function generateMonths() {
     for (let i = 1; i <= 12; i++) {
@@ -136,10 +141,12 @@ const TablePrint = ({ table, yearSelected }) => {
       workD.value = 0
 
       if (calendar) {
+        let countMounth = 1
         calendar.innerHTML = fragment
         daysOfLicense.forEach((dl) => {
           let calendarLicense = [document?.getElementById(`divCalendar${dl.day.getMonth() + 1}`)]
           const array = [...calendarLicense[0].children]
+
           array.map((d) => {
             if (parseInt(d.id) === dl.day.getDate() && dl.day.getMonth() + 1 === i) {
               switch (dl.type) {
@@ -215,14 +222,14 @@ const TablePrint = ({ table, yearSelected }) => {
                   d?.classList.remove("bg-blue-600", "text-white")
                   d?.classList.add("bg-[#1c1917]", "text-[#f1f8fe]")
                   break
-                case 'presentismo':
-                  licensePres.value += 1
-                  licensePres.textContent = licensePres.value
-                  present.value -= 1
-                  present.textContent = present.value
-                  d?.classList.remove("bg-blue-600", "text-white")
-                  d?.classList.add("bg-[#6ee7b7]", "text-[#11251d]")
-                  break
+                // case 'presentismo':
+                //   licensePres.value += 1
+                //   licensePres.textContent = licensePres.value
+                //   present.value -= 1
+                //   present.textContent = present.value
+                //   d?.classList.remove("bg-blue-600", "text-white")
+                //   d?.classList.add("bg-[#6ee7b7]", "text-[#11251d]")
+                //   break
                 case 'reintegro de jornales':
                   licenseReinJor.value += 1
                   licenseReinJor.textContent = licenseReinJor.value
@@ -256,9 +263,24 @@ const TablePrint = ({ table, yearSelected }) => {
                   d?.classList.add("bg-red-600", "text-[#f1f8fe]")
                   break
               }
+              licensePres.textContent = "NO"
+              licensePres.classList.add("bg-red-600", "text-white", "text-[10px]")
             }
           })
         })
+
+        let yearInciso = dateInciso.split('-')[1]
+        let mountInciso = dateInciso.split('-')[0]
+        
+        if (diasInciso9 && yearInciso == yearSelected) {
+          console.log(yearInciso);
+          for (let i = 1; i <= 4; i++) {
+              document?.getElementById(`licensePres${parseInt(mountInciso)+i}`)?.classList.add("bg-red-600", "text-white", "text-[10px]");
+              let campo = document.getElementById(`licensePres${parseInt(mountInciso)+i}`)
+              campo ? campo.textContent = "NO" : null
+          }
+        }
+
       }
       licenseInjus.value = 0
       licenseInjusAcu.value = 0
@@ -275,7 +297,18 @@ const TablePrint = ({ table, yearSelected }) => {
       licenseAnnual.value = 0
       licenseExtended.value = 0
     }
+  }
 
+  async function TraerIncisos() {
+    const res = await dispatch(getOneReg(licenseStore?.licenses?.employee?.fileNumber))
+
+    if (parseInt(res.payload?.response?.response[0]?.inciso9AnticipoLic?.diasAcordados) > 40) {
+      await setDiasInciso9(true)
+      await setDateInciso(
+        res.payload?.response?.response[0]?.fechaDeUtilizacion?.hasta?.mes + "-" +
+        res.payload?.response?.response[0]?.fechaDeUtilizacion?.hasta?.año
+      )
+    }
   }
 
   return (
@@ -422,7 +455,7 @@ const TablePrint = ({ table, yearSelected }) => {
             <p className='rounded-md bg-[#4b2aa9] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Ley 9254</p>
             <p className='rounded-md bg-[#451a03] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Total desc de jornales</p>
             <p className='rounded-md bg-[#1c1917] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Desc. viat. B / serv. apoyo</p>
-            <p className='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-[.8rem] py-1'>Presentismo</p>
+            {/* <p className='rounded-md bg-[#6ee7b7] text-[#11251d] px-3 text-[.8rem] py-1'>Presentismo</p> */}
             <p className='rounded-md bg-[#d17431] text-[#f1f8fe] px-3 text-[.8rem] py-1'>Reintegro de jornales</p>
           </div>
         </div>
